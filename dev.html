@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alfonso CV - Modo Desarrollo</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Live reload script para desarrollo -->
+    <script>
+        // Auto-refresh para desarrollo
+        if (location.hostname === 'localhost' || location.hostname === '127.0.0.1') {
+            console.log('🔧 Modo desarrollo activado - Auto-refresh cada 3 segundos');
+            setInterval(() => {
+                fetch(location.href)
+                    .then(response => response.text())
+                    .then(html => {
+                        // Solo recargar si hay cambios significativos
+                        const currentTitle = document.title;
+                        const parser = new DOMParser();
+                        const newDoc = parser.parseFromString(html, 'text/html');
+                        const newTitle = newDoc.title;
+                        
+                        // Detectar cambios simples
+                        if (currentTitle !== newTitle || Math.random() > 0.99) {
+                            console.log('🔄 Recargando página...');
+                            location.reload();
+                        }
+                    })
+                    .catch(err => console.log('Servidor detenido'));
+            }, 3000);
+        }
+    </script>
+</head>
+<body>
+    <!-- Indicador de modo desarrollo -->
+    <div id="dev-indicator" style="
+        position: fixed;
+        top: 10px;
+        right: 10px;
+        background: #e74c3c;
+        color: white;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 12px;
+        z-index: 10000;
+        font-family: monospace;
+    ">
+        🔧 DESARROLLO
+    </div>
+
+    <header>
+        <nav>
+            <div class="nav-container">
+                <div class="logo">
+                    <h1>Alfonso</h1>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#proyectos-personales">Proyectos Personales</a></li>
+                    <li><a href="#trabajos-profesionales">Trabajos Profesionales</a></li>
+                    <li><a href="#tips">Tips & Consejos</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Sección de Inicio -->
+        <section id="inicio" class="hero">
+            <div class="container">
+                <div class="hero-content">
+                    <h1>¡Hola! Soy Alfonso</h1>
+                    <p class="hero-subtitle">Desarrollador y Creador de Proyectos Innovadores</p>
+                    <p class="hero-description">
+                        Bienvenido a mi portfolio donde comparto mis proyectos, experiencia profesional 
+                        y conocimientos adquiridos a lo largo de mi carrera.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="#proyectos-personales" class="btn btn-primary">Ver Proyectos</a>
+                        <a href="#contacto" class="btn btn-secondary">Contactar</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Proyectos Personales -->
+        <section id="proyectos-personales" class="section">
+            <div class="container">
+                <h2 class="section-title">Proyectos Personales</h2>
+                <p class="section-subtitle">Explora mis proyectos creativos y experimentales</p>
+                
+                <div class="projects-grid">
+                    <!-- Proyecto de ejemplo -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <div style="
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                height: 100%;
+                                background: linear-gradient(45deg, #667eea, #764ba2);
+                                color: white;
+                                font-size: 2rem;
+                            ">🚀</div>
+                        </div>
+                        <div class="project-content">
+                            <h3>Proyecto WebGPU</h3>
+                            <p>Sistema de renderizado avanzado usando WebGPU para crear experiencias visuales inmersivas.</p>
+                            <div class="project-tags">
+                                <span class="tag">WebGPU</span>
+                                <span class="tag">JavaScript</span>
+                                <span class="tag">WGSL</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" class="btn btn-small">Ver Demo</a>
+                                <a href="#" class="btn btn-small btn-outline">GitHub</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Segundo proyecto -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <div style="
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                height: 100%;
+                                background: linear-gradient(45deg, #56ab2f, #a8e6cf);
+                                color: white;
+                                font-size: 2rem;
+                            ">💻</div>
+                        </div>
+                        <div class="project-content">
+                            <h3>Portfolio Dinámico</h3>
+                            <p>Este mismo portfolio, creado con HTML, CSS y JavaScript vanilla. Optimizado para GitHub Pages.</p>
+                            <div class="project-tags">
+                                <span class="tag">HTML5</span>
+                                <span class="tag">CSS3</span>
+                                <span class="tag">JavaScript</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" class="btn btn-small">Ver Demo</a>
+                                <a href="#" class="btn btn-small btn-outline">GitHub</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tercer proyecto -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <div style="
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                height: 100%;
+                                background: linear-gradient(45deg, #ff6b6b, #feca57);
+                                color: white;
+                                font-size: 2rem;
+                            ">🎮</div>
+                        </div>
+                        <div class="project-content">
+                            <h3>Juego Interactivo</h3>
+                            <p>Juego web desarrollado con tecnologías modernas, incluye física y gráficos avanzados.</p>
+                            <div class="project-tags">
+                                <span class="tag">Canvas</span>
+                                <span class="tag">WebGL</span>
+                                <span class="tag">Physics</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" class="btn btn-small">Ver Demo</a>
+                                <a href="#" class="btn btn-small btn-outline">GitHub</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Trabajos Profesionales -->
+        <section id="trabajos-profesionales" class="section bg-alt">
+            <div class="container">
+                <h2 class="section-title">Experiencia Profesional</h2>
+                <p class="section-subtitle">Proyectos finalizados en mi carrera laboral</p>
+                
+                <div class="timeline">
+                    <!-- Trabajo actual -->
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3>Desarrollador Senior / Empresa Tecnológica</h3>
+                            <span class="timeline-date">2023 - Presente</span>
+                            <p>Liderando el desarrollo de aplicaciones web modernas y sistemas de alto rendimiento utilizando las últimas tecnologías.</p>
+                            <ul>
+                                <li>Implementación de arquitecturas escalables</li>
+                                <li>Mentoring a desarrolladores junior</li>
+                                <li>Optimización de rendimiento y UX</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Trabajo anterior -->
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3>Desarrollador Full Stack / Startup</h3>
+                            <span class="timeline-date">2021 - 2023</span>
+                            <p>Desarrollo completo de productos digitales desde la concepción hasta el despliegue en producción.</p>
+                            <ul>
+                                <li>Stack completo: Frontend y Backend</li>
+                                <li>Colaboración directa con el equipo de diseño</li>
+                                <li>Implementación de APIs RESTful</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <!-- Primer trabajo -->
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3>Desarrollador Junior / Agencia Digital</h3>
+                            <span class="timeline-date">2019 - 2021</span>
+                            <p>Inicio de mi carrera profesional desarrollando sitios web y aplicaciones para diversos clientes.</p>
+                            <ul>
+                                <li>Desarrollo de sitios web responsive</li>
+                                <li>Aprendizaje de metodologías ágiles</li>
+                                <li>Colaboración en equipo multidisciplinario</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Tips y Consejos -->
+        <section id="tips" class="section">
+            <div class="container">
+                <h2 class="section-title">Tips & Consejos</h2>
+                <p class="section-subtitle">Conocimientos y experiencias que me gustaría compartir</p>
+                
+                <div class="tips-grid">
+                    <!-- Tip 1 -->
+                    <div class="tip-card">
+                        <div class="tip-icon">💡</div>
+                        <h3>Optimización Web</h3>
+                        <p>Técnicas para mejorar el rendimiento de tus aplicaciones web y ofrecer la mejor experiencia de usuario.</p>
+                        <a href="#" class="read-more">Leer más</a>
+                    </div>
+                    
+                    <!-- Tip 2 -->
+                    <div class="tip-card">
+                        <div class="tip-icon">🚀</div>
+                        <h3>WebGPU Basics</h3>
+                        <p>Introducción a WebGPU y cómo empezar a crear gráficos de alto rendimiento en el navegador.</p>
+                        <a href="#" class="read-more">Leer más</a>
+                    </div>
+
+                    <!-- Tip 3 -->
+                    <div class="tip-card">
+                        <div class="tip-icon">🎨</div>
+                        <h3>CSS Moderno</h3>
+                        <p>Nuevas funcionalidades de CSS que te ayudarán a crear interfaces más atractivas y funcionales.</p>
+                        <a href="#" class="read-more">Leer más</a>
+                    </div>
+
+                    <!-- Tip 4 -->
+                    <div class="tip-card">
+                        <div class="tip-icon">⚡</div>
+                        <h3>JavaScript Performance</h3>
+                        <p>Consejos para escribir JavaScript más eficiente y evitar los errores más comunes.</p>
+                        <a href="#" class="read-more">Leer más</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Contacto -->
+        <section id="contacto" class="section bg-alt">
+            <div class="container">
+                <h2 class="section-title">Contacto</h2>
+                <p class="section-subtitle">¿Tienes alguna pregunta o propuesta? ¡Hablemos!</p>
+                
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <h4>📧 Email</h4>
+                            <p>alfonso@ejemplo.com</p>
+                        </div>
+                        <div class="contact-item">
+                            <h4>🐙 GitHub</h4>
+                            <p><a href="https://github.com/alfonso-cv">github.com/alfonso-cv</a></p>
+                        </div>
+                        <div class="contact-item">
+                            <h4>💼 LinkedIn</h4>
+                            <p><a href="https://linkedin.com/in/alfonso-cv">linkedin.com/in/alfonso-cv</a></p>
+                        </div>
+                        <div class="contact-item">
+                            <h4>🐦 Twitter</h4>
+                            <p><a href="https://twitter.com/alfonso_dev">@alfonso_dev</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Alfonso. Todos los derechos reservados. | Hecho con ❤️ y mucho ☕</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

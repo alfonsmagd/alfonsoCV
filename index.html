@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alfonso CV - Portfolio</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-container">
+                <div class="logo">
+                    <h1>Alfonso</h1>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="#Start">Inicio</a></li>
+                    <li><a href="#personal-projects">Personal Projects</a></li>
+                    <li><a href="#professional-work">Professional Work</a></li>
+                    <li><a href="#tips">Tips & Advice</a></li>
+                    <li><a href="#webgl-demo">WebGL Demo</a></li>
+                    <li><a href="#webgl-test">WebGL Test</a></li>
+                    <li><a href="#contacto">Contacto</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Sección de Inicio -->
+        <section id="inicio" class="hero">
+            <canvas id="particleCanvas"></canvas>
+            <div class="container">
+                <div class="hero-content">
+                    <h1>Hello! I'm Alfonso</h1>
+                    <p class="hero-subtitle">Developer and Creator of Innovative Projects</p>
+                    <p class="hero-description">
+                        Welcome to my portfolio where I share my projects, professional experience 
+                        and knowledge acquired throughout my career.
+                    </p>
+                    <div class="hero-buttons">
+                        <a href="#personal-projects" class="btn btn-primary">View Projects</a>
+                        <a href="#contact" class="btn btn-secondary">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Personal Projects Section -->
+        <section id="personal-projects" class="section">
+            <div class="container">
+                <h2 class="section-title">Personal Projects</h2>
+                <p class="section-subtitle">Explore my creative and experimental projects</p>
+                
+                <div class="projects-grid">
+                    <!-- Example project -->
+                    <div class="project-card">
+                        <div class="project-image">
+                            <img src="assets/images/proyecto1.jpg" alt="Proyecto 1" />
+                        </div>
+                        <div class="project-content">
+                            <h3>Nombre del Proyecto</h3>
+                            <p>Descripción breve del proyecto y las tecnologías utilizadas.</p>
+                            <div class="project-tags">
+                                <span class="tag">HTML</span>
+                                <span class="tag">CSS</span>
+                                <span class="tag">JavaScript</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" class="btn btn-small">Ver Demo</a>
+                                <a href="#" class="btn btn-small btn-outline">GitHub</a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Más proyectos se añadirán aquí -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Trabajos Profesionales -->
+        <section id="trabajos-profesionales" class="section bg-alt">
+            <div class="container">
+                <h2 class="section-title">Experiencia Profesional</h2>
+                <p class="section-subtitle">Proyectos finalizados en mi carrera laboral</p>
+                
+                <div class="timeline">
+                    <!-- Example work -->
+                    <div class="timeline-item">
+                        <div class="timeline-marker"></div>
+                        <div class="timeline-content">
+                            <h3>Título del Proyecto / Empresa</h3>
+                            <span class="timeline-date">2024 - Presente</span>
+                            <p>Descripción del proyecto o rol desempeñado, tecnologías utilizadas y logros conseguidos.</p>
+                            <ul>
+                                <li>Logro o responsabilidad 1</li>
+                                <li>Logro o responsabilidad 2</li>
+                                <li>Logro o responsabilidad 3</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Más trabajos se añadirán aquí -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Tips y Consejos -->
+        <section id="tips" class="section">
+            <div class="container">
+                <h2 class="section-title">Tips & Consejos</h2>
+                <p class="section-subtitle">Conocimientos y experiencias que me gustaría compartir</p>
+                
+                <div class="tips-grid">
+                    <!-- Example tip -->
+                    <div class="tip-card">
+                        <div class="tip-icon">💡</div>
+                        <h3>Título del Consejo</h3>
+                        <p>Descripción del consejo o tip que quieres compartir con otros desarrolladores.</p>
+                        <a href="#" class="read-more">Leer más</a>
+                    </div>
+                    
+                    <!-- Más tips se añadirán aquí -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Contacto -->
+        <section id="contacto" class="section bg-alt">
+            <div class="container">
+                <h2 class="section-title">Contacto</h2>
+                <p class="section-subtitle">¿Tienes alguna pregunta o propuesta? ¡Hablemos!</p>
+                
+                <div class="contact-content">
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <h4>Email</h4>
+                            <p>alfonsomagd123@gmail.com / alfonso_magd@hotmail.com</p>
+                        </div>
+                        <div class="contact-item">
+                            <h4>GitHub</h4>
+                            <p><a href="https://github.com/tu-usuario">github.com/tu-usuario</a></p>
+                        </div>
+                        <div class="contact-item">
+                            <h4>LinkedIn</h4>
+                            <p><a href="https://linkedin.com/in/tu-perfil">linkedin.com/in/tu-perfil</a></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WebGL Demo Section -->
+        <section id="webgl-demo" class="section">
+            <div class="container">
+                <h2 class="section-title">WebGL Demonstration</h2>
+                <p class="section-subtitle">Experimentando con gráficos 3D y renderizado avanzado</p>
+                
+                <div class="webgl-container">
+                    <canvas id="webglCanvas" class="webgl-canvas"></canvas>
+                    <div class="webgl-controls">
+                        <div class="control-group">
+                            <label>Rotación X:</label>
+                            <input type="range" id="rotationX" min="0" max="360" value="0" class="slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Rotación Y:</label>
+                            <input type="range" id="rotationY" min="0" max="360" value="0" class="slider">
+                        </div>
+                        <div class="control-group">
+                            <label>Color:</label>
+                            <input type="color" id="colorPicker" value="#ff0000" class="color-picker">
+                        </div>
+                        <button id="resetDemo" class="btn btn-primary">Reset</button>
+                    </div>
+                </div>
+                
+                <div class="webgl-info">
+                    <div class="info-card">
+                        <h3>Tecnologías Utilizadas</h3>
+                        <ul>
+                            <li>WebGL 2.0</li>
+                            <li>Fragment Shaders</li>
+                            <li>Vertex Shaders</li>
+                            <li>Matrix Transformations</li>
+                        </ul>
+                    </div>
+                    <div class="info-card">
+                        <h3>Características</h3>
+                        <ul>
+                            <li>Renderizado en tiempo real</li>
+                            <li>Controles interactivos</li>
+                            <li>Shaders personalizados</li>
+                            <li>Optimizado para performance</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Simple WebGL Test Section -->
+        <section id="webgl-test" class="section bg-alt">
+            <div class="container">
+                <h2 class="section-title">WebGL Test</h2>
+                <p class="section-subtitle">Verificación básica de WebGL - Cuadro azul renderizado</p>
+                
+                <div class="webgl-test-container">
+                    <canvas id="webglTestCanvas" width="400" height="300" class="webgl-test-canvas"></canvas>
+                    <div class="webgl-test-info">
+                        <p><strong>Estado WebGL:</strong> <span id="webglStatus">Verificando...</span></p>
+                        <p><strong>Renderer:</strong> <span id="webglRenderer">-</span></p>
+                        <p><strong>Version:</strong> <span id="webglVersion">-</span></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Alfonso. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>
