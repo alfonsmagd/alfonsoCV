@@ -1578,3 +1578,32 @@ document.addEventListener('DOMContentLoaded', () => {
         new PersonalMessagesSystem();
     }, 1000); // Wait a bit for WebGL to initialize
 });
+
+// Random effects for Alfonso's image
+document.addEventListener('DOMContentLoaded', () => {
+    const alfonsoImage = document.querySelector('.hero-image');
+    if (alfonsoImage) {
+        const effects = [
+            'scale(1.1) rotate(5deg) hue-rotate(45deg)',
+            'scale(1.15) rotate(-3deg) hue-rotate(90deg) saturate(1.5)',
+            'scale(1.08) rotate(2deg) hue-rotate(180deg) brightness(1.2)',
+            'scale(1.12) rotate(-5deg) hue-rotate(270deg) contrast(1.3)',
+            'scale(1.1) rotate(3deg) hue-rotate(360deg) saturate(1.3) brightness(1.1)',
+            'scale(1.13) rotate(-2deg) hue-rotate(120deg) sepia(0.3)',
+            'scale(1.09) rotate(4deg) hue-rotate(240deg) invert(0.1)',
+            'scale(1.11) rotate(-1deg) hue-rotate(60deg) blur(0.5px)'
+        ];
+        
+        alfonsoImage.addEventListener('mouseenter', () => {
+            const randomEffect = effects[Math.floor(Math.random() * effects.length)];
+            alfonsoImage.style.transform = randomEffect;
+            alfonsoImage.style.filter = randomEffect;
+            alfonsoImage.style.transition = 'all 0.3s ease';
+        });
+        
+        alfonsoImage.addEventListener('mouseleave', () => {
+            alfonsoImage.style.transform = 'scale(1)';
+            alfonsoImage.style.filter = 'none';
+        });
+    }
+});

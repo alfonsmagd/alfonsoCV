@@ -1591,6 +1591,61 @@ input[type="checkbox"] {
     box-shadow: 0 0 10px rgba(204, 0, 255, 0.5);
 }
 
+.skill-progress[data-skill="dxr"] {
+    background: linear-gradient(90deg, #00ff00, #00cc00);
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
+}
+
+.skill-progress[data-skill="csharp"] {
+    background: linear-gradient(90deg, #9966ff, #7744cc);
+    box-shadow: 0 0 10px rgba(153, 102, 255, 0.5);
+}
+
+.skill-progress[data-skill="python"] {
+    background: linear-gradient(90deg, #ffdd44, #ccaa22);
+    box-shadow: 0 0 10px rgba(255, 221, 68, 0.5);
+}
+
+.skill-progress[data-skill="cmake"] {
+    background: linear-gradient(90deg, #ff6600, #cc4400);
+    box-shadow: 0 0 10px rgba(255, 102, 0, 0.5);
+}
+
+.skill-progress[data-skill="ogre"] {
+    background: linear-gradient(90deg, #88ff88, #66cc66);
+    box-shadow: 0 0 10px rgba(136, 255, 136, 0.5);
+}
+
+.skill-progress[data-skill="vs2022"] {
+    background: linear-gradient(90deg, #5c2d91, #4a2373);
+    box-shadow: 0 0 10px rgba(92, 45, 145, 0.5);
+}
+
+.skill-progress[data-skill="qtcreator"] {
+    background: linear-gradient(90deg, #41cd52, #339943);
+    box-shadow: 0 0 10px rgba(65, 205, 82, 0.5);
+}
+
+.skill-progress[data-skill="ibl"] {
+    background: linear-gradient(90deg, #ff9900, #cc7700);
+    box-shadow: 0 0 10px rgba(255, 153, 0, 0.5);
+}
+
+.skill-progress[data-skill="csm"] {
+    background: linear-gradient(90deg, #6633ff, #4422cc);
+    box-shadow: 0 0 10px rgba(102, 51, 255, 0.5);
+}
+
+.skill-progress[data-skill="irradiance"] {
+    background: linear-gradient(90deg, #ff3366, #cc2244);
+    box-shadow: 0 0 10px rgba(255, 51, 102, 0.5);
+}
+
+.skill-progress[data-skill="gi"] {
+    background: linear-gradient(90deg, #33ccff, #2299cc);
+    box-shadow: 0 0 10px rgba(51, 204, 255, 0.5);
+}
+
 .skill-description {
     color: #cccccc;
     font-size: 0.9rem;
