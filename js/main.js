@@ -558,9 +558,14 @@ function initWebGLDemo() {
             // Sample texture
             vec4 textureColor = texture2D(u_texture, v_texCoord);
             
-            // Basic lighting
+            // Basic lighting - normalizar dirección de luz y usar valores más suaves
             vec3 normal = normalize(v_normal);
-            float lightIntensity = max(dot(normal, -u_lightDirection), 0.0);
+            vec3 lightDir = normalize(u_lightDirection);
+            float lightIntensity = max(dot(normal, lightDir), 0.0);
+            
+            // Suavizar la intensidad de luz para evitar el efecto todo-o-nada
+            lightIntensity = pow(lightIntensity, 0.5);
+            
             vec3 lighting = u_ambientColor + u_lightColor * lightIntensity;
             
             // Apply lighting to texture
@@ -755,7 +760,7 @@ function initWebGLDemo() {
     let position = { x: 0, y: 0, z: 0 };
     let modelColor = [1.0, 1.0, 1.0];
     let colorIntensity = 1.0;
-    let lightDirection = { x: 1, y: 1, z: 1 };
+    let lightDirection = { x: 0.5, y: 0.7, z: 0.5 }; // Valores más suaves por defecto
     let lightColor = [1.0, 1.0, 1.0];
     let lightIntensity = 1.0;
     let ambientLight = 0.3;
@@ -956,7 +961,7 @@ function initWebGLDemo() {
         position = { x: 0, y: 0, z: 0 };
         modelColor = [1.0, 1.0, 1.0];
         colorIntensity = 1.0;
-        lightDirection = { x: 1, y: 1, z: 1 };
+        lightDirection = { x: 0.5, y: 0.7, z: 0.5 }; // Valores más suaves
         lightColor = [1.0, 1.0, 1.0];
         lightIntensity = 1.0;
         ambientLight = 0.3;
@@ -1022,7 +1027,7 @@ function initWebGLDemo() {
             lightDirection, lightColor, lightIntensity, ambientLight, autoRotate
         };
         localStorage.setItem('webglControlPreset', JSON.stringify(preset));
-        alert('Preset guardado correctamente!');
+        alert('Preset saved successfully!');
     }
     
     // Función para cargar preset
@@ -1048,12 +1053,12 @@ function initWebGLDemo() {
                 currentColor = modelColor;
                 
                 updateAllControlsUI();
-                alert('Preset cargado correctamente!');
+                alert('Preset loaded successfully!');
             } catch (error) {
-                alert('Error al cargar el preset: ' + error.message);
+                alert('Error loading preset: ' + error.message);
             }
         } else {
-            alert('No hay preset guardado');
+            alert('No saved preset found');
         }
     }
     
@@ -1142,8 +1147,8 @@ function initWebGLDemo() {
         gl.uniform3fv(colorOverrideLocation, finalColor);
         gl.uniform1f(useOverrideLocation, 0.3); // Less override to show texture
         
-        // Lighting uniforms using control values
-        const normalizedLightDir = normalizeVector([lightDirection.x, lightDirection.y, lightDirection.z]);
+        // Lighting uniforms using control values - sin normalizar para mejor control
+        const lightDir = [lightDirection.x, lightDirection.y, lightDirection.z];
         const scaledLightColor = [
             lightColor[0] * lightIntensity,
             lightColor[1] * lightIntensity,
@@ -1151,7 +1156,7 @@ function initWebGLDemo() {
         ];
         const ambientColor = [ambientLight, ambientLight, ambientLight];
         
-        gl.uniform3fv(lightDirectionLocation, normalizedLightDir);
+        gl.uniform3fv(lightDirectionLocation, lightDir);
         gl.uniform3fv(lightColorLocation, scaledLightColor);
         gl.uniform3fv(ambientColorLocation, ambientColor);
         
