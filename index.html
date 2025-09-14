@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Alfonso's professional portfolio showcasing innovative projects, WebGL demos, and development expertise. Interactive CV with particle systems and 3D graphics.">
+    <meta name="description" content="Alfonso's professional portfolio showcasing innovative projects                            <h3>Technical Skills</h3> WebGL demos, and development expertise. Interactive CV with particle systems and 3D graphics.">
     <meta name="keywords" content="Alfonso, developer, portfolio, WebGL, JavaScript, 3D graphics, web development">
     <meta name="author" content="Alfonso">
     
@@ -30,7 +30,7 @@
                 </div>
                 <ul class="nav-menu">
                     <li><a href="#Start">Inicio</a></li>
-                    <li><a href="#webgl-demo">WebGL Demo</a></li>
+                    <li><a href="#who-am-i">Who I am</a></li>
                     <li><a href="#personal-projects">Personal Projects</a></li>
                     <li><a href="#professional-work">Professional Work</a></li>
                     <li><a href="#tips">Tips & Advice</a></li>
@@ -47,7 +47,10 @@
             <canvas id="particleCanvas"></canvas>
             <div class="container">
                 <div class="hero-content">
-                    <h1>Hello! I'm Alfonso</h1>
+                    <div class="hero-header">
+                        <img src="assets/images/alfonsom.jpg" alt="Alfonso" class="hero-image">
+                        <h1>Hello! I'm Alfonso</h1>
+                    </div>
                     <p class="hero-subtitle">Developer and Creator of Innovative Projects</p>
                     <p class="hero-description">
                         Welcome to my portfolio where I share my projects, professional experience 
@@ -61,154 +64,257 @@
             </div>
         </section>
 
-        <!-- WebGL Alfonso Model Avatar Section -->
-        <section id="webgl-demo" class="section">
+        <!-- Who I am Section -->
+        <section id="who-am-i" class="section">
             <div class="container">
-                <h2 class="section-title">WebGL Alfonso Model Avatar</h2>
-                <p class="section-subtitle">Interactive 3D avatar with advanced graphics and controls</p>
+                <h2 class="section-title">Who I am, and How I am?</h2>
+                <p class="section-subtitle">Get to know more about my background, skills, and personality - Interact with my 3D avatar!</p>
                 
-                <div class="webgl-container">
-                    <canvas id="webglCanvas" class="webgl-canvas"></canvas>
-                    <div class="webgl-controls">
-                        <!-- Rotation Controls -->
-                        <div class="control-section">
-                            <h4>🔄 Rotation</h4>
-                            <div class="control-group">
-                                <label>Rotation X:</label>
-                                <input type="range" id="rotationX" min="0" max="360" value="0" class="slider">
-                                <span id="rotationXValue">0°</span>
+                <!-- 3D Model Section -->
+                <div class="model-3d-container">
+                    <div class="webgl-container">
+                        <canvas id="webglCanvas" class="webgl-canvas"></canvas>
+                        <div class="webgl-controls">
+                            <!-- Rotation Controls -->
+                            <div class="control-section">
+                                <h4>🔄 Rotation</h4>
+                                <div class="control-group">
+                                    <label>Rotation X:</label>
+                                    <input type="range" id="rotationX" min="0" max="360" value="0" class="slider">
+                                    <span id="rotationXValue">0°</span>
+                                </div>
+                                <div class="control-group">
+                                    <label>Rotation Y:</label>
+                                    <input type="range" id="rotationY" min="0" max="360" value="0" class="slider">
+                                    <span id="rotationYValue">0°</span>
+                                </div>
+                                <div class="control-group">
+                                    <label>Rotation Z:</label>
+                                    <input type="range" id="rotationZ" min="0" max="360" value="0" class="slider">
+                                    <span id="rotationZValue">0°</span>
+                                </div>
+                                <div class="control-group">
+                                    <label>Auto Rotation:</label>
+                                    <input type="checkbox" id="autoRotate" checked class="checkbox">
+                                </div>
                             </div>
-                            <div class="control-group">
-                                <label>Rotation Y:</label>
-                                <input type="range" id="rotationY" min="0" max="360" value="0" class="slider">
-                                <span id="rotationYValue">0°</span>
+
+                            <!-- Scale Controls -->
+                            <div class="control-section">
+                                <h4>📏 Scale</h4>
+                                <div class="control-group">
+                                    <label>Scale X:</label>
+                                    <input type="range" id="scaleX" min="0.1" max="2" step="0.1" value="0.3" class="slider">
+                                    <span id="scaleXValue">0.3</span>
+                                </div>
+                                <div class="control-group">
+                                    <label>Scale Y:</label>
+                                    <input type="range" id="scaleY" min="0.1" max="2" step="0.1" value="0.3" class="slider">
+                                    <span id="scaleYValue">0.3</span>
+                                </div>
+                                <div class="control-group">
+                                    <label>Scale Z:</label>
+                                    <input type="range" id="scaleZ" min="0.1" max="2" step="0.1" value="0.3" class="slider">
+                                    <span id="scaleZValue">0.3</span>
+                                </div>
                             </div>
-                            <div class="control-group">
-                                <label>Rotation Z:</label>
-                                <input type="range" id="rotationZ" min="0" max="360" value="0" class="slider">
-                                <span id="rotationZValue">0°</span>
+
+                            <!-- Position Controls -->
+                            <div class="control-section">
+                                <h4>📍 Position</h4>
+                                <div class="control-group">
+                                    <label>Position X:</label>
+                                    <input type="range" id="positionX" min="-5" max="5" step="0.1" value="0" class="slider">
+                                    <span id="positionXValue">0</span>
+                                </div>
+                                <div class="control-group">
+                                    <label>Position Y:</label>
+                                    <input type="range" id="positionY" min="-5" max="5" step="0.1" value="0" class="slider">
+                                    <span id="positionYValue">0</span>
+                                </div>
+                                <div class="control-group">
+                                    <label>Distance:</label>
+                                    <input type="range" id="positionZ" min="-10" max="-1" step="0.1" value="-2" class="slider">
+                                    <span id="positionZValue">-2</span>
+                                </div>
                             </div>
-                            <div class="control-group">
-                                <label>Auto Rotation:</label>
-                                <input type="checkbox" id="autoRotate" checked class="checkbox">
+
+                            <!-- Color Controls -->
+                            <div class="control-section">
+                                <h4>🎨 Color</h4>
+                                <div class="control-group">
+                                    <label>Model Color:</label>
+                                    <input type="color" id="colorPicker" value="#ff0000" class="color-picker">
+                                </div>
+                                <div class="control-group">
+                                    <label>Color Intensity:</label>
+                                    <input type="range" id="colorIntensity" min="0" max="1" step="0.1" value="0.3" class="slider">
+                                    <span id="colorIntensityValue">0.3</span>
+                                </div>
+                            </div>
+
+                            <!-- Lighting Controls -->
+                            <div class="control-section">
+                                <h4>💡 Lighting</h4>
+                                <div class="control-group">
+                                    <label>Light Direction X:</label>
+                                    <input type="range" id="lightDirX" min="-1" max="1" step="0.1" value="0.5" class="slider">
+                                    <span id="lightDirXValue">0.5</span>
+                                </div>
+                                <div class="control-group">
+                                    <label>Light Direction Y:</label>
+                                    <input type="range" id="lightDirY" min="-1" max="1" step="0.1" value="0.7" class="slider">
+                                    <span id="lightDirYValue">0.7</span>
+                                </div>
+                                <div class="control-group">
+                                    <label>Light Direction Z:</label>
+                                    <input type="range" id="lightDirZ" min="-1" max="1" step="0.1" value="0.5" class="slider">
+                                    <span id="lightDirZValue">0.5</span>
+                                </div>
+                                <div class="control-group">
+                                    <label>Light Color:</label>
+                                    <input type="color" id="lightColor" value="#ffffff" class="color-picker">
+                                </div>
+                                <div class="control-group">
+                                    <label>Light Intensity:</label>
+                                    <input type="range" id="lightIntensity" min="0" max="2" step="0.1" value="1" class="slider">
+                                    <span id="lightIntensityValue">1</span>
+                                </div>
+                                <div class="control-group">
+                                    <label>Ambient Light:</label>
+                                    <input type="range" id="ambientLight" min="0" max="1" step="0.1" value="0.3" class="slider">
+                                    <span id="ambientLightValue">0.3</span>
+                                </div>
+                            </div>
+
+                            <!-- Action Buttons -->
+                            <div class="control-section">
+                                <button id="resetDemo" class="btn btn-primary">🔄 Reset All</button>
+                                <button id="savePreset" class="btn btn-secondary">💾 Save</button>
+                                <button id="loadPreset" class="btn btn-secondary">📂 Load</button>
                             </div>
                         </div>
-
-                        <!-- Scale Controls -->
-                        <div class="control-section">
-                            <h4>📏 Scale</h4>
-                            <div class="control-group">
-                                <label>Scale X:</label>
-                                <input type="range" id="scaleX" min="0.1" max="2" step="0.1" value="0.3" class="slider">
-                                <span id="scaleXValue">0.3</span>
-                            </div>
-                            <div class="control-group">
-                                <label>Scale Y:</label>
-                                <input type="range" id="scaleY" min="0.1" max="2" step="0.1" value="0.3" class="slider">
-                                <span id="scaleYValue">0.3</span>
-                            </div>
-                            <div class="control-group">
-                                <label>Scale Z:</label>
-                                <input type="range" id="scaleZ" min="0.1" max="2" step="0.1" value="0.3" class="slider">
-                                <span id="scaleZValue">0.3</span>
-                            </div>
+                    </div>
+                    
+                    <div class="webgl-info">
+                        <div class="info-card">
+                            <h3>Technologies Used</h3>
+                            <ul>
+                                <li>WebGL 2.0</li>
+                                <li>Fragment Shaders</li>
+                                <li>Vertex Shaders</li>
+                                <li>Matrix Transformations</li>
+                            </ul>
                         </div>
-
-                        <!-- Position Controls -->
-                        <div class="control-section">
-                            <h4>📍 Position</h4>
-                            <div class="control-group">
-                                <label>Position X:</label>
-                                <input type="range" id="positionX" min="-5" max="5" step="0.1" value="0" class="slider">
-                                <span id="positionXValue">0</span>
-                            </div>
-                            <div class="control-group">
-                                <label>Position Y:</label>
-                                <input type="range" id="positionY" min="-5" max="5" step="0.1" value="0" class="slider">
-                                <span id="positionYValue">0</span>
-                            </div>
-                            <div class="control-group">
-                                <label>Distance:</label>
-                                <input type="range" id="positionZ" min="-10" max="-1" step="0.1" value="-2" class="slider">
-                                <span id="positionZValue">-2</span>
-                            </div>
-                        </div>
-
-                        <!-- Color Controls -->
-                        <div class="control-section">
-                            <h4>🎨 Color</h4>
-                            <div class="control-group">
-                                <label>Model Color:</label>
-                                <input type="color" id="colorPicker" value="#ff0000" class="color-picker">
-                            </div>
-                            <div class="control-group">
-                                <label>Color Intensity:</label>
-                                <input type="range" id="colorIntensity" min="0" max="1" step="0.1" value="0.3" class="slider">
-                                <span id="colorIntensityValue">0.3</span>
-                            </div>
-                        </div>
-
-                        <!-- Lighting Controls -->
-                        <div class="control-section">
-                            <h4>💡 Lighting</h4>
-                            <div class="control-group">
-                                <label>Light Direction X:</label>
-                                <input type="range" id="lightDirX" min="-1" max="1" step="0.1" value="0.5" class="slider">
-                                <span id="lightDirXValue">0.5</span>
-                            </div>
-                            <div class="control-group">
-                                <label>Light Direction Y:</label>
-                                <input type="range" id="lightDirY" min="-1" max="1" step="0.1" value="0.7" class="slider">
-                                <span id="lightDirYValue">0.7</span>
-                            </div>
-                            <div class="control-group">
-                                <label>Light Direction Z:</label>
-                                <input type="range" id="lightDirZ" min="-1" max="1" step="0.1" value="0.5" class="slider">
-                                <span id="lightDirZValue">0.5</span>
-                            </div>
-                            <div class="control-group">
-                                <label>Light Color:</label>
-                                <input type="color" id="lightColor" value="#ffffff" class="color-picker">
-                            </div>
-                            <div class="control-group">
-                                <label>Light Intensity:</label>
-                                <input type="range" id="lightIntensity" min="0" max="2" step="0.1" value="1" class="slider">
-                                <span id="lightIntensityValue">1</span>
-                            </div>
-                            <div class="control-group">
-                                <label>Ambient Light:</label>
-                                <input type="range" id="ambientLight" min="0" max="1" step="0.1" value="0.3" class="slider">
-                                <span id="ambientLightValue">0.3</span>
-                            </div>
-                        </div>
-
-                        <!-- Action Buttons -->
-                        <div class="control-section">
-                            <button id="resetDemo" class="btn btn-primary">🔄 Reset All</button>
-                            <button id="savePreset" class="btn btn-secondary">💾 Save</button>
-                            <button id="loadPreset" class="btn btn-secondary">📂 Load</button>
+                        <div class="info-card">
+                            <h3>Features</h3>
+                            <ul>
+                                <li>Real-time rendering</li>
+                                <li>Interactive controls</li>
+                                <li>Custom shaders</li>
+                                <li>Performance optimized</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
-                
-                <div class="webgl-info">
-                    <div class="info-card">
-                        <h3>Technologies Used</h3>
-                        <ul>
-                            <li>WebGL 2.0</li>
-                            <li>Fragment Shaders</li>
-                            <li>Vertex Shaders</li>
-                            <li>Matrix Transformations</li>
-                        </ul>
-                    </div>
-                    <div class="info-card">
-                        <h3>Features</h3>
-                        <ul>
-                            <li>Real-time rendering</li>
-                            <li>Interactive controls</li>
-                            <li>Custom shaders</li>
-                            <li>Performance optimized</li>
-                        </ul>
+
+                <!-- About Content -->
+                <div class="about-container">
+                    <div class="about-content">
+                        <div class="about-section">
+                            <h3>Personal Information</h3>
+                            <div class="personal-info">
+                                <h4>Alfonso Mateos Aparicio García de Dionisio</h4>
+                                <p class="location">Madrid, Spain • Age: 30</p>
+                                <p class="contact-info">
+                                    <span>+34-676-686-227</span> • 
+                                    <span>Alfonso_magd@hotmail.com</span>
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="about-section">
+                            <h3>Professional Profile</h3>
+                            <div class="profile-description">
+                                <p>Experienced C/C++ Engineer with a strong background in computer graphics and game development using Unreal Engine 4/5. Skilled in implementing C++ solutions for game mechanics and physics, and optimizing code through metaprogramming. Proven ability to enhance rendering algorithms and reduce computational costs using GPU programming.</p>
+                                
+                                <div class="highlight-project">
+                                    <h4>Creator of IFNITY RENDERING</h4>
+                                    <p>Designed a hardware-agnostic rendering interface capable of rendering with OpenGL, Vulkan 1.3, and Direct3D 12. Using C++ 20</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="about-section">
+                            <h3>� Technical Skills</h3>
+                            <div class="skills-grid">
+                                <div class="skill-category">
+                                    <h4>Programming & Development</h4>
+                                    <div class="skill-tags">
+                                        <span class="skill-tag">JavaScript</span>
+                                        <span class="skill-tag">WebGL</span>
+                                        <span class="skill-tag">HTML5/CSS3</span>
+                                        <span class="skill-tag">Python</span>
+                                        <span class="skill-tag">3D Graphics</span>
+                                    </div>
+                                </div>
+                                <div class="skill-category">
+                                    <h4>Engineering & Simulation</h4>
+                                    <div class="skill-tags">
+                                        <span class="skill-tag">Process Simulation</span>
+                                        <span class="skill-tag">Data Analysis</span>
+                                        <span class="skill-tag">Project Management</span>
+                                        <span class="skill-tag">Industrial Optimization</span>
+                                    </div>
+                                </div>
+                                <div class="skill-category">
+                                    <h4>Tools & Technologies</h4>
+                                    <div class="skill-tags">
+                                        <span class="skill-tag">CAD Software</span>
+                                        <span class="skill-tag">Statistical Analysis</span>
+                                        <span class="skill-tag">Web Development</span>
+                                        <span class="skill-tag">Version Control</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="about-section">
+                            <h3>🎯 What Drives Me</h3>
+                            <div class="personality-grid">
+                                <div class="personality-card">
+                                    <div class="personality-icon">🔬</div>
+                                    <h4>Innovation Seeker</h4>
+                                    <p>I'm passionate about finding creative solutions to complex engineering problems through cutting-edge technology.</p>
+                                </div>
+                                <div class="personality-card">
+                                    <div class="personality-icon">⚡</div>
+                                    <h4>Continuous Learner</h4>
+                                    <p>Always exploring new technologies and methodologies to stay at the forefront of industrial engineering.</p>
+                                </div>
+                                <div class="personality-card">
+                                    <div class="personality-icon">🤝</div>
+                                    <h4>Team Collaborator</h4>
+                                    <p>I believe in the power of teamwork and cross-disciplinary collaboration to achieve exceptional results.</p>
+                                </div>
+                                <div class="personality-card">
+                                    <div class="personality-icon">🎨</div>
+                                    <h4>Creative Problem Solver</h4>
+                                    <p>Combining analytical thinking with creative approaches to develop innovative engineering solutions.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="about-section">
+                            <h3>🌟 Personal Philosophy</h3>
+                            <div class="philosophy-quote">
+                                <blockquote>
+                                    "Engineering is not just about solving problems—it's about creating possibilities. 
+                                    I strive to bridge the gap between theoretical knowledge and practical innovation, 
+                                    always seeking ways to make complex systems more efficient and accessible."
+                                </blockquote>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
