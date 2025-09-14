@@ -1805,23 +1805,70 @@ class SkillModal {
     }
     
     bindEvents() {
-        this.closeBtn.addEventListener('click', () => this.close());
-        this.overlay.addEventListener('click', () => this.close());
+        // Eventos de cierre del modal
+        const handleClose = (e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            this.close();
+        };
         
+        // Eventos para PC
+        this.closeBtn.addEventListener('click', handleClose);
+        this.overlay.addEventListener('click', handleClose);
+        
+        // Eventos táctiles para el botón de cerrar
+        this.closeBtn.addEventListener('touchend', handleClose);
+        this.overlay.addEventListener('touchend', handleClose);
+        
+        // Teclado
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape' && this.modal.classList.contains('active')) {
                 this.close();
             }
         });
+        
+        // Prevenir scroll del fondo cuando el modal está abierto
+        this.modal.addEventListener('touchmove', (e) => {
+            e.preventDefault();
+        }, { passive: false });
     }
     
     initSkillItems() {
         const skillItems = document.querySelectorAll('.skill-item');
         skillItems.forEach(item => {
-            item.addEventListener('click', (e) => {
+            // Agregar cursor pointer para dispositivos táctiles
+            item.style.cursor = 'pointer';
+            
+            // Función para manejar la apertura del modal
+            const handleOpen = (e) => {
                 e.preventDefault();
+                e.stopPropagation();
                 const skillName = item.querySelector('.skill-name').textContent;
                 this.open(skillName);
+            };
+            
+            // Eventos para PC
+            item.addEventListener('click', handleOpen);
+            
+            // Eventos para dispositivos táctiles
+            item.addEventListener('touchstart', (e) => {
+                // Agregar clase temporal para feedback visual
+                item.classList.add('touch-active');
+            });
+            
+            item.addEventListener('touchend', (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                // Remover clase temporal
+                item.classList.remove('touch-active');
+                // Abrir modal
+                const skillName = item.querySelector('.skill-name').textContent;
+                this.open(skillName);
+            });
+            
+            item.addEventListener('touchcancel', (e) => {
+                // Remover clase temporal si se cancela el toque
+                item.classList.remove('touch-active');
             });
         });
     }
@@ -1849,21 +1896,31 @@ class SkillModal {
             <ul>${projectsList}</ul>
         `;
         
+        // Prevenir scroll del fondo en dispositivos móviles
+        this.scrollY = window.scrollY;
+        document.body.style.overflow = 'hidden';
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${this.scrollY}px`;
+        document.body.style.width = '100%';
+        
         // Show modal
         this.modal.style.display = 'flex';
         setTimeout(() => {
             this.modal.classList.add('active');
         }, 10);
-        
-        // Prevent body scroll
-        document.body.style.overflow = 'hidden';
     }
     
     close() {
         this.modal.classList.remove('active');
         setTimeout(() => {
             this.modal.style.display = 'none';
-            document.body.style.overflow = 'auto';
+            
+            // Restaurar scroll del fondo
+            document.body.style.overflow = '';
+            document.body.style.position = '';
+            document.body.style.top = '';
+            document.body.style.width = '';
+            window.scrollTo(0, this.scrollY);
         }, 300);
     }
 }
