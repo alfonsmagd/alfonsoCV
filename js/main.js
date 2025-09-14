@@ -1438,3 +1438,143 @@ function normalizeVector(vector) {
     if (length === 0) return [0, 0, 1]; // Default direction
     return [vector[0] / length, vector[1] / length, vector[2] / length];
 }
+
+// Personal Messages System
+class PersonalMessagesSystem {
+    constructor() {
+        this.messagesContainer = document.getElementById('personal-messages');
+        this.currentStates = {
+            blueColor: false,
+            zRotation: false,
+            highLight: false
+        };
+        this.lastZRotation = 0;
+        this.lastLightIntensity = 0;
+        this.messageTimeouts = {};
+        
+        this.initializeWatchers();
+    }
+    
+    initializeWatchers() {
+        // Watch color picker for blue color
+        const colorPicker = document.getElementById('colorPicker');
+        if (colorPicker) {
+            colorPicker.addEventListener('input', (e) => {
+                this.checkBlueColor(e.target.value);
+            });
+        }
+        
+        // Watch Z rotation
+        const rotationZ = document.getElementById('rotationZ');
+        if (rotationZ) {
+            rotationZ.addEventListener('input', (e) => {
+                this.checkZRotation(parseFloat(e.target.value));
+            });
+        }
+        
+        // Watch light direction values
+        const lightIntensity = document.getElementById('lightIntensity');
+
+        if (lightIntensity) {
+            lightIntensity.addEventListener('input', (e) => {
+                this.checkLightIntensity(parseFloat(e.target.value));
+            });
+        }
+    }
+    
+    checkBlueColor(colorValue) {
+        // Convert hex to RGB and check if it's predominantly blue
+        const r = parseInt(colorValue.substr(1, 2), 16);
+        const g = parseInt(colorValue.substr(3, 2), 16);
+        const b = parseInt(colorValue.substr(5, 2), 16);
+        
+        const isBlue = b > 150 && b > r && b > g;
+        
+        if (isBlue && !this.currentStates.blueColor) {
+            this.showMessage('xbox', '🎮 My first console was the original Xbox with Jet Set Radio Future! Those graphics marked me forever and inspired me to pursue computer graphics.', 'blue');
+            this.currentStates.blueColor = true;
+        } else if (!isBlue) {
+            this.currentStates.blueColor = false;
+        }
+    }
+    
+    checkZRotation(rotation) {
+        const rotationChange = Math.abs(rotation - this.lastZRotation);
+        
+        if (rotationChange > 0.5 && !this.currentStates.zRotation) {
+            this.showMessage('rotation', '😵‍💫 Oops! I get dizzy easily and have a terrible sense of direction. Please don\'t make me rotate too much!', 'orange');
+            this.currentStates.zRotation = true;
+            
+            // Reset state after 3 seconds
+            setTimeout(() => {
+                this.currentStates.zRotation = false;
+            }, 3000);
+        }
+        
+        this.lastZRotation = rotation;
+    }
+    
+    checkLightIntensity(intensity) {
+        if (intensity > 0.7 && !this.currentStates.highLight) {
+            this.showMessage('light', '✨ I\'m a light lover and offline ray tracing enthusiast! "Ray tracing" is one of my favorite words. Realistic lighting is pure visual magic.', 'yellow');
+            this.currentStates.highLight = true;
+            
+            // Reset state after 4 seconds
+            setTimeout(() => {
+                this.currentStates.highLight = false;
+            }, 4000);
+        } else if (intensity <= 0.5) {
+            this.currentStates.highLight = false;
+        }
+    }
+    
+    showMessage(messageId, text, color) {
+        // Clear existing timeout for this message
+        if (this.messageTimeouts[messageId]) {
+            clearTimeout(this.messageTimeouts[messageId]);
+        }
+        
+        // Remove existing message if any
+        const existing = document.getElementById(`message-${messageId}`);
+        if (existing) {
+            existing.remove();
+        }
+        
+        // Create new message element
+        const messageDiv = document.createElement('div');
+        messageDiv.id = `message-${messageId}`;
+        messageDiv.className = `personal-message ${color}`;
+        messageDiv.innerHTML = `
+            <div class="message-content">
+                <p>${text}</p>
+                <button class="close-message" onclick="this.parentElement.parentElement.remove()">×</button>
+            </div>
+        `;
+        
+        // Add message to container
+        this.messagesContainer.appendChild(messageDiv);
+        
+        // Auto-hide after 8 seconds
+        this.messageTimeouts[messageId] = setTimeout(() => {
+            if (messageDiv && messageDiv.parentElement) {
+                messageDiv.style.opacity = '0';
+                setTimeout(() => {
+                    messageDiv.remove();
+                }, 300);
+            }
+        }, 8000);
+        
+        // Animate in
+        setTimeout(() => {
+            messageDiv.style.opacity = '1';
+            messageDiv.style.transform = 'translateY(0)';
+        }, 100);
+    }
+}
+
+// Initialize the personal messages system when the page loads
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        new PersonalMessagesSystem();
+    }, 1000); // Wait a bit for WebGL to initialize
+});

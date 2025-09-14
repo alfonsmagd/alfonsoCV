@@ -1598,16 +1598,131 @@ input[type="checkbox"] {
     margin: 0;
 }
 
-/* Responsive Skills Section */
-@media (min-width: 768px) {
-    .skills-grid {
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    }
+/* Academic Achievement Highlight */
+.project-content p strong {
+    color: #ffd700;
+    text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+    font-weight: 700;
+}
+
+.tag:contains("Academic Excellence") {
+    background: linear-gradient(135deg, #ffd700, #ffb347);
+    color: #000;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.4);
+}
+
+/* Enhanced project tags for technical features */
+.tag:contains("MultiDrawIndirect"),
+.tag:contains("Bindless Rendering"),
+.tag:contains("NVIDIA RHI"),
+.tag:contains("Benchmarking") {
+    background: linear-gradient(135deg, #00ff88, #00cc66);
+    color: #000;
+    font-weight: 600;
 }
 
 @media (min-width: 1024px) {
     .skills-container {
         grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
     }
+}
+
+/* Personal Messages System Styles */
+.personal-messages {
+    margin-top: 1rem;
+    min-height: 50px;
+}
+
+.personal-message {
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 10px;
+    margin: 0.5rem 0;
+    padding: 0;
+    border-left: 4px solid #00ffff;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+}
+
+.personal-message.blue {
+    border-left-color: #0080ff;
+    background: rgba(0, 128, 255, 0.1);
+}
+
+.personal-message.orange {
+    border-left-color: #ff8000;
+    background: rgba(255, 128, 0, 0.1);
+}
+
+.personal-message.yellow {
+    border-left-color: #ffd700;
+    background: rgba(255, 215, 0, 0.1);
+}
+
+.message-content {
+    padding: 1rem;
+    position: relative;
+}
+
+.message-content p {
+    margin: 0;
+    color: #ffffff;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    padding-right: 2rem;
+}
+
+.close-message {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.2rem;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease;
+}
+
+.close-message:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.personal-message.blue .close-message:hover {
+    background-color: rgba(0, 128, 255, 0.3);
+}
+
+.personal-message.orange .close-message:hover {
+    background-color: rgba(255, 128, 0, 0.3);
+}
+
+.personal-message.yellow .close-message:hover {
+    background-color: rgba(255, 215, 0, 0.3);
+}
+
+/* Animation for messages */
+@keyframes messageSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.personal-message {
+    animation: messageSlideIn 0.3s ease-out;
 }
 
