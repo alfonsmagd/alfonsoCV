@@ -743,7 +743,7 @@ function initWebGLDemo() {
     let rotationY = 0;
     let rotationZ = 0; // Add Z rotation
     let autoRotate = true;
-    let currentColor = [1, 0, 0]; // rojo por defecto para que se note el cambio    
+    let currentColor = [1, 0.8, 0.8]; // white by default 
     
     // Event listeners para controles
     const rotationXSlider = document.getElementById('rotationX');
@@ -791,13 +791,13 @@ function initWebGLDemo() {
             currentColor = [1, 0, 0];
             if (rotationXSlider) rotationXSlider.value = 0;
             if (rotationYSlider) rotationYSlider.value = 0;
-            if (colorPicker) colorPicker.value = '#ff0000';
+            if (colorPicker) colorPicker.value = '#ffffffff';
         });
     }
     
     // Variables adicionales para controles avanzados
     let rotation = { x: 0, y: 0, z: 0 };
-    let scale = { x: 1, y: 1, z: 1 };
+    let scale = { x: 2, y: 2, z: 2 };
     let position = { x: 0, y: 0, z: 0 };
     let modelColor = [1.0, 1.0, 1.0];
     let colorIntensity = 1.0;
@@ -1068,7 +1068,7 @@ function initWebGLDemo() {
     // Función para resetear todos los controles
     function resetAllControls() {
         rotation = { x: 0, y: 0, z: 0 };
-        scale = { x: 1, y: 1, z: 1 };
+        scale = { x: 2, y:2, z: 2 };
         position = { x: 0, y: 0, z: 0 };
         modelColor = [1.0, 1.0, 1.0];
         colorIntensity = 1.0;
