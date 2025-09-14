@@ -505,22 +505,7 @@ function initWebGLDemo() {
         return;
     }
     
-    const gl = canvas.getContext('webgl', {
-        alpha: false,
-        antialias: true,
-        depth: true,
-        failIfMajorPerformanceCaveat: false,
-        powerPreference: "default",
-        premultipliedAlpha: false,
-        preserveDrawingBuffer: false,
-        stencil: false
-    }) || canvas.getContext('experimental-webgl', {
-        alpha: false,
-        antialias: true,
-        depth: true,
-        failIfMajorPerformanceCaveat: false
-    });
-    
+    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
     if (!gl) {
         console.log('WebGL not supported for main demo');
         canvas.style.background = '#330000';
@@ -531,15 +516,7 @@ function initWebGLDemo() {
         return;
     }
     
-    // Log WebGL info for mobile debugging
-    console.log('Main WebGL Demo initialized', {
-        renderer: gl.getParameter(gl.RENDERER),
-        vendor: gl.getParameter(gl.VENDOR),
-        version: gl.getParameter(gl.VERSION),
-        maxTextureSize: gl.getParameter(gl.MAX_TEXTURE_SIZE),
-        maxVertexAttribs: gl.getParameter(gl.MAX_VERTEX_ATTRIBS),
-        isMobile: /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
-    });
+    console.log('Main WebGL Demo initialized');
     
     // Vertex shader for 3D model with texture
     const vertexShaderSource = `
@@ -611,57 +588,33 @@ function initWebGLDemo() {
     let texture = null;
     let modelLoaded = false;
     
-    // Global function for mobile debugging
-    window.debugWebGL = function() {
-        console.log('=== WebGL Debug Info ===');
-        console.log('User Agent:', navigator.userAgent);
-        console.log('Platform:', navigator.platform);
-        console.log('Canvas:', canvas);
-        console.log('GL Context:', gl);
-        console.log('Model loaded:', modelLoaded);
-        console.log('Model data:', modelData);
-        console.log('Texture:', texture);
-        console.log('Current URL:', window.location.href);
-        console.log('Base URL:', window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, ''));
-        return {
-            canvas, gl, modelLoaded, modelData, texture
-        };
-    };
-    
     // Initialize OBJ loader
     const objLoader = new OBJLoader();
     
-    // Load model and texture with mobile optimizations
+    // Load model and texture
     async function loadModel() {
         try {
-            console.log('Loading model... Device info:', {
-                userAgent: navigator.userAgent,
-                platform: navigator.platform,
-                isMobile: /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+            console.log('Loading model... Current URL:', window.location.href);
+            
+            // Try different path strategies for mobile compatibility
+            const basePath = window.location.pathname.endsWith('/') ? 
+                window.location.pathname : 
+                window.location.pathname + '/';
+                
+            const modelPath = basePath + 'assets/model3D/avatar_final_refined_texturized.obj';
+            const texturePath = basePath + 'assets/model3D/avatar_final_refined_color.png';
+            
+            console.log('Attempting to load:', {
+                modelPath: modelPath,
+                texturePath: texturePath,
+                userAgent: navigator.userAgent.includes('iPhone') ? 'iPhone' : 'Other'
             });
-
-            // Try loading with absolute URL for mobile compatibility
-            const baseURL = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '');
-            const modelURL = baseURL + '/assets/model3D/avatar_final_refined_texturized.obj';
-            const textureURL = baseURL + '/assets/model3D/avatar_final_refined_color.png';
             
-            console.log('Attempting to load from URLs:', { modelURL, textureURL });
+            // Load OBJ model with explicit path
+            modelData = await objLoader.loadOBJ(modelPath);
             
-            // Load OBJ model with timeout for mobile
-            const modelPromise = Promise.race([
-                objLoader.loadOBJ(modelURL),
-                new Promise((_, reject) => setTimeout(() => reject(new Error('Model load timeout')), 10000))
-            ]);
-            
-            modelData = await modelPromise;
-            
-            // Load texture with timeout
-            const texturePromise = Promise.race([
-                loadTexture(gl, textureURL),
-                new Promise((_, reject) => setTimeout(() => reject(new Error('Texture load timeout')), 8000))
-            ]);
-            
-            texture = await texturePromise;
+            // Load texture with explicit path  
+            texture = await loadTexture(gl, texturePath);
             
             if (modelData && texture) {
                 modelLoaded = true;
@@ -677,7 +630,32 @@ function initWebGLDemo() {
             }
         } catch (error) {
             console.error('Error loading 3D model:', error);
-            console.log('Trying fallback geometry...');
+            console.log('Trying alternative absolute paths for mobile...');
+            
+            try {
+                // Try absolute URLs as fallback for mobile
+                const absoluteModelURL = window.location.origin + '/assets/model3D/avatar_final_refined_texturized.obj';
+                const absoluteTextureURL = window.location.origin + '/assets/model3D/avatar_final_refined_color.png';
+                
+                console.log('Trying absolute URLs:', {
+                    model: absoluteModelURL,
+                    texture: absoluteTextureURL
+                });
+                
+                modelData = await objLoader.loadOBJ(absoluteModelURL);
+                texture = await loadTexture(gl, absoluteTextureURL);
+                
+                if (modelData && texture) {
+                    modelLoaded = true;
+                    console.log('3D model loaded successfully with absolute URLs');
+                    setupModelBuffers();
+                    return;
+                }
+            } catch (absoluteError) {
+                console.error('Absolute URL loading also failed:', absoluteError);
+            }
+            
+            console.log('All loading methods failed, using fallback geometry...');
             // Fallback to a simple plane if model fails to load
             createFallbackGeometry();
         }
