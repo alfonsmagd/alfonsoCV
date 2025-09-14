@@ -1679,3 +1679,196 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// Skill Modal System
+class SkillModal {
+    constructor() {
+        this.modal = document.getElementById('skill-modal');
+        this.overlay = this.modal.querySelector('.skill-modal-overlay');
+        this.closeBtn = this.modal.querySelector('.skill-modal-close');
+        this.nameElement = document.getElementById('modal-skill-name');
+        this.levelElement = document.getElementById('modal-skill-level');
+        this.progressElement = document.getElementById('modal-skill-progress');
+        this.descriptionElement = document.getElementById('modal-skill-description');
+        this.experienceElement = document.getElementById('modal-skill-experience');
+        this.projectsElement = document.getElementById('modal-skill-projects');
+        
+        this.skillsData = {
+            'OpenGL 4.6': {
+                level: 'Level 8/10',
+                progress: '80%',
+                description: 'Advanced OpenGL programming with extensive experience in modern rendering techniques, shader programming, and performance optimization.',
+                experience: '6+ years of professional experience developing real-time graphics applications, game engines, and visualization tools using OpenGL 4.6 core profile.',
+                projects: [
+                    'IFNITY ENGINE - Custom rendering pipeline with OpenGL 4.6',
+                    'Real-time particle systems with compute shaders',
+                    'Advanced lighting systems (PBR, IBL, shadows)',
+                    'Multi-threaded rendering optimization',
+                    'Custom shader editor and debugging tools'
+                ]
+            },
+            'Direct3D 12': {
+                level: 'Level 6/10',
+                progress: '60%',
+                description: 'Modern DirectX 12 development with focus on low-level graphics programming and GPU optimization.',
+                experience: '3+ years working with DirectX 12, implementing advanced rendering techniques and performance-critical graphics applications.',
+                projects: [
+                    'IFNITY ENGINE - DirectX 12 backend implementation',
+                    'LibRw DX11 Integration - RenderWare to DirectX porting',
+                    'GPU memory management optimization',
+                    'Command list and multi-threaded rendering',
+                    'Ray tracing pipeline development'
+                ]
+            },
+            'Vulkan': {
+                level: 'Level 5/10',
+                progress: '50%',
+                description: 'Next-generation graphics API expertise focused on high-performance rendering and modern GPU utilization.',
+                experience: '2+ years developing with Vulkan API, specializing in research projects and engine development.',
+                projects: [
+                    'MSLAB Vulkan Engine - Research collaboration',
+                    'IFNITY ENGINE - Vulkan 1.3 implementation',
+                    'Advanced memory allocation strategies',
+                    'Synchronization and multi-threading',
+                    'Descriptor sets optimization'
+                ]
+            },
+            'DXR (DirectX Raytracing)': {
+                level: 'Level 5/10',
+                progress: '50%',
+                description: 'Real-time ray tracing implementation using DirectX Raytracing for photorealistic lighting and reflections.',
+                experience: '1+ years exploring real-time ray tracing techniques and hybrid rendering pipelines.',
+                projects: [
+                    'Real-time global illumination research',
+                    'Ray-traced reflections and shadows',
+                    'BLAS/TLAS acceleration structures',
+                    'Denoising algorithm implementation',
+                    'Hybrid rasterization + ray tracing pipeline'
+                ]
+            },
+            'C++': {
+                level: '10+ Years Experience',
+                progress: '95%',
+                description: 'Extensive expertise in modern C++ development with focus on performance-critical applications and system programming.',
+                experience: 'Over 10 years of professional C++ development in simulation, graphics programming, and engine development.',
+                projects: [
+                    'IFNITY ENGINE - Complete C++20 graphics engine',
+                    'Industrial simulation software development',
+                    'Custom memory allocators and optimization',
+                    'Template metaprogramming and generic design',
+                    'Cross-platform development (Windows, Linux)'
+                ]
+            },
+            'C#': {
+                level: 'Level 6/10',
+                progress: '60%',
+                description: '.NET Framework development with focus on application development and Unity scripting.',
+                experience: '4+ years of C# development for desktop applications and game development.',
+                projects: [
+                    'Unity game development and scripting',
+                    'WPF desktop applications',
+                    'Industrial automation tools',
+                    '.NET Core web services',
+                    'Database integration applications'
+                ]
+            },
+            'Python': {
+                level: 'Level 7/10',
+                progress: '70%',
+                description: 'Python scripting and automation with focus on pipeline tools, data processing, and development workflows.',
+                experience: '5+ years using Python for automation, scripting, and data analysis in professional environments.',
+                projects: [
+                    'Build system automation and CI/CD pipelines',
+                    'Graphics pipeline tools and exporters',
+                    'Data analysis and visualization scripts',
+                    'Asset processing and optimization tools',
+                    'Web scraping and automation scripts'
+                ]
+            },
+            'CMake': {
+                level: 'Level 6/10',
+                progress: '60%',
+                description: 'Cross-platform build system expertise with complex project configuration and dependency management.',
+                experience: '4+ years managing complex build systems for multi-platform graphics applications.',
+                projects: [
+                    'IFNITY ENGINE - Complex CMake build system',
+                    'Cross-platform dependency management',
+                    'Custom CMake modules and functions',
+                    'CI/CD integration with automated builds',
+                    'Package management integration'
+                ]
+            }
+        };
+        
+        this.bindEvents();
+        this.initSkillItems();
+    }
+    
+    bindEvents() {
+        this.closeBtn.addEventListener('click', () => this.close());
+        this.overlay.addEventListener('click', () => this.close());
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && this.modal.classList.contains('active')) {
+                this.close();
+            }
+        });
+    }
+    
+    initSkillItems() {
+        const skillItems = document.querySelectorAll('.skill-item');
+        skillItems.forEach(item => {
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const skillName = item.querySelector('.skill-name').textContent;
+                this.open(skillName);
+            });
+        });
+    }
+    
+    open(skillName) {
+        const skillData = this.skillsData[skillName];
+        if (!skillData) return;
+        
+        // Populate modal content
+        this.nameElement.textContent = skillName;
+        this.levelElement.textContent = skillData.level;
+        this.progressElement.style.width = skillData.progress;
+        this.descriptionElement.textContent = skillData.description;
+        
+        // Experience section
+        this.experienceElement.innerHTML = `
+            <h3>Experience</h3>
+            <p>${skillData.experience}</p>
+        `;
+        
+        // Projects section
+        const projectsList = skillData.projects.map(project => `<li>${project}</li>`).join('');
+        this.projectsElement.innerHTML = `
+            <h3>Related Projects</h3>
+            <ul>${projectsList}</ul>
+        `;
+        
+        // Show modal
+        this.modal.style.display = 'flex';
+        setTimeout(() => {
+            this.modal.classList.add('active');
+        }, 10);
+        
+        // Prevent body scroll
+        document.body.style.overflow = 'hidden';
+    }
+    
+    close() {
+        this.modal.classList.remove('active');
+        setTimeout(() => {
+            this.modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }, 300);
+    }
+}
+
+// Initialize skill modal system
+document.addEventListener('DOMContentLoaded', () => {
+    new SkillModal();
+});
