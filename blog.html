@@ -60,7 +60,102 @@
                                 <span class="date">Example Demo</span>
                                 <span class="read-time">Interactive</span>
                             </div>
-                            <a href="#" class="featured-link">Launch Demo →</a>
+                            <button class="featured-expand-btn">Read More →</button>
+                        </div>
+                        
+                        <!-- Expanded content (initially hidden) -->
+                        <div class="expanded-content">
+                            <div class="blog-post">
+                                <div class="post-header">
+                                    <h2>Building Interactive Graphics Demos</h2>
+                                    <div class="post-meta">
+                                        <span class="post-date">📅 September 15, 2025</span>
+                                        <span class="post-author">👤 Alfonso Mateos</span>
+                                        <span class="post-category">🏷️ Graphics Programming</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="post-content">
+                                    <h3>Project Overview</h3>
+                                    <p>This interactive demo represents my exploration into modern graphics programming techniques, combining real-time rendering with intuitive user interactions. The project showcases several key technologies and approaches that I've been developing.</p>
+                                    
+                                    <h3>Technical Implementation</h3>
+                                    <p>The demo is built using WebGL 2.0 with custom shader implementations for advanced lighting models. Key features include:</p>
+                                    <ul>
+                                        <li><strong>Real-time PBR Rendering:</strong> Physically Based Rendering pipeline with material property controls</li>
+                                        <li><strong>Dynamic Lighting System:</strong> Multiple light sources with adjustable parameters</li>
+                                        <li><strong>Interactive Controls:</strong> Real-time parameter adjustment through intuitive UI</li>
+                                        <li><strong>Performance Optimization:</strong> Efficient rendering techniques for smooth 60 FPS</li>
+                                    </ul>
+                                    
+                                    <h3>Development Process</h3>
+                                    <p>The development process involved several iterations of shader optimization and user interface design. I focused on creating an educational tool that demonstrates graphics programming concepts while remaining accessible to users with varying technical backgrounds.</p>
+                                    
+                                    <div class="code-snippet">
+                                        <h4>Vertex Shader Example</h4>
+                                        <pre><code>attribute vec3 aPosition;
+attribute vec3 aNormal;
+attribute vec2 aTexCoord;
+
+uniform mat4 uModelMatrix;
+uniform mat4 uViewMatrix;
+uniform mat4 uProjectionMatrix;
+
+varying vec3 vWorldPos;
+varying vec3 vNormal;
+varying vec2 vTexCoord;
+
+void main() {
+    vec4 worldPos = uModelMatrix * vec4(aPosition, 1.0);
+    vWorldPos = worldPos.xyz;
+    vNormal = normalize(mat3(uModelMatrix) * aNormal);
+    vTexCoord = aTexCoord;
+    
+    gl_Position = uProjectionMatrix * uViewMatrix * worldPos;
+}</code></pre>
+                                    </div>
+                                    
+                                    <h3>Future Enhancements</h3>
+                                    <p>I'm planning to expand this demo with additional features including:</p>
+                                    <ul>
+                                        <li>Ray tracing integration for enhanced reflections</li>
+                                        <li>Advanced post-processing effects</li>
+                                        <li>VR/AR compatibility for immersive experiences</li>
+                                        <li>Educational tutorials integrated within the demo</li>
+                                    </ul>
+                                    
+                                    <h3>Lessons Learned</h3>
+                                    <p>This project reinforced the importance of performance optimization in real-time graphics applications. Balancing visual quality with frame rate requirements led to innovative solutions in shader design and resource management.</p>
+                                    
+                                    <div class="demo-launch-section">
+                                        <h3>Try the Demo</h3>
+                                        <p>Experience the interactive graphics demonstration and experiment with different rendering parameters.</p>
+                                        <button class="demo-launch-btn">🚀 Launch Interactive Demo</button>
+                                        
+                                        <!-- Canvas para el demo WebGL -->
+                                        <div class="demo-canvas-container" style="display: none;">
+                                            <canvas id="webgl-demo-canvas" width="800" height="600"></canvas>
+                                            <div class="demo-controls">
+                                                <button class="demo-close-btn">✕ Close Demo</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="post-footer">
+                                    <div class="tags">
+                                        <span class="tag">WebGL</span>
+                                        <span class="tag">Shaders</span>
+                                        <span class="tag">PBR</span>
+                                        <span class="tag">Real-time</span>
+                                        <span class="tag">Interactive</span>
+                                    </div>
+                                    <div class="share-buttons">
+                                        <button class="share-btn">📧 Share</button>
+                                        <button class="share-btn">🔗 Copy Link</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </article>
                 </div>

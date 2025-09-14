@@ -63,7 +63,7 @@
 .featured-grid {
     display: flex;
     justify-content: center;
-    max-width: 600px;
+    max-width: 900px; /* Aumentado de 600px a 900px */
     margin: 0 auto;
 }
 
@@ -83,7 +83,7 @@
 
 .featured-image {
     position: relative;
-    height: 250px;
+    height: 300px; /* Aumentado de 250px a 300px */
     background: linear-gradient(45deg, #1a1a2e, #16213e);
     display: flex;
     align-items: center;
@@ -162,6 +162,206 @@
 
 .featured-link:hover {
     color: #ffffff;
+}
+
+.featured-expand-btn {
+    background: linear-gradient(45deg, #00ffff, #0080ff);
+    border: none;
+    color: #ffffff;
+    padding: 0.8rem 1.5rem;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.featured-expand-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 255, 255, 0.3);
+}
+
+/* Expanded Content Styles */
+.expanded-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+    background: rgba(0, 0, 0, 0.6);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.expanded-content.active {
+    max-height: none; /* Will be set by JavaScript */
+}
+
+.blog-post {
+    padding: 3rem; /* Aumentado de 2rem a 3rem */
+    color: #ffffff;
+    max-width: none; /* Permitir que use todo el ancho disponible */
+}
+
+.post-header {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.post-header h2 {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #00ffff;
+}
+
+.post-meta {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.post-meta span {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.post-content {
+    line-height: 1.7;
+    font-size: 1rem; /* Tamaño de fuente ligeramente mayor */
+}
+
+.post-content h3 {
+    color: #ffffff;
+    margin: 2.5rem 0 1.2rem 0; /* Más espacio vertical */
+    font-size: 1.4rem; /* Ligeramente más grande */
+    border-left: 3px solid #00ffff;
+    padding-left: 1.2rem;
+}
+
+.post-content p {
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    color: rgba(255, 255, 255, 0.9);
+    max-width: none; /* Permitir líneas más largas en pantallas anchas */
+}
+
+.post-content ul {
+    margin: 1.5rem 0;
+    padding-left: 2rem; /* Más indentación */
+}
+
+.post-content li {
+    margin-bottom: 1rem; /* Más espacio entre elementos */
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.6;
+}
+
+.post-content li strong {
+    color: #00ffff;
+}
+
+.code-snippet {
+    margin: 2rem 0;
+    background: rgba(0, 0, 0, 0.8);
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.code-snippet h4 {
+    background: rgba(0, 255, 255, 0.1);
+    color: #00ffff;
+    padding: 1rem;
+    margin: 0;
+    font-size: 1rem;
+}
+
+.code-snippet pre {
+    margin: 0;
+    padding: 1.5rem;
+    overflow-x: auto;
+}
+
+.code-snippet code {
+    color: #ffffff;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9rem;
+    line-height: 1.5;
+}
+
+.demo-launch-section {
+    background: rgba(0, 255, 255, 0.05);
+    padding: 2rem;
+    border-radius: 10px;
+    border: 1px solid rgba(0, 255, 255, 0.2);
+    margin: 2rem 0;
+    text-align: center;
+}
+
+.demo-launch-btn {
+    background: linear-gradient(45deg, #00ffff, #0080ff);
+    border: none;
+    color: #ffffff;
+    padding: 1rem 2rem;
+    border-radius: 25px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1rem;
+    margin-top: 1rem;
+}
+
+.demo-launch-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 255, 255, 0.4);
+}
+
+.post-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 2rem;
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.post-footer .tag {
+    background: rgba(0, 255, 255, 0.1);
+    color: #00ffff;
+    padding: 0.4rem 0.8rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.share-buttons {
+    display: flex;
+    gap: 1rem;
+}
+
+.share-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.share-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
 }
 
 /* Content Sections */
@@ -507,6 +707,36 @@
     color: #00ffff;
 }
 
+/* Media queries para pantallas grandes */
+@media (min-width: 1200px) {
+    .featured-grid {
+        max-width: 1100px; /* Aún más ancho en pantallas grandes */
+    }
+    
+    .blog-post {
+        padding: 4rem; /* Más padding en pantallas grandes */
+    }
+    
+    .post-content {
+        font-size: 1.1rem; /* Texto ligeramente más grande */
+    }
+    
+    .code-snippet pre {
+        padding: 2rem; /* Más padding para el código */
+    }
+}
+
+/* Media query para tablets */
+@media (min-width: 769px) and (max-width: 1199px) {
+    .featured-grid {
+        max-width: 800px; /* Ancho intermedio para tablets */
+    }
+    
+    .blog-post {
+        padding: 2.5rem;
+    }
+}
+
 /* Responsive Design */
 @media (max-width: 768px) {
     .blog-hero h1 {
@@ -564,5 +794,56 @@
     .demo-info,
     .tutorial-card {
         padding: 1.5rem;
+    }
+    
+    .post-header h2 {
+        font-size: 1.5rem;
+    }
+    
+    .post-meta {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+    
+    .blog-post {
+        padding: 1.5rem;
+    }
+    
+    .code-snippet {
+        margin: 1.5rem -1.5rem;
+        border-radius: 0;
+    }
+    
+    .demo-launch-section {
+        margin: 1.5rem -1.5rem;
+        border-radius: 0;
+        padding: 1.5rem;
+    }
+    
+    .post-footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+    }
+    
+    .share-buttons {
+        width: 100%;
+        justify-content: center;
+    }
+    
+    .demo-launch-btn,
+    .featured-expand-btn {
+        width: 100%;
+        padding: 1rem;
+    }
+    
+    .contact-links {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .contact-link {
+        min-width: 200px;
+        justify-content: center;
     }
 }

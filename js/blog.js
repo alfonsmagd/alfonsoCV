@@ -24,13 +24,101 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Demo launch functionality
-    const featuredLink = document.querySelector('.featured-link');
-    if (featuredLink) {
-        featuredLink.addEventListener('click', function(e) {
+    const featuredExpandBtn = document.querySelector('.featured-expand-btn');
+    const expandedContent = document.querySelector('.expanded-content');
+    let isExpanded = false;
+
+    if (featuredExpandBtn && expandedContent) {
+        // Soporte para PC
+        featuredExpandBtn.addEventListener('click', function(e) {
             e.preventDefault();
-            showNotification('Demo will be available soon! Check back later for interactive content.', 'info');
+            toggleExpandedContent();
+        });
+        
+        // Soporte táctil para dispositivos móviles
+        featuredExpandBtn.addEventListener('touchend', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleExpandedContent();
+        });
+        
+        // Estilo para feedback táctil
+        featuredExpandBtn.style.webkitTapHighlightColor = 'transparent';
+        featuredExpandBtn.style.touchAction = 'manipulation';
+    }
+
+    function toggleExpandedContent() {
+        if (!isExpanded) {
+            // Expand
+            expandedContent.style.maxHeight = expandedContent.scrollHeight + 'px';
+            expandedContent.classList.add('active');
+            featuredExpandBtn.textContent = '← Show Less';
+            isExpanded = true;
+            
+            // Smooth scroll to expanded content after animation
+            setTimeout(() => {
+                const cardRect = document.querySelector('.featured-card').getBoundingClientRect();
+                const headerOffset = 100;
+                const scrollPosition = window.pageYOffset + cardRect.top - headerOffset;
+                
+                window.scrollTo({
+                    top: scrollPosition,
+                    behavior: 'smooth'
+                });
+            }, 300);
+            
+        } else {
+            // Collapse
+            expandedContent.style.maxHeight = '0px';
+            expandedContent.classList.remove('active');
+            featuredExpandBtn.textContent = 'Read More →';
+            isExpanded = false;
+            
+            // Scroll back to the card
+            setTimeout(() => {
+                const cardRect = document.querySelector('.featured-card').getBoundingClientRect();
+                const headerOffset = 100;
+                const scrollPosition = window.pageYOffset + cardRect.top - headerOffset;
+                
+                window.scrollTo({
+                    top: scrollPosition,
+                    behavior: 'smooth'
+                });
+            }, 100);
+        }
+    }
+
+    // Demo launch button functionality
+    const demoLaunchBtn = document.querySelector('.demo-launch-btn');
+    if (demoLaunchBtn) {
+        demoLaunchBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            showNotification('Interactive demo will be available soon! This is a preview of the blog post format.', 'info');
         });
     }
+
+    // Share buttons functionality
+    const shareButtons = document.querySelectorAll('.share-btn');
+    shareButtons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            e.preventDefault();
+            const buttonText = this.textContent;
+            
+            if (buttonText.includes('Share')) {
+                // Email share
+                const subject = encodeURIComponent('Check out this graphics programming demo');
+                const body = encodeURIComponent('I found this interesting graphics programming demo: ' + window.location.href);
+                window.location.href = `mailto:?subject=${subject}&body=${body}`;
+            } else if (buttonText.includes('Copy')) {
+                // Copy link
+                navigator.clipboard.writeText(window.location.href).then(() => {
+                    showNotification('Link copied to clipboard!', 'success');
+                }).catch(() => {
+                    showNotification('Could not copy link. Please copy manually.', 'error');
+                });
+            }
+        });
+    });
 
     // Contact links functionality
     const contactLinks = document.querySelectorAll('.contact-link');
