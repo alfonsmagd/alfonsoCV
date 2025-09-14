@@ -1484,14 +1484,93 @@ input[type="checkbox"] {
     display: grid;
     gap: 3rem;
     margin-top: 2rem;
+    position: relative;
+    z-index: 2;
+}
+
+/* Animated Gradient Background for Skills Section */
+#skills-features {
+    position: relative;
+    background: linear-gradient(-45deg, #0a0a1a, #0f1b2e, #1a2a4a, #0a0a1a);
+    background-size: 400% 400%;
+    animation: gradientShift 15s ease infinite;
+    overflow: hidden;
+    --mouse-x: 50%;
+    --mouse-y: 50%;
+    --light-opacity: 0;
+}
+
+#skills-features::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(45deg, 
+        rgba(0, 255, 255, 0.02) 0%, 
+        rgba(0, 150, 255, 0.03) 25%, 
+        rgba(0, 100, 200, 0.02) 50%, 
+        rgba(0, 200, 255, 0.03) 75%, 
+        rgba(0, 255, 255, 0.02) 100%);
+    background-size: 300% 300%;
+    animation: gradientShift 20s ease infinite reverse;
+    z-index: 1;
+}
+
+#skills-features .container {
+    position: relative;
+    z-index: 2;
+}
+
+/* Cursor Light Effect */
+#skills-features::after {
+    content: '';
+    position: absolute;
+    left: var(--mouse-x);
+    top: var(--mouse-y);
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, 
+        rgba(0, 255, 255, 0.2) 0%, 
+        rgba(0, 200, 255, 0.12) 20%, 
+        rgba(0, 150, 255, 0.06) 40%, 
+        rgba(0, 100, 200, 0.03) 60%,
+        transparent 80%);
+    border-radius: 50%;
+    pointer-events: none;
+    opacity: var(--light-opacity);
+    transform: translate(-50%, -50%);
+    transition: opacity 0.3s ease, left 0.1s ease, top 0.1s ease;
+    z-index: 1;
+    filter: blur(1px);
+}
+
+@keyframes gradientShift {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .skills-category {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(10px);
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(15px);
     padding: 2rem;
     border-radius: 15px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.skills-category:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 40px rgba(0, 255, 255, 0.2);
 }
 
 .skills-category h3 {

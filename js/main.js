@@ -1607,3 +1607,35 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// Cursor Light Effect for Professional Skills Section
+document.addEventListener('DOMContentLoaded', () => {
+    const skillsSection = document.getElementById('skills-features');
+    if (skillsSection) {
+        const lightEffect = skillsSection;
+        
+        skillsSection.addEventListener('mousemove', (e) => {
+            const rect = skillsSection.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            
+            // Update the position of the light effect
+            lightEffect.style.setProperty('--mouse-x', x + 'px');
+            lightEffect.style.setProperty('--mouse-y', y + 'px');
+            
+            // Show the light effect
+            const afterElement = window.getComputedStyle(lightEffect, '::after');
+            lightEffect.style.setProperty('--light-opacity', '1');
+        });
+        
+        skillsSection.addEventListener('mouseleave', () => {
+            // Hide the light effect when mouse leaves
+            lightEffect.style.setProperty('--light-opacity', '0');
+        });
+        
+        skillsSection.addEventListener('mouseenter', () => {
+            // Show the light effect when mouse enters
+            lightEffect.style.setProperty('--light-opacity', '1');
+        });
+    }
+});
