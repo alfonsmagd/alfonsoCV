@@ -30,10 +30,10 @@
                 </div>
                 <ul class="nav-menu">
                     <li><a href="#Start">Inicio</a></li>
+                    <li><a href="#webgl-demo">WebGL Demo</a></li>
                     <li><a href="#personal-projects">Personal Projects</a></li>
                     <li><a href="#professional-work">Professional Work</a></li>
                     <li><a href="#tips">Tips & Advice</a></li>
-                    <li><a href="#webgl-demo">WebGL Demo</a></li>
                     <li><a href="#webgl-test">WebGL Test</a></li>
                     <li><a href="#contacto">Contacto</a></li>
                 </ul>
@@ -56,6 +56,159 @@
                     <div class="hero-buttons">
                         <a href="#personal-projects" class="btn btn-primary">View Projects</a>
                         <a href="#contact" class="btn btn-secondary">Contact</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WebGL Alfonso Model Avatar Section -->
+        <section id="webgl-demo" class="section">
+            <div class="container">
+                <h2 class="section-title">WebGL Alfonso Model Avatar</h2>
+                <p class="section-subtitle">Interactive 3D avatar with advanced graphics and controls</p>
+                
+                <div class="webgl-container">
+                    <canvas id="webglCanvas" class="webgl-canvas"></canvas>
+                    <div class="webgl-controls">
+                        <!-- Rotation Controls -->
+                        <div class="control-section">
+                            <h4>🔄 Rotation</h4>
+                            <div class="control-group">
+                                <label>Rotation X:</label>
+                                <input type="range" id="rotationX" min="0" max="360" value="0" class="slider">
+                                <span id="rotationXValue">0°</span>
+                            </div>
+                            <div class="control-group">
+                                <label>Rotation Y:</label>
+                                <input type="range" id="rotationY" min="0" max="360" value="0" class="slider">
+                                <span id="rotationYValue">0°</span>
+                            </div>
+                            <div class="control-group">
+                                <label>Rotation Z:</label>
+                                <input type="range" id="rotationZ" min="0" max="360" value="0" class="slider">
+                                <span id="rotationZValue">0°</span>
+                            </div>
+                            <div class="control-group">
+                                <label>Auto Rotation:</label>
+                                <input type="checkbox" id="autoRotate" checked class="checkbox">
+                            </div>
+                        </div>
+
+                        <!-- Scale Controls -->
+                        <div class="control-section">
+                            <h4>📏 Scale</h4>
+                            <div class="control-group">
+                                <label>Scale X:</label>
+                                <input type="range" id="scaleX" min="0.1" max="2" step="0.1" value="0.3" class="slider">
+                                <span id="scaleXValue">0.3</span>
+                            </div>
+                            <div class="control-group">
+                                <label>Scale Y:</label>
+                                <input type="range" id="scaleY" min="0.1" max="2" step="0.1" value="0.3" class="slider">
+                                <span id="scaleYValue">0.3</span>
+                            </div>
+                            <div class="control-group">
+                                <label>Scale Z:</label>
+                                <input type="range" id="scaleZ" min="0.1" max="2" step="0.1" value="0.3" class="slider">
+                                <span id="scaleZValue">0.3</span>
+                            </div>
+                        </div>
+
+                        <!-- Position Controls -->
+                        <div class="control-section">
+                            <h4>📍 Position</h4>
+                            <div class="control-group">
+                                <label>Position X:</label>
+                                <input type="range" id="positionX" min="-5" max="5" step="0.1" value="0" class="slider">
+                                <span id="positionXValue">0</span>
+                            </div>
+                            <div class="control-group">
+                                <label>Position Y:</label>
+                                <input type="range" id="positionY" min="-5" max="5" step="0.1" value="0" class="slider">
+                                <span id="positionYValue">0</span>
+                            </div>
+                            <div class="control-group">
+                                <label>Distance:</label>
+                                <input type="range" id="positionZ" min="-10" max="-1" step="0.1" value="-2" class="slider">
+                                <span id="positionZValue">-2</span>
+                            </div>
+                        </div>
+
+                        <!-- Color Controls -->
+                        <div class="control-section">
+                            <h4>🎨 Color</h4>
+                            <div class="control-group">
+                                <label>Model Color:</label>
+                                <input type="color" id="colorPicker" value="#ff0000" class="color-picker">
+                            </div>
+                            <div class="control-group">
+                                <label>Color Intensity:</label>
+                                <input type="range" id="colorIntensity" min="0" max="1" step="0.1" value="0.3" class="slider">
+                                <span id="colorIntensityValue">0.3</span>
+                            </div>
+                        </div>
+
+                        <!-- Lighting Controls -->
+                        <div class="control-section">
+                            <h4>💡 Lighting</h4>
+                            <div class="control-group">
+                                <label>Light Direction X:</label>
+                                <input type="range" id="lightDirX" min="-1" max="1" step="0.1" value="0.5" class="slider">
+                                <span id="lightDirXValue">0.5</span>
+                            </div>
+                            <div class="control-group">
+                                <label>Light Direction Y:</label>
+                                <input type="range" id="lightDirY" min="-1" max="1" step="0.1" value="0.7" class="slider">
+                                <span id="lightDirYValue">0.7</span>
+                            </div>
+                            <div class="control-group">
+                                <label>Light Direction Z:</label>
+                                <input type="range" id="lightDirZ" min="-1" max="1" step="0.1" value="0.5" class="slider">
+                                <span id="lightDirZValue">0.5</span>
+                            </div>
+                            <div class="control-group">
+                                <label>Light Color:</label>
+                                <input type="color" id="lightColor" value="#ffffff" class="color-picker">
+                            </div>
+                            <div class="control-group">
+                                <label>Light Intensity:</label>
+                                <input type="range" id="lightIntensity" min="0" max="2" step="0.1" value="1" class="slider">
+                                <span id="lightIntensityValue">1</span>
+                            </div>
+                            <div class="control-group">
+                                <label>Ambient Light:</label>
+                                <input type="range" id="ambientLight" min="0" max="1" step="0.1" value="0.3" class="slider">
+                                <span id="ambientLightValue">0.3</span>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="control-section">
+                            <button id="resetDemo" class="btn btn-primary">🔄 Reset All</button>
+                            <button id="savePreset" class="btn btn-secondary">💾 Save</button>
+                            <button id="loadPreset" class="btn btn-secondary">📂 Load</button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="webgl-info">
+                    <div class="info-card">
+                        <h3>Technologies Used</h3>
+                        <ul>
+                            <li>WebGL 2.0</li>
+                            <li>Fragment Shaders</li>
+                            <li>Vertex Shaders</li>
+                            <li>Matrix Transformations</li>
+                        </ul>
+                    </div>
+                    <div class="info-card">
+                        <h3>Features</h3>
+                        <ul>
+                            <li>Real-time rendering</li>
+                            <li>Interactive controls</li>
+                            <li>Custom shaders</li>
+                            <li>Performance optimized</li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -160,159 +313,6 @@
                             <h4>LinkedIn</h4>
                             <p><a href="https://linkedin.com/in/tu-perfil">linkedin.com/in/tu-perfil</a></p>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- WebGL Demo Section -->
-        <section id="webgl-demo" class="section">
-            <div class="container">
-                <h2 class="section-title">WebGL Demonstration</h2>
-                <p class="section-subtitle">Experimentando con gráficos 3D y renderizado avanzado</p>
-                
-                <div class="webgl-container">
-                    <canvas id="webglCanvas" class="webgl-canvas"></canvas>
-                    <div class="webgl-controls">
-                        <!-- Rotation Controls -->
-                        <div class="control-section">
-                            <h4>🔄 Rotación</h4>
-                            <div class="control-group">
-                                <label>Rotación X:</label>
-                                <input type="range" id="rotationX" min="0" max="360" value="0" class="slider">
-                                <span id="rotationXValue">0°</span>
-                            </div>
-                            <div class="control-group">
-                                <label>Rotación Y:</label>
-                                <input type="range" id="rotationY" min="0" max="360" value="0" class="slider">
-                                <span id="rotationYValue">0°</span>
-                            </div>
-                            <div class="control-group">
-                                <label>Rotación Z:</label>
-                                <input type="range" id="rotationZ" min="0" max="360" value="0" class="slider">
-                                <span id="rotationZValue">0°</span>
-                            </div>
-                            <div class="control-group">
-                                <label>Auto Rotación:</label>
-                                <input type="checkbox" id="autoRotate" checked class="checkbox">
-                            </div>
-                        </div>
-
-                        <!-- Scale Controls -->
-                        <div class="control-section">
-                            <h4>📏 Escala</h4>
-                            <div class="control-group">
-                                <label>Escala X:</label>
-                                <input type="range" id="scaleX" min="0.1" max="2" step="0.1" value="0.3" class="slider">
-                                <span id="scaleXValue">0.3</span>
-                            </div>
-                            <div class="control-group">
-                                <label>Escala Y:</label>
-                                <input type="range" id="scaleY" min="0.1" max="2" step="0.1" value="0.3" class="slider">
-                                <span id="scaleYValue">0.3</span>
-                            </div>
-                            <div class="control-group">
-                                <label>Escala Z:</label>
-                                <input type="range" id="scaleZ" min="0.1" max="2" step="0.1" value="0.3" class="slider">
-                                <span id="scaleZValue">0.3</span>
-                            </div>
-                        </div>
-
-                        <!-- Position Controls -->
-                        <div class="control-section">
-                            <h4>📍 Posición</h4>
-                            <div class="control-group">
-                                <label>Posición X:</label>
-                                <input type="range" id="positionX" min="-5" max="5" step="0.1" value="0" class="slider">
-                                <span id="positionXValue">0</span>
-                            </div>
-                            <div class="control-group">
-                                <label>Posición Y:</label>
-                                <input type="range" id="positionY" min="-5" max="5" step="0.1" value="0" class="slider">
-                                <span id="positionYValue">0</span>
-                            </div>
-                            <div class="control-group">
-                                <label>Distancia:</label>
-                                <input type="range" id="positionZ" min="-10" max="-1" step="0.1" value="-2" class="slider">
-                                <span id="positionZValue">-2</span>
-                            </div>
-                        </div>
-
-                        <!-- Color Controls -->
-                        <div class="control-section">
-                            <h4>🎨 Color</h4>
-                            <div class="control-group">
-                                <label>Color Modelo:</label>
-                                <input type="color" id="colorPicker" value="#ff0000" class="color-picker">
-                            </div>
-                            <div class="control-group">
-                                <label>Intensidad Color:</label>
-                                <input type="range" id="colorIntensity" min="0" max="1" step="0.1" value="0.3" class="slider">
-                                <span id="colorIntensityValue">0.3</span>
-                            </div>
-                        </div>
-
-                        <!-- Lighting Controls -->
-                        <div class="control-section">
-                            <h4>💡 Iluminación</h4>
-                            <div class="control-group">
-                                <label>Luz Dirección X:</label>
-                                <input type="range" id="lightDirX" min="-1" max="1" step="0.1" value="0.5" class="slider">
-                                <span id="lightDirXValue">0.5</span>
-                            </div>
-                            <div class="control-group">
-                                <label>Luz Dirección Y:</label>
-                                <input type="range" id="lightDirY" min="-1" max="1" step="0.1" value="0.7" class="slider">
-                                <span id="lightDirYValue">0.7</span>
-                            </div>
-                            <div class="control-group">
-                                <label>Luz Dirección Z:</label>
-                                <input type="range" id="lightDirZ" min="-1" max="1" step="0.1" value="0.5" class="slider">
-                                <span id="lightDirZValue">0.5</span>
-                            </div>
-                            <div class="control-group">
-                                <label>Color Luz:</label>
-                                <input type="color" id="lightColor" value="#ffffff" class="color-picker">
-                            </div>
-                            <div class="control-group">
-                                <label>Intensidad Luz:</label>
-                                <input type="range" id="lightIntensity" min="0" max="2" step="0.1" value="1" class="slider">
-                                <span id="lightIntensityValue">1</span>
-                            </div>
-                            <div class="control-group">
-                                <label>Luz Ambiente:</label>
-                                <input type="range" id="ambientLight" min="0" max="1" step="0.1" value="0.3" class="slider">
-                                <span id="ambientLightValue">0.3</span>
-                            </div>
-                        </div>
-
-                        <!-- Action Buttons -->
-                        <div class="control-section">
-                            <button id="resetDemo" class="btn btn-primary">🔄 Reset Todo</button>
-                            <button id="savePreset" class="btn btn-secondary">💾 Guardar</button>
-                            <button id="loadPreset" class="btn btn-secondary">📂 Cargar</button>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="webgl-info">
-                    <div class="info-card">
-                        <h3>Tecnologías Utilizadas</h3>
-                        <ul>
-                            <li>WebGL 2.0</li>
-                            <li>Fragment Shaders</li>
-                            <li>Vertex Shaders</li>
-                            <li>Matrix Transformations</li>
-                        </ul>
-                    </div>
-                    <div class="info-card">
-                        <h3>Características</h3>
-                        <ul>
-                            <li>Renderizado en tiempo real</li>
-                            <li>Controles interactivos</li>
-                            <li>Shaders personalizados</li>
-                            <li>Optimizado para performance</li>
-                        </ul>
                     </div>
                 </div>
             </div>

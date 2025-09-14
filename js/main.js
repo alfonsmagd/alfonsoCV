@@ -944,6 +944,76 @@ function initWebGLDemo() {
         }
     }
     
+    // Controles de ratón para rotación
+    let mouseControls = {
+        isDown: false,
+        lastX: 0,
+        lastY: 0,
+        sensitivity: 0.01
+    };
+    
+    // Añadir event listeners para controles de ratón
+    canvas.addEventListener('mousedown', (e) => {
+        mouseControls.isDown = true;
+        mouseControls.lastX = e.clientX;
+        mouseControls.lastY = e.clientY;
+        canvas.style.cursor = 'grabbing';
+        autoRotate = false; // Desactivar auto-rotación cuando se usa el ratón
+        
+        // Actualizar checkbox si existe
+        const autoRotateCheckbox = document.getElementById('autoRotate');
+        if (autoRotateCheckbox) {
+            autoRotateCheckbox.checked = false;
+        }
+    });
+    
+    canvas.addEventListener('mouseup', () => {
+        mouseControls.isDown = false;
+        canvas.style.cursor = 'grab';
+    });
+    
+    canvas.addEventListener('mouseleave', () => {
+        mouseControls.isDown = false;
+        canvas.style.cursor = 'grab';
+    });
+    
+    canvas.addEventListener('mousemove', (e) => {
+        if (!mouseControls.isDown) return;
+        
+        const deltaX = e.clientX - mouseControls.lastX;
+        const deltaY = e.clientY - mouseControls.lastY;
+        
+        // Rotar en Y (horizontal) y X (vertical)
+        rotation.y += deltaX * mouseControls.sensitivity;
+        rotation.x += deltaY * mouseControls.sensitivity;
+        
+        // Sincronizar con variables globales
+        rotationY = rotation.y;
+        rotationX = rotation.x;
+        
+        // Actualizar sliders si existen
+        const rotationXSlider = document.getElementById('rotationX');
+        const rotationYSlider = document.getElementById('rotationY');
+        
+        if (rotationXSlider) {
+            rotationXSlider.value = (rotation.x * 180 / Math.PI).toFixed(0);
+            const valueSpan = document.getElementById('rotationXValue');
+            if (valueSpan) valueSpan.textContent = (rotation.x * 180 / Math.PI).toFixed(0) + '°';
+        }
+        
+        if (rotationYSlider) {
+            rotationYSlider.value = (rotation.y * 180 / Math.PI).toFixed(0);
+            const valueSpan = document.getElementById('rotationYValue');
+            if (valueSpan) valueSpan.textContent = (rotation.y * 180 / Math.PI).toFixed(0) + '°';
+        }
+        
+        mouseControls.lastX = e.clientX;
+        mouseControls.lastY = e.clientY;
+    });
+    
+    // Configurar cursor inicial
+    canvas.style.cursor = 'grab';
+    
     // Función hexToRgb
     function hexToRgb(hex) {
         const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
