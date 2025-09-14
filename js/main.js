@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     // Initialize simple WebGL test - DISABLED to prevent interference with 3D model
-    // initWebGLTest();
+    initWebGLTest();
 
     // Initialize main WebGL demo
     initWebGLDemo();
