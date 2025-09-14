@@ -1584,26 +1584,66 @@ document.addEventListener('DOMContentLoaded', () => {
     const alfonsoImage = document.querySelector('.hero-image');
     if (alfonsoImage) {
         const effects = [
-            'scale(1.1) rotate(5deg) hue-rotate(45deg)',
-            'scale(1.15) rotate(-3deg) hue-rotate(90deg) saturate(1.5)',
-            'scale(1.08) rotate(2deg) hue-rotate(180deg) brightness(1.2)',
-            'scale(1.12) rotate(-5deg) hue-rotate(270deg) contrast(1.3)',
-            'scale(1.1) rotate(3deg) hue-rotate(360deg) saturate(1.3) brightness(1.1)',
-            'scale(1.13) rotate(-2deg) hue-rotate(120deg) sepia(0.3)',
-            'scale(1.09) rotate(4deg) hue-rotate(240deg) invert(0.1)',
-            'scale(1.11) rotate(-1deg) hue-rotate(60deg) blur(0.5px)'
+            { transform: 'scale(1.1) rotate(5deg)', filter: 'hue-rotate(45deg)' },
+            { transform: 'scale(1.15) rotate(-3deg)', filter: 'hue-rotate(90deg) saturate(1.5)' },
+            { transform: 'scale(1.08) rotate(2deg)', filter: 'hue-rotate(180deg) brightness(1.2)' },
+            { transform: 'scale(1.12) rotate(-5deg)', filter: 'hue-rotate(270deg) contrast(1.3)' },
+            { transform: 'scale(1.1) rotate(3deg)', filter: 'hue-rotate(360deg) saturate(1.3) brightness(1.1)' },
+            { transform: 'scale(1.13) rotate(-2deg)', filter: 'hue-rotate(120deg) sepia(0.3)' },
+            { transform: 'scale(1.09) rotate(4deg)', filter: 'hue-rotate(240deg) invert(0.1)' },
+            { transform: 'scale(1.11) rotate(-1deg)', filter: 'hue-rotate(60deg) blur(0.5px)' }
         ];
         
-        alfonsoImage.addEventListener('mouseenter', () => {
+        let isHovering = false;
+        let resetTimeout = null;
+        
+        function resetImage() {
+            alfonsoImage.style.transform = '';
+            alfonsoImage.style.filter = '';
+            alfonsoImage.style.transition = '';
+        }
+        
+        function applyRandomEffect() {
+            if (!isHovering) return;
+            
             const randomEffect = effects[Math.floor(Math.random() * effects.length)];
-            alfonsoImage.style.transform = randomEffect;
-            alfonsoImage.style.filter = randomEffect;
-            alfonsoImage.style.transition = 'all 0.3s ease';
+            
+            // Clear any existing styles and force reset
+            resetImage();
+            
+            // Use requestAnimationFrame to ensure the reset is processed
+            requestAnimationFrame(() => {
+                if (!isHovering) return;
+                
+                alfonsoImage.style.transition = 'all 0.3s ease';
+                alfonsoImage.style.transform = randomEffect.transform;
+                alfonsoImage.style.filter = randomEffect.filter;
+            });
+        }
+        
+        alfonsoImage.addEventListener('mouseenter', () => {
+            isHovering = true;
+            if (resetTimeout) {
+                clearTimeout(resetTimeout);
+                resetTimeout = null;
+            }
+            applyRandomEffect();
         });
         
         alfonsoImage.addEventListener('mouseleave', () => {
+            isHovering = false;
+            
+            // Apply reset with transition
+            alfonsoImage.style.transition = 'all 0.3s ease';
             alfonsoImage.style.transform = 'scale(1)';
             alfonsoImage.style.filter = 'none';
+            
+            // Complete reset after transition
+            resetTimeout = setTimeout(() => {
+                if (!isHovering) {
+                    resetImage();
+                }
+            }, 350);
         });
     }
 });
