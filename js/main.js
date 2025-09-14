@@ -518,31 +518,58 @@ function initWebGLDemo() {
     
     console.log('Main WebGL Demo initialized');
     
-    // Vertex shader for 3D cube
+    // Vertex shader for 3D model with texture
     const vertexShaderSource = `
         attribute vec3 a_position;
-        attribute vec3 a_color;
+        attribute vec3 a_normal;
+        attribute vec2 a_texCoord;
         
         uniform mat4 u_modelViewMatrix;
         uniform mat4 u_projectionMatrix;
+        uniform mat4 u_normalMatrix;
         
-        varying vec3 v_color;
+        varying vec3 v_normal;
+        varying vec2 v_texCoord;
+        varying vec3 v_position;
         
         void main() {
             gl_Position = u_projectionMatrix * u_modelViewMatrix * vec4(a_position, 1.0);
-            v_color = a_color;
+            v_normal = normalize((u_normalMatrix * vec4(a_normal, 0.0)).xyz);
+            v_texCoord = a_texCoord;
+            v_position = (u_modelViewMatrix * vec4(a_position, 1.0)).xyz;
         }
     `;
     
     const fragmentShaderSource = `
         precision mediump float;
-        varying vec3 v_color;
+        
+        varying vec3 v_normal;
+        varying vec2 v_texCoord;
+        varying vec3 v_position;
+        
+        uniform sampler2D u_texture;
         uniform vec3 u_colorOverride;
         uniform float u_useOverride;
+        uniform vec3 u_lightDirection;
+        uniform vec3 u_lightColor;
+        uniform vec3 u_ambientColor;
         
         void main() {
-            vec3 finalColor = mix(v_color, u_colorOverride, u_useOverride);
-            gl_FragColor = vec4(finalColor, 1.0);
+            // Sample texture
+            vec4 textureColor = texture2D(u_texture, v_texCoord);
+            
+            // Basic lighting
+            vec3 normal = normalize(v_normal);
+            float lightIntensity = max(dot(normal, -u_lightDirection), 0.0);
+            vec3 lighting = u_ambientColor + u_lightColor * lightIntensity;
+            
+            // Apply lighting to texture
+            vec3 finalColor = textureColor.rgb * lighting;
+            
+            // Apply color override if needed
+            finalColor = mix(finalColor, u_colorOverride, u_useOverride);
+            
+            gl_FragColor = vec4(finalColor, textureColor.a);
         }
     `;
     
@@ -551,71 +578,119 @@ function initWebGLDemo() {
     const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fragmentShaderSource);
     const program = createProgram(gl, vertexShader, fragmentShader);
     
-    // Cube vertices with more vibrant colors
-    const vertices = new Float32Array([
-        // Front face (cyan brillante)
-        -1, -1,  1,   0, 1, 1,
-         1, -1,  1,   0, 1, 1,
-         1,  1,  1,   0, 1, 1,
-        -1,  1,  1,   0, 1, 1,
-        
-        // Back face (azul brillante)
-        -1, -1, -1,   0, 0.5, 1,
-        -1,  1, -1,   0, 0.5, 1,
-         1,  1, -1,   0, 0.5, 1,
-         1, -1, -1,   0, 0.5, 1,
-        
-        // Top face (verde brillante)
-        -1,  1, -1,   0, 1, 0.5,
-        -1,  1,  1,   0, 1, 0.5,
-         1,  1,  1,   0, 1, 0.5,
-         1,  1, -1,   0, 1, 0.5,
-        
-        // Bottom face (amarillo brillante)
-        -1, -1, -1,   1, 1, 0,
-         1, -1, -1,   1, 1, 0,
-         1, -1,  1,   1, 1, 0,
-        -1, -1,  1,   1, 1, 0,
-        
-        // Right face (magenta brillante)
-         1, -1, -1,   1, 0, 1,
-         1,  1, -1,   1, 0, 1,
-         1,  1,  1,   1, 0, 1,
-         1, -1,  1,   1, 0, 1,
-        
-        // Left face (naranja brillante)
-        -1, -1, -1,   1, 0.5, 0,
-        -1, -1,  1,   1, 0.5, 0,
-        -1,  1,  1,   1, 0.5, 0,
-        -1,  1, -1,   1, 0.5, 0
-    ]);
+    // Load 3D model and texture
+    let modelData = null;
+    let texture = null;
+    let modelLoaded = false;
     
-    // Índices para formar triángulos
-    const indices = new Uint16Array([
-         0,  1,  2,    0,  2,  3,    // front
-         4,  5,  6,    4,  6,  7,    // back
-         8,  9, 10,    8, 10, 11,    // top
-        12, 13, 14,   12, 14, 15,    // bottom
-        16, 17, 18,   16, 18, 19,    // right
-        20, 21, 22,   20, 22, 23     // left
-    ]);
+    // Initialize OBJ loader
+    const objLoader = new OBJLoader();
     
-    // Crear buffers
-    const vertexBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
-    gl.bufferData(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW);
+    // Load model and texture
+    async function loadModel() {
+        try {
+            // Load OBJ model from model3D folder - EXACT FILE NAMES
+            modelData = await objLoader.loadOBJ('assets/model3D/avatar_final_refined_texturized.obj');
+            
+            // Load texture from model3D folder - EXACT FILE NAME
+            texture = await loadTexture(gl, 'assets/model3D/avatar_final_refined_color.png');
+            
+            if (modelData && texture) {
+                modelLoaded = true;
+                console.log('3D model loaded successfully');
+                console.log('Model vertices:', modelData.vertexCount);
+                console.log('Model bounds check:', {
+                    minPos: Math.min(...modelData.positions),
+                    maxPos: Math.max(...modelData.positions)
+                });
+                setupModelBuffers();
+            } else {
+                throw new Error('Failed to load model or texture');
+            }
+        } catch (error) {
+            console.error('Error loading 3D model:', error);
+            console.log('Trying fallback geometry...');
+            // Fallback to a simple plane if model fails to load
+            createFallbackGeometry();
+        }
+    }
     
-    const indexBuffer = gl.createBuffer();
-    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, indices, gl.STATIC_DRAW);
+    // Setup buffers for the loaded model
+    function setupModelBuffers() {
+        if (!modelData || !modelData.positions) {
+            console.error('Invalid model data');
+            return;
+        }
+        
+        console.log('Setting up model buffers...');
+        // Position buffer
+        const positionBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, modelData.positions, gl.STATIC_DRAW);
+        
+        // Normal buffer
+        const normalBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, normalBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, modelData.normals, gl.STATIC_DRAW);
+        
+        // UV buffer
+        const uvBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, uvBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, modelData.uvs, gl.STATIC_DRAW);
+        
+        // Index buffer
+        const indexBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
+        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, modelData.indices, gl.STATIC_DRAW);
+        
+        // Store buffer references
+        modelData.positionBuffer = positionBuffer;
+        modelData.normalBuffer = normalBuffer;
+        modelData.uvBuffer = uvBuffer;
+        modelData.indexBuffer = indexBuffer;
+    }
     
-    // Obtener ubicaciones
+    // Fallback geometry (simple plane) if model fails to load
+    function createFallbackGeometry() {
+        const positions = new Float32Array([
+            -1, -1, 0,   1, -1, 0,   1, 1, 0,   -1, 1, 0
+        ]);
+        const normals = new Float32Array([
+            0, 0, 1,   0, 0, 1,   0, 0, 1,   0, 0, 1
+        ]);
+        const uvs = new Float32Array([
+            0, 0,   1, 0,   1, 1,   0, 1
+        ]);
+        const indices = new Uint16Array([0, 1, 2, 0, 2, 3]);
+        
+        modelData = {
+            positions, normals, uvs, indices,
+            vertexCount: indices.length
+        };
+        
+        // Create white texture as fallback
+        texture = gl.createTexture();
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([255, 255, 255, 255]));
+        
+        modelLoaded = true;
+        setupModelBuffers();
+    }
+    
+    // Get attribute and uniform locations
     const positionLocation = gl.getAttribLocation(program, 'a_position');
-    const colorLocation = gl.getAttribLocation(program, 'a_color');
+    const normalLocation = gl.getAttribLocation(program, 'a_normal');
+    const texCoordLocation = gl.getAttribLocation(program, 'a_texCoord');
+    
     const modelViewMatrixLocation = gl.getUniformLocation(program, 'u_modelViewMatrix');
     const projectionMatrixLocation = gl.getUniformLocation(program, 'u_projectionMatrix');
+    const normalMatrixLocation = gl.getUniformLocation(program, 'u_normalMatrix');
+    const textureLocation = gl.getUniformLocation(program, 'u_texture');
     const colorOverrideLocation = gl.getUniformLocation(program, 'u_colorOverride');
     const useOverrideLocation = gl.getUniformLocation(program, 'u_useOverride');
+    const lightDirectionLocation = gl.getUniformLocation(program, 'u_lightDirection');
+    const lightColorLocation = gl.getUniformLocation(program, 'u_lightColor');
+    const ambientColorLocation = gl.getUniformLocation(program, 'u_ambientColor');
     
     // Rotation variables
     let rotationX = 0;
@@ -633,6 +708,9 @@ function initWebGLDemo() {
     if (rotationXSlider) {
         rotationXSlider.addEventListener('input', (e) => {
             rotationX = parseFloat(e.target.value) * Math.PI / 180;
+            rotation.x = rotationX; // Sincronizar con controles avanzados
+            const valueSpan = document.getElementById('rotationXValue');
+            if (valueSpan) valueSpan.textContent = parseFloat(e.target.value).toFixed(0) + '°';
             autoRotate = false;
         });
     }
@@ -640,6 +718,9 @@ function initWebGLDemo() {
     if (rotationYSlider) {
         rotationYSlider.addEventListener('input', (e) => {
             rotationY = parseFloat(e.target.value) * Math.PI / 180;
+            rotation.y = rotationY; // Sincronizar con controles avanzados
+            const valueSpan = document.getElementById('rotationYValue');
+            if (valueSpan) valueSpan.textContent = parseFloat(e.target.value).toFixed(0) + '°';
             autoRotate = false;
         });
     }
@@ -651,6 +732,7 @@ function initWebGLDemo() {
             const g = parseInt(hex.substr(3, 2), 16) / 255;
             const b = parseInt(hex.substr(5, 2), 16) / 255;
             currentColor = [r, g, b];
+            modelColor = [r, g, b]; // Sincronizar con controles avanzados
         });
     }
     
@@ -667,6 +749,314 @@ function initWebGLDemo() {
         });
     }
     
+    // Variables adicionales para controles avanzados
+    let rotation = { x: 0, y: 0, z: 0 };
+    let scale = { x: 1, y: 1, z: 1 };
+    let position = { x: 0, y: 0, z: 0 };
+    let modelColor = [1.0, 1.0, 1.0];
+    let colorIntensity = 1.0;
+    let lightDirection = { x: 1, y: 1, z: 1 };
+    let lightColor = [1.0, 1.0, 1.0];
+    let lightIntensity = 1.0;
+    let ambientLight = 0.3;
+    
+    // Configurar controles WebGL adicionales
+    setupAdvancedControls();
+    
+    function setupAdvancedControls() {
+        // Controles de rotación Z
+        const rotationZSlider = document.getElementById('rotationZ');
+        const autoRotateCheckbox = document.getElementById('autoRotate');
+        
+        if (rotationZSlider) {
+            rotationZSlider.addEventListener('input', (e) => {
+                rotation.z = parseFloat(e.target.value) * Math.PI / 180;
+                rotationZ = rotation.z;
+                const valueSpan = document.getElementById('rotationZValue');
+                if (valueSpan) valueSpan.textContent = parseFloat(e.target.value).toFixed(0) + '°';
+                autoRotate = false;
+            });
+        }
+        
+        if (autoRotateCheckbox) {
+            autoRotateCheckbox.addEventListener('change', (e) => {
+                autoRotate = e.target.checked;
+            });
+        }
+        
+        // Controles de escala
+        const scaleXSlider = document.getElementById('scaleX');
+        const scaleYSlider = document.getElementById('scaleY');
+        const scaleZSlider = document.getElementById('scaleZ');
+        
+        if (scaleXSlider) {
+            scaleXSlider.addEventListener('input', (e) => {
+                scale.x = parseFloat(e.target.value);
+                const valueSpan = document.getElementById('scaleXValue');
+                if (valueSpan) valueSpan.textContent = scale.x.toFixed(2);
+            });
+        }
+        
+        if (scaleYSlider) {
+            scaleYSlider.addEventListener('input', (e) => {
+                scale.y = parseFloat(e.target.value);
+                const valueSpan = document.getElementById('scaleYValue');
+                if (valueSpan) valueSpan.textContent = scale.y.toFixed(2);
+            });
+        }
+        
+        if (scaleZSlider) {
+            scaleZSlider.addEventListener('input', (e) => {
+                scale.z = parseFloat(e.target.value);
+                const valueSpan = document.getElementById('scaleZValue');
+                if (valueSpan) valueSpan.textContent = scale.z.toFixed(2);
+            });
+        }
+        
+        // Controles de posición
+        const positionXSlider = document.getElementById('positionX');
+        const positionYSlider = document.getElementById('positionY');
+        const positionZSlider = document.getElementById('positionZ');
+        
+        if (positionXSlider) {
+            positionXSlider.addEventListener('input', (e) => {
+                position.x = parseFloat(e.target.value);
+                const valueSpan = document.getElementById('positionXValue');
+                if (valueSpan) valueSpan.textContent = position.x.toFixed(2);
+            });
+        }
+        
+        if (positionYSlider) {
+            positionYSlider.addEventListener('input', (e) => {
+                position.y = parseFloat(e.target.value);
+                const valueSpan = document.getElementById('positionYValue');
+                if (valueSpan) valueSpan.textContent = position.y.toFixed(2);
+            });
+        }
+        
+        if (positionZSlider) {
+            positionZSlider.addEventListener('input', (e) => {
+                position.z = parseFloat(e.target.value);
+                const valueSpan = document.getElementById('positionZValue');
+                if (valueSpan) valueSpan.textContent = position.z.toFixed(2);
+            });
+        }
+        
+        // Controles de color
+        const modelColorPicker = document.getElementById('modelColor');
+        const colorIntensitySlider = document.getElementById('colorIntensity');
+        
+        if (modelColorPicker) {
+            modelColorPicker.addEventListener('input', (e) => {
+                const color = hexToRgb(e.target.value);
+                if (color) {
+                    modelColor = [color.r / 255, color.g / 255, color.b / 255];
+                    currentColor = modelColor;
+                }
+            });
+        }
+        
+        if (colorIntensitySlider) {
+            colorIntensitySlider.addEventListener('input', (e) => {
+                colorIntensity = parseFloat(e.target.value);
+                const valueSpan = document.getElementById('colorIntensityValue');
+                if (valueSpan) valueSpan.textContent = colorIntensity.toFixed(2);
+            });
+        }
+        
+        // Controles de iluminación
+        const lightDirXSlider = document.getElementById('lightDirX');
+        const lightDirYSlider = document.getElementById('lightDirY');
+        const lightDirZSlider = document.getElementById('lightDirZ');
+        const lightColorPicker = document.getElementById('lightColor');
+        const lightIntensitySlider = document.getElementById('lightIntensity');
+        const ambientLightSlider = document.getElementById('ambientLight');
+        
+        if (lightDirXSlider) {
+            lightDirXSlider.addEventListener('input', (e) => {
+                lightDirection.x = parseFloat(e.target.value);
+                const valueSpan = document.getElementById('lightDirXValue');
+                if (valueSpan) valueSpan.textContent = lightDirection.x.toFixed(2);
+            });
+        }
+        
+        if (lightDirYSlider) {
+            lightDirYSlider.addEventListener('input', (e) => {
+                lightDirection.y = parseFloat(e.target.value);
+                const valueSpan = document.getElementById('lightDirYValue');
+                if (valueSpan) valueSpan.textContent = lightDirection.y.toFixed(2);
+            });
+        }
+        
+        if (lightDirZSlider) {
+            lightDirZSlider.addEventListener('input', (e) => {
+                lightDirection.z = parseFloat(e.target.value);
+                const valueSpan = document.getElementById('lightDirZValue');
+                if (valueSpan) valueSpan.textContent = lightDirection.z.toFixed(2);
+            });
+        }
+        
+        if (lightColorPicker) {
+            lightColorPicker.addEventListener('input', (e) => {
+                const color = hexToRgb(e.target.value);
+                if (color) {
+                    lightColor = [color.r / 255, color.g / 255, color.b / 255];
+                }
+            });
+        }
+        
+        if (lightIntensitySlider) {
+            lightIntensitySlider.addEventListener('input', (e) => {
+                lightIntensity = parseFloat(e.target.value);
+                const valueSpan = document.getElementById('lightIntensityValue');
+                if (valueSpan) valueSpan.textContent = lightIntensity.toFixed(2);
+            });
+        }
+        
+        if (ambientLightSlider) {
+            ambientLightSlider.addEventListener('input', (e) => {
+                ambientLight = parseFloat(e.target.value);
+                const valueSpan = document.getElementById('ambientLightValue');
+                if (valueSpan) valueSpan.textContent = ambientLight.toFixed(2);
+            });
+        }
+        
+        // Botones de acción
+        const resetControls = document.getElementById('resetControls');
+        const savePreset = document.getElementById('savePreset');
+        const loadPreset = document.getElementById('loadPreset');
+        
+        if (resetControls) {
+            resetControls.addEventListener('click', resetAllControls);
+        }
+        
+        if (savePreset) {
+            savePreset.addEventListener('click', saveControlPreset);
+        }
+        
+        if (loadPreset) {
+            loadPreset.addEventListener('click', loadControlPreset);
+        }
+    }
+    
+    // Función hexToRgb
+    function hexToRgb(hex) {
+        const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+        return result ? {
+            r: parseInt(result[1], 16),
+            g: parseInt(result[2], 16),
+            b: parseInt(result[3], 16)
+        } : null;
+    }
+    
+    // Función para resetear todos los controles
+    function resetAllControls() {
+        rotation = { x: 0, y: 0, z: 0 };
+        scale = { x: 1, y: 1, z: 1 };
+        position = { x: 0, y: 0, z: 0 };
+        modelColor = [1.0, 1.0, 1.0];
+        colorIntensity = 1.0;
+        lightDirection = { x: 1, y: 1, z: 1 };
+        lightColor = [1.0, 1.0, 1.0];
+        lightIntensity = 1.0;
+        ambientLight = 0.3;
+        autoRotate = true;
+        currentColor = [1, 0, 0];
+        
+        rotationX = 0;
+        rotationY = 0;
+        rotationZ = 0;
+        
+        updateAllControlsUI();
+    }
+    
+    // Función para actualizar UI
+    function updateAllControlsUI() {
+        const elements = [
+            { id: 'rotationX', value: rotation.x * 180 / Math.PI, display: 'rotationXValue', suffix: '°' },
+            { id: 'rotationY', value: rotation.y * 180 / Math.PI, display: 'rotationYValue', suffix: '°' },
+            { id: 'rotationZ', value: rotation.z * 180 / Math.PI, display: 'rotationZValue', suffix: '°' },
+            { id: 'scaleX', value: scale.x, display: 'scaleXValue' },
+            { id: 'scaleY', value: scale.y, display: 'scaleYValue' },
+            { id: 'scaleZ', value: scale.z, display: 'scaleZValue' },
+            { id: 'positionX', value: position.x, display: 'positionXValue' },
+            { id: 'positionY', value: position.y, display: 'positionYValue' },
+            { id: 'positionZ', value: position.z, display: 'positionZValue' },
+            { id: 'colorIntensity', value: colorIntensity, display: 'colorIntensityValue' },
+            { id: 'lightDirX', value: lightDirection.x, display: 'lightDirXValue' },
+            { id: 'lightDirY', value: lightDirection.y, display: 'lightDirYValue' },
+            { id: 'lightDirZ', value: lightDirection.z, display: 'lightDirZValue' },
+            { id: 'lightIntensity', value: lightIntensity, display: 'lightIntensityValue' },
+            { id: 'ambientLight', value: ambientLight, display: 'ambientLightValue' }
+        ];
+        
+        elements.forEach(elem => {
+            const slider = document.getElementById(elem.id);
+            const display = document.getElementById(elem.display);
+            if (slider) {
+                slider.value = elem.value;
+                if (display) {
+                    display.textContent = elem.value.toFixed(elem.suffix ? 0 : 2) + (elem.suffix || '');
+                }
+            }
+        });
+        
+        const autoRotateCheckbox = document.getElementById('autoRotate');
+        if (autoRotateCheckbox) {
+            autoRotateCheckbox.checked = autoRotate;
+        }
+        
+        const oldColorPicker = document.getElementById('colorPicker');
+        if (oldColorPicker) {
+            const r = Math.round(currentColor[0] * 255).toString(16).padStart(2, '0');
+            const g = Math.round(currentColor[1] * 255).toString(16).padStart(2, '0');
+            const b = Math.round(currentColor[2] * 255).toString(16).padStart(2, '0');
+            oldColorPicker.value = `#${r}${g}${b}`;
+        }
+    }
+    
+    // Función para guardar preset
+    function saveControlPreset() {
+        const preset = {
+            rotation, scale, position, modelColor, colorIntensity,
+            lightDirection, lightColor, lightIntensity, ambientLight, autoRotate
+        };
+        localStorage.setItem('webglControlPreset', JSON.stringify(preset));
+        alert('Preset guardado correctamente!');
+    }
+    
+    // Función para cargar preset
+    function loadControlPreset() {
+        const savedPreset = localStorage.getItem('webglControlPreset');
+        if (savedPreset) {
+            try {
+                const preset = JSON.parse(savedPreset);
+                rotation = preset.rotation || { x: 0, y: 0, z: 0 };
+                scale = preset.scale || { x: 1, y: 1, z: 1 };
+                position = preset.position || { x: 0, y: 0, z: 0 };
+                modelColor = preset.modelColor || [1.0, 1.0, 1.0];
+                colorIntensity = preset.colorIntensity || 1.0;
+                lightDirection = preset.lightDirection || { x: 1, y: 1, z: 1 };
+                lightColor = preset.lightColor || [1.0, 1.0, 1.0];
+                lightIntensity = preset.lightIntensity || 1.0;
+                ambientLight = preset.ambientLight || 0.3;
+                autoRotate = preset.autoRotate !== undefined ? preset.autoRotate : true;
+                
+                rotationX = rotation.x;
+                rotationY = rotation.y;
+                rotationZ = rotation.z;
+                currentColor = modelColor;
+                
+                updateAllControlsUI();
+                alert('Preset cargado correctamente!');
+            } catch (error) {
+                alert('Error al cargar el preset: ' + error.message);
+            }
+        } else {
+            alert('No hay preset guardado');
+        }
+    }
+    
     // Función de renderizado
     function render() {
         // Auto rotation if enabled - only rotate on Y to spin on its axis
@@ -674,55 +1064,106 @@ function initWebGLDemo() {
             rotationY += 0.02; // Only Y rotation to spin on itself
         }
         
-        // Configurar viewport
+        // Skip rendering if model not loaded yet
+        if (!modelLoaded || !modelData) {
+            requestAnimationFrame(render);
+            return;
+        }
+        
+        // Configure viewport
         canvas.width = canvas.offsetWidth;
         canvas.height = canvas.offsetHeight;
         gl.viewport(0, 0, canvas.width, canvas.height);
         
-        // Limpiar
+        // Clear
         gl.clearColor(0.0, 0.0, 0.0, 1.0);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         gl.enable(gl.DEPTH_TEST);
         
-        // Usar programa
+        // Use program
         gl.useProgram(program);
         
         // Projection matrix
         const projectionMatrix = createPerspectiveMatrix(45 * Math.PI / 180, canvas.width / canvas.height, 0.1, 100.0);
         
-        // Model-view matrix - CORRECT ORDER: Rotate first, then move
+        // Model-view matrix - CORRECT ORDER: Scale, Rotate, then Translate
         const modelViewMatrix = createIdentityMatrix();
         
-        // 1. FIRST: Apply rotations at origin (0,0,0) - cube spins on itself
-        rotateMatrix(modelViewMatrix, rotationY, [0, 1, 0]); // Eje Y
-        rotateMatrix(modelViewMatrix, rotationX, [1, 0, 0]); // Eje X
-        rotateMatrix(modelViewMatrix, rotationZ, [0, 0, 1]); // Eje Z
+        // 1. FIRST: Scale the model using control values
+        const scaleValues = [0.6 * scale.x, 0.6 * scale.y, 0.6 * scale.z];
+        scaleMatrix(modelViewMatrix, scaleValues);
         
-        // 2. AFTER: Move the cube away from the camera
-        translateMatrix(modelViewMatrix, [0, 0, -5]);
-
-
+        // 2. SECOND: Apply rotations - model spins on its OWN axis
+        rotateMatrix(modelViewMatrix, rotationY, [0, 1, 0]); // Y axis
+        rotateMatrix(modelViewMatrix, rotationX, [1, 0, 0]); // X axis  
+        rotateMatrix(modelViewMatrix, rotationZ, [0, 0, 1]); // Z axis
         
-        // Configurar atributos
-        gl.bindBuffer(gl.ARRAY_BUFFER, vertexBuffer);
+        // 3. LAST: Move the model using position controls
+        const finalPosition = [position.x, position.y, -2 + position.z];
+        translateMatrix(modelViewMatrix, finalPosition);
+        
+        // Normal matrix (for lighting)
+        const normalMatrix = createIdentityMatrix();
+        rotateMatrix(normalMatrix, rotationY, [0, 1, 0]);
+        rotateMatrix(normalMatrix, rotationX, [1, 0, 0]);
+        rotateMatrix(normalMatrix, rotationZ, [0, 0, 1]);
+        
+        // Setup position attribute
+        gl.bindBuffer(gl.ARRAY_BUFFER, modelData.positionBuffer);
         gl.enableVertexAttribArray(positionLocation);
-        gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 24, 0);
+        gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0);
         
-        gl.enableVertexAttribArray(colorLocation);
-        gl.vertexAttribPointer(colorLocation, 3, gl.FLOAT, false, 24, 12);
+        // Setup normal attribute
+        gl.bindBuffer(gl.ARRAY_BUFFER, modelData.normalBuffer);
+        gl.enableVertexAttribArray(normalLocation);
+        gl.vertexAttribPointer(normalLocation, 3, gl.FLOAT, false, 0, 0);
         
-        // Configurar uniforms
+        // Setup texture coordinate attribute
+        gl.bindBuffer(gl.ARRAY_BUFFER, modelData.uvBuffer);
+        gl.enableVertexAttribArray(texCoordLocation);
+        gl.vertexAttribPointer(texCoordLocation, 2, gl.FLOAT, false, 0, 0);
+        
+        // Bind texture
+        gl.activeTexture(gl.TEXTURE0);
+        gl.bindTexture(gl.TEXTURE_2D, texture);
+        gl.uniform1i(textureLocation, 0);
+        
+        // Setup uniforms
         gl.uniformMatrix4fv(projectionMatrixLocation, false, projectionMatrix);
         gl.uniformMatrix4fv(modelViewMatrixLocation, false, modelViewMatrix);
-        gl.uniform3fv(colorOverrideLocation, currentColor);
-        gl.uniform1f(useOverrideLocation, 0.8); // Aumentar override para que el color se vea más
+        gl.uniformMatrix4fv(normalMatrixLocation, false, normalMatrix);
         
-        // Dibujar
-        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
-        gl.drawElements(gl.TRIANGLES, indices.length, gl.UNSIGNED_SHORT, 0);
+        // Color uniforms using control values
+        const finalColor = [
+            currentColor[0] * colorIntensity,
+            currentColor[1] * colorIntensity,
+            currentColor[2] * colorIntensity
+        ];
+        gl.uniform3fv(colorOverrideLocation, finalColor);
+        gl.uniform1f(useOverrideLocation, 0.3); // Less override to show texture
+        
+        // Lighting uniforms using control values
+        const normalizedLightDir = normalizeVector([lightDirection.x, lightDirection.y, lightDirection.z]);
+        const scaledLightColor = [
+            lightColor[0] * lightIntensity,
+            lightColor[1] * lightIntensity,
+            lightColor[2] * lightIntensity
+        ];
+        const ambientColor = [ambientLight, ambientLight, ambientLight];
+        
+        gl.uniform3fv(lightDirectionLocation, normalizedLightDir);
+        gl.uniform3fv(lightColorLocation, scaledLightColor);
+        gl.uniform3fv(ambientColorLocation, ambientColor);
+        
+        // Draw model
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, modelData.indexBuffer);
+        gl.drawElements(gl.TRIANGLES, modelData.vertexCount, gl.UNSIGNED_SHORT, 0);
         
         requestAnimationFrame(render);
     }
+    
+    // Start loading the model
+    loadModel();
     
     render();
 }
@@ -777,10 +1218,56 @@ function createPerspectiveMatrix(fovy, aspect, near, far) {
     ]);
 }
 
+function scaleMatrix(matrix, scale) {
+    const scaleMatrix = new Float32Array([
+        scale[0], 0, 0, 0,
+        0, scale[1], 0, 0,
+        0, 0, scale[2], 0,
+        0, 0, 0, 1
+    ]);
+    
+    // Multiply: result = matrix * scaleMatrix
+    const result = new Float32Array(16);
+    for (let i = 0; i < 4; i++) {
+        for (let j = 0; j < 4; j++) {
+            let sum = 0;
+            for (let k = 0; k < 4; k++) {
+                sum += matrix[i * 4 + k] * scaleMatrix[k * 4 + j];
+            }
+            result[i * 4 + j] = sum;
+        }
+    }
+    
+    // Copy result back to matrix
+    for (let i = 0; i < 16; i++) {
+        matrix[i] = result[i];
+    }
+}
+
 function translateMatrix(matrix, translation) {
-    matrix[12] += translation[0];
-    matrix[13] += translation[1];
-    matrix[14] += translation[2];
+    const translateMatrix = new Float32Array([
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        0, 0, 1, 0,
+        translation[0], translation[1], translation[2], 1
+    ]);
+    
+    // Multiply: result = matrix * translateMatrix
+    const result = new Float32Array(16);
+    for (let i = 0; i < 4; i++) {
+        for (let j = 0; j < 4; j++) {
+            let sum = 0;
+            for (let k = 0; k < 4; k++) {
+                sum += matrix[i * 4 + k] * translateMatrix[k * 4 + j];
+            }
+            result[i * 4 + j] = sum;
+        }
+    }
+    
+    // Copy result back to matrix
+    for (let i = 0; i < 16; i++) {
+        matrix[i] = result[i];
+    }
 }
 
 function rotateMatrix(matrix, angle, axis) {
@@ -795,7 +1282,22 @@ function rotateMatrix(matrix, angle, axis) {
         0, 0, 0, 1
     ]);
     
-    multiplyMatrix(matrix, rotMatrix);
+    // Multiply: result = matrix * rotMatrix
+    const result = new Float32Array(16);
+    for (let i = 0; i < 4; i++) {
+        for (let j = 0; j < 4; j++) {
+            let sum = 0;
+            for (let k = 0; k < 4; k++) {
+                sum += matrix[i * 4 + k] * rotMatrix[k * 4 + j];
+            }
+            result[i * 4 + j] = sum;
+        }
+    }
+    
+    // Copy result back to matrix
+    for (let i = 0; i < 16; i++) {
+        matrix[i] = result[i];
+    }
 }
 
 function multiplyMatrix(a, b) {
@@ -813,4 +1315,10 @@ function multiplyMatrix(a, b) {
     for (let i = 0; i < 16; i++) {
         a[i] = result[i];
     }
+}
+
+function normalizeVector(vector) {
+    const length = Math.sqrt(vector[0] * vector[0] + vector[1] * vector[1] + vector[2] * vector[2]);
+    if (length === 0) return [0, 0, 1]; // Default direction
+    return [vector[0] / length, vector[1] / length, vector[2] / length];
 }

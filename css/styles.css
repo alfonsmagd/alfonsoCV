@@ -657,23 +657,55 @@ footer {
 
 .webgl-controls {
     flex: 1;
-    min-width: 250px;
+    min-width: 300px;
+    max-height: 600px;
+    overflow-y: auto;
     background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
     border: 1px solid rgba(0,255,255,0.1);
     border-radius: 10px;
-    padding: 2rem;
+    padding: 1.5rem;
     box-shadow: 0 5px 15px rgba(0,0,0,0.3);
 }
 
+.control-section {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: rgba(0,255,255,0.05);
+    border: 1px solid rgba(0,255,255,0.1);
+    border-radius: 8px;
+}
+
+.control-section h4 {
+    color: #00ffff;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    border-bottom: 1px solid rgba(0,255,255,0.2);
+    padding-bottom: 0.5rem;
+}
+
 .control-group {
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
 
 .control-group label {
-    display: block;
     color: #ffffff;
-    margin-bottom: 0.5rem;
     font-weight: 500;
+    min-width: 120px;
+    font-size: 0.9rem;
+}
+
+.control-group span {
+    color: #00ffff;
+    font-weight: bold;
+    min-width: 50px;
+    text-align: center;
+    background: rgba(0,255,255,0.1);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
 }
 
 .slider {
@@ -852,4 +884,93 @@ body::before {
     100% { transform: translateY(0px) translateX(0px); }
 }
 
+/* Estilos mejorados para controles WebGL */
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(to right, #333333, #666666);
+    border-radius: 3px;
+    outline: none;
+    cursor: pointer;
+}
+
+input[type="range"]:hover {
+    background: linear-gradient(to right, #444444, #777777);
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 16px;
+    height: 16px;
+    background: #00ffff;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0,255,255,0.3);
+}
+
+input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: #00ffff;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+    box-shadow: 0 2px 6px rgba(0,255,255,0.3);
+}
+
+input[type="color"] {
+    width: 50px;
+    height: 30px;
+    border: 1px solid rgba(0,255,255,0.3);
+    border-radius: 4px;
+    background: transparent;
+    cursor: pointer;
+}
+
+input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: #00ffff;
+    cursor: pointer;
+}
+
+.actions {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(0,255,255,0.2);
+}
+
+.btn {
+    padding: 0.75rem 1.5rem;
+    background: linear-gradient(145deg, #00ffff, #00cccc);
+    color: #0a0a0a;
+    border: none;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.9rem;
+}
+
+.btn:hover {
+    background: linear-gradient(145deg, #00cccc, #009999);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,255,255,0.3);
+}
+
+.btn.secondary {
+    background: linear-gradient(145deg, #666666, #555555);
+    color: #ffffff;
+}
+
+.btn.secondary:hover {
+    background: linear-gradient(145deg, #777777, #666666);
+}
 
