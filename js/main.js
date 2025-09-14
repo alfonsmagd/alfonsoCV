@@ -505,7 +505,22 @@ function initWebGLDemo() {
         return;
     }
     
-    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    const gl = canvas.getContext('webgl', {
+        alpha: false,
+        antialias: true,
+        depth: true,
+        failIfMajorPerformanceCaveat: false,
+        powerPreference: "default",
+        premultipliedAlpha: false,
+        preserveDrawingBuffer: false,
+        stencil: false
+    }) || canvas.getContext('experimental-webgl', {
+        alpha: false,
+        antialias: true,
+        depth: true,
+        failIfMajorPerformanceCaveat: false
+    });
+    
     if (!gl) {
         console.log('WebGL not supported for main demo');
         canvas.style.background = '#330000';
@@ -516,7 +531,15 @@ function initWebGLDemo() {
         return;
     }
     
-    console.log('Main WebGL Demo initialized');
+    // Log WebGL info for mobile debugging
+    console.log('Main WebGL Demo initialized', {
+        renderer: gl.getParameter(gl.RENDERER),
+        vendor: gl.getParameter(gl.VENDOR),
+        version: gl.getParameter(gl.VERSION),
+        maxTextureSize: gl.getParameter(gl.MAX_TEXTURE_SIZE),
+        maxVertexAttribs: gl.getParameter(gl.MAX_VERTEX_ATTRIBS),
+        isMobile: /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+    });
     
     // Vertex shader for 3D model with texture
     const vertexShaderSource = `
@@ -588,17 +611,57 @@ function initWebGLDemo() {
     let texture = null;
     let modelLoaded = false;
     
+    // Global function for mobile debugging
+    window.debugWebGL = function() {
+        console.log('=== WebGL Debug Info ===');
+        console.log('User Agent:', navigator.userAgent);
+        console.log('Platform:', navigator.platform);
+        console.log('Canvas:', canvas);
+        console.log('GL Context:', gl);
+        console.log('Model loaded:', modelLoaded);
+        console.log('Model data:', modelData);
+        console.log('Texture:', texture);
+        console.log('Current URL:', window.location.href);
+        console.log('Base URL:', window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, ''));
+        return {
+            canvas, gl, modelLoaded, modelData, texture
+        };
+    };
+    
     // Initialize OBJ loader
     const objLoader = new OBJLoader();
     
-    // Load model and texture
+    // Load model and texture with mobile optimizations
     async function loadModel() {
         try {
-            // Load OBJ model from model3D folder - EXACT FILE NAMES
-            modelData = await objLoader.loadOBJ('assets/model3D/avatar_final_refined_texturized.obj');
+            console.log('Loading model... Device info:', {
+                userAgent: navigator.userAgent,
+                platform: navigator.platform,
+                isMobile: /iPhone|iPad|iPod|Android/i.test(navigator.userAgent)
+            });
+
+            // Try loading with absolute URL for mobile compatibility
+            const baseURL = window.location.origin + window.location.pathname.replace(/\/[^\/]*$/, '');
+            const modelURL = baseURL + '/assets/model3D/avatar_final_refined_texturized.obj';
+            const textureURL = baseURL + '/assets/model3D/avatar_final_refined_color.png';
             
-            // Load texture from model3D folder - EXACT FILE NAME
-            texture = await loadTexture(gl, 'assets/model3D/avatar_final_refined_color.png');
+            console.log('Attempting to load from URLs:', { modelURL, textureURL });
+            
+            // Load OBJ model with timeout for mobile
+            const modelPromise = Promise.race([
+                objLoader.loadOBJ(modelURL),
+                new Promise((_, reject) => setTimeout(() => reject(new Error('Model load timeout')), 10000))
+            ]);
+            
+            modelData = await modelPromise;
+            
+            // Load texture with timeout
+            const texturePromise = Promise.race([
+                loadTexture(gl, textureURL),
+                new Promise((_, reject) => setTimeout(() => reject(new Error('Texture load timeout')), 8000))
+            ]);
+            
+            texture = await texturePromise;
             
             if (modelData && texture) {
                 modelLoaded = true;
