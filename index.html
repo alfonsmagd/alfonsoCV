@@ -33,7 +33,7 @@
                     <li><a href="#who-am-i">Who I am</a></li>
                     <li><a href="#skills-features">Skills</a></li>
                     <li><a href="#personal-projects">Personal Projects</a></li>
-                    <li><a href="#professional-work">Professional Work</a></li>
+                    <li><a href="#trabajos-profesionales">Professional Work</a></li>
                     <li><a href="#tips">Tips & Advice</a></li>
                     <li><a href="#webgl-test">WebGL Test</a></li>
                     <li><a href="#contacto">Contacto</a></li>
@@ -655,26 +655,147 @@
         <!-- Sección de Trabajos Profesionales -->
         <section id="trabajos-profesionales" class="section bg-alt">
             <div class="container">
-                <h2 class="section-title">Experiencia Profesional</h2>
-                <p class="section-subtitle">Proyectos finalizados en mi carrera laboral</p>
+                <h2 class="section-title">Professional Experience</h2>
+                <p class="section-subtitle">Defense & Simulation Engineering Projects - Military Training Systems</p>
                 
-                <div class="timeline">
-                    <!-- Example work -->
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <h3>Título del Proyecto / Empresa</h3>
-                            <span class="timeline-date">2024 - Presente</span>
-                            <p>Descripción del proyecto o rol desempeñado, tecnologías utilizadas y logros conseguidos.</p>
-                            <ul>
-                                <li>Logro o responsabilidad 1</li>
-                                <li>Logro o responsabilidad 2</li>
-                                <li>Logro o responsabilidad 3</li>
-                            </ul>
+                <!-- Timeline de fechas con scroll horizontal -->
+                <div class="timeline-scroll">
+                    <div class="timeline-years">
+                        <div class="year-item active" data-year="2025">2025</div>
+                        <div class="year-item" data-year="2024">2024</div>
+                        <div class="year-item" data-year="2023">2023</div>
+                        <div class="year-item" data-year="2022">2022</div>
+                        <div class="year-item" data-year="2021">2021</div>
+                        <div class="year-item" data-year="2020">2020</div>
+                        <div class="year-item" data-year="2019">2019</div>
+                        <div class="year-item" data-year="2018">2018</div>
+                        <div class="year-item" data-year="2017">2017</div>
+                        <div class="year-item" data-year="2016">2016</div>
+                    </div>
+                </div>
+
+                <!-- Grid de experiencias profesionales -->
+                <div class="experience-grid">
+                    <!-- Tecnobit Experience -->
+                    <div class="experience-card" data-years="2023,2024,2025">
+                        <div class="experience-header">
+                            <h3>Senior Simulation Engineer</h3>
+                            <div class="company-info">
+                                <strong>Tecnobit - Grupo Oesia</strong>
+                                <span class="period">2023 - Present</span>
+                            </div>
+                        </div>
+                        <div class="experience-image">
+                            <img src="assets/images/tecnobit_datalink.png" alt="Tecnobit Tactical Communications Training Systems">
+                        </div>
+                        <div class="experience-content">
+                            <div class="project-section">
+                                <h4>Training Systems Development - C# .NET & WPF</h4>
+                                <p>Development of training system features such as database storage, TCP/UDP communication, and advanced WPF user interfaces.</p>
+                                <ul>
+                                    <li><strong>UI/UX:</strong> WPF dashboards with real-time data and multi-monitor support</li>
+                                    <li><strong>Architecture:</strong> Modular backend using MVVM and dependency injection</li>
+                                    <li><strong>Performance:</strong> Asynchronous programming for simulation engines</li>
+                                    <li><strong>Integration:</strong> Windows Server and Active Directory</li>
+                                </ul>
+                                <div class="project-tech">
+                                    <span class="tech-tag">C# .NET</span>
+                                    <span class="tech-tag">WPF</span>
+                                    <span class="tech-tag">MVVM</span>
+                                    <span class="tech-tag">Entity Framework</span>
+                                </div>
+                            </div>
+
+                            <div class="project-section">
+                                <h4>C++ & Qt - Low-Level Systems Integration</h4>
+                                <p>Development of high-performance tactical communication systems using C++ and Qt framework with NATO-standard protocols.</p>
+                                <ul>
+                                    <li><strong>TDL Implementation:</strong> Interface N message generation with Link 22</li>
+                                    <li><strong>Qt Applications:</strong> Cross-platform with custom widgets and signal-slot system</li>
+                                    <li><strong>Real-time:</strong> Sub-microsecond timing for tactical data processing</li>
+                                </ul>
+                                <div class="project-tech">
+                                    <span class="tech-tag">C++17/20</span>
+                                    <span class="tech-tag">Qt Framework</span>
+                                    <span class="tech-tag">Multithreading</span>
+                                    <span class="tech-tag">Network Programming</span>
+                                </div>
+                            </div>
+
+                            <div class="project-section">
+                                <h4>Python - Student Application & Automation</h4>
+                                <p>Developed a student application for selecting units inside the simulation, handling TCP/UDP interfaces, and linking exercise and activity information.</p>
+                                <ul>
+                                    <li><strong>Networking:</strong> TCP/UDP communication with sockets, multithreading, and asyncio</li>
+                                    <li><strong>Automation:</strong> Integration of activities and exercise data</li>
+                                    <li><strong>UI:</strong> Built with PySide6 for a lightweight and functional interface</li>
+                                </ul>
+                                <div class="project-tech">
+                                    <span class="tech-tag">Python 3.9+</span>
+                                    <span class="tech-tag">PySide6</span>
+                                    <span class="tech-tag">Asyncio</span>
+                                    <span class="tech-tag">Sockets</span>
+                                    <span class="tech-tag">Multithreading</span>
+                                </div>
+                            </div>
+
+                            <div class="project-section">
+                                <h4>Unreal Engine - SPECTRE Project Backend Development</h4>
+                                <div class="project-image">
+                                    <img src="assets/images/SPECTRE_UNREAL.png" alt="SPECTRE Unreal Engine Project">
+                                </div>
+                                <p>Backend development for the SPECTRE project using Unreal Engine C++ for advanced simulation capabilities and real-time rendering systems.</p>
+                                <ul>
+                                    <li><strong>Unreal Engine C++:</strong> Core backend systems development for simulation environment</li>
+                                    <li><strong>Real-time Systems:</strong> High-performance backend architecture for complex simulations</li>
+                                    <li><strong>Engine Integration:</strong> Custom modules and plugins for specialized simulation requirements</li>
+                                </ul>
+                                <div class="project-tech">
+                                    <span class="tech-tag">Unreal Engine</span>
+                                    <span class="tech-tag">C++</span>
+                                    <span class="tech-tag">Backend Development</span>
+                                    <span class="tech-tag">Real-time Systems</span>
+                                </div>
+                            </div>
+
+                            <div class="experience-links">
+                                <a href="https://grupooesia.com/areas/simulacion" target="_blank" class="btn btn-small">Learn more about Simulation Solutions</a>
+                            </div>
                         </div>
                     </div>
-                    
-                    <!-- Más trabajos se añadirán aquí -->
+
+                    <!-- Airbus Experience -->
+                    <div class="experience-card" data-years="2021,2022,2023">
+                        <div class="experience-header">
+                            <h3>OpenGL Graphics Programmer</h3>
+                            <div class="company-info">
+                                <strong>Airbus Defense & Space</strong>
+                                <span class="period">Mid 2021 - Late 2023</span>
+                            </div>
+                        </div>
+                        <div class="experience-image">
+                            <img src="assets/images/a3r_refueling.png" alt="Airbus A330 MRTT Automatic Air Refueling System">
+                        </div>
+                        <div class="experience-content">
+                            <div class="project-section">
+                                <h4>Automatic Air Refueling (A3R) System - Real-Time OpenGL Visualization</h4>
+                                <p>My previous role before Tecnobit was at Airbus, where I worked as an OpenGL programmer on a safety-critical real-time system for automatic air refueling in aircraft. My role involved using OpenGL to implement a 2D visualization layer that displayed crucial refueling data on the screen, such as alignment indicators and proximity metrics.</p>
+                                
+                                <div class="project-tech">
+                                    <span class="tech-tag">OpenGL</span>
+                                    <span class="tech-tag">C/C++</span>
+                                    <span class="tech-tag">Real-Time Systems</span>
+                                    <span class="tech-tag">DO-178C</span>
+                                    <span class="tech-tag">Safety-Critical</span>
+                                    <span class="tech-tag">Aerospace</span>
+                                </div>
+                            </div>
+                            
+                            <div class="experience-links">
+                                <a href="https://www.youtube.com/watch?v=Jdui1qAtnNM" target="_blank" class="btn btn-small">Watch A330 MRTT Demo</a>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>

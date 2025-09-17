@@ -1928,4 +1928,98 @@ class SkillModal {
 // Initialize skill modal system
 document.addEventListener('DOMContentLoaded', () => {
     new SkillModal();
+    new ExperienceTimeline();
 });
+
+// Professional Experience Timeline functionality
+class ExperienceTimeline {
+    constructor() {
+        this.yearItems = document.querySelectorAll('.year-item');
+        this.experienceCards = document.querySelectorAll('.experience-card');
+        
+        if (this.yearItems.length > 0) {
+            this.init();
+            console.log('Experience Timeline initialized');
+        }
+    }
+    
+    init() {
+        // Add click events to year items
+        this.yearItems.forEach(yearItem => {
+            yearItem.addEventListener('click', (e) => {
+                const selectedYear = e.target.dataset.year;
+                this.filterByYear(selectedYear);
+                this.setActiveYear(e.target);
+            });
+        });
+        
+        // Set default to show all (2024 active)
+        this.showAllCards();
+    }
+    
+    filterByYear(selectedYear) {
+        console.log(`Filtering by year: ${selectedYear}`);
+        
+        this.experienceCards.forEach(card => {
+            const cardYears = card.dataset.years ? card.dataset.years.split(',') : [];
+            console.log(`Card years: ${cardYears}, Selected: ${selectedYear}`);
+            
+            // Show cards that match the selected year or show all for 2025 (current)
+            if (selectedYear === '2025' || cardYears.includes(selectedYear)) {
+                // Show card with animation
+                card.style.display = 'block';
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, 50);
+                
+                console.log(`Showing card for years: ${cardYears}`);
+            } else {
+                // Hide card with animation
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                
+                setTimeout(() => {
+                    card.style.display = 'none';
+                }, 300);
+                
+                console.log(`Hiding card for years: ${cardYears}`);
+            }
+        });
+        
+        // Show a message if no cards are visible
+        setTimeout(() => {
+            const visibleCards = Array.from(this.experienceCards).filter(card => 
+                card.style.display !== 'none'
+            );
+            
+            if (visibleCards.length === 0) {
+                console.log(`No experience found for year ${selectedYear}`);
+                // You could show a "No experience for this year" message here
+            }
+        }, 350);
+    }
+    
+    setActiveYear(activeYearElement) {
+        // Remove active class from all years
+        this.yearItems.forEach(item => {
+            item.classList.remove('active');
+        });
+        
+        // Add active class to selected year
+        activeYearElement.classList.add('active');
+    }
+    
+    showAllCards() {
+        // Show all cards by default
+        this.experienceCards.forEach(card => {
+            card.style.display = 'block';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+            card.style.transition = 'all 0.3s ease';
+        });
+    }
+}
