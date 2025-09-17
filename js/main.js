@@ -347,6 +347,14 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 // Function to initialize simple WebGL test
+// Detect Safari iOS
+function isSafariIOS() {
+    const ua = navigator.userAgent;
+    const iOS = /iPad|iPhone|iPod/.test(ua);
+    const safari = /Safari/.test(ua) && !/Chrome/.test(ua);
+    return iOS && safari;
+}
+
 function initWebGLTest() {
     const canvas = document.getElementById('webglTestCanvas');
     const statusElement = document.getElementById('webglStatus');
@@ -358,13 +366,40 @@ function initWebGLTest() {
         return;
     }
     
-    // Try to get WebGL context
-    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    // Try to get WebGL context with Safari iOS compatibility
+    let gl = canvas.getContext('webgl', {
+        antialias: true,
+        alpha: true,
+        premultipliedAlpha: false,
+        preserveDrawingBuffer: true
+    });
+    
+    // Fallback for older Safari versions
+    if (!gl) {
+        gl = canvas.getContext('experimental-webgl', {
+            antialias: true,
+            alpha: true,
+            premultipliedAlpha: false,
+            preserveDrawingBuffer: true
+        });
+    }
+    
+    // Final fallback for very old browsers
+    if (!gl) {
+        gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    }
     
     if (!gl) {
-        statusElement.textContent = 'Not supported';
-        statusElement.style.color = '#ff4444';
-        console.log('WebGL is not compatible');
+        const isIOS = isSafariIOS();
+        if (isIOS) {
+            statusElement.textContent = 'Limited support on Safari iOS - Try Chrome';
+            statusElement.style.color = '#ff8844';
+            console.log('WebGL limited on Safari iOS - recommend Chrome browser');
+        } else {
+            statusElement.textContent = 'Not supported (Safari iOS may need newer version)';
+            statusElement.style.color = '#ff4444';
+            console.log('WebGL is not compatible - this may be due to Safari iOS limitations');
+        }
         return;
     }
     
@@ -372,12 +407,21 @@ function initWebGLTest() {
     statusElement.textContent = 'Active ✓';
     statusElement.style.color = '#00ff88';
     
-    // Get renderer information
+    // Get renderer information with Safari iOS compatibility
     const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
     if (debugInfo) {
-        rendererElement.textContent = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+        try {
+            rendererElement.textContent = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+        } catch (e) {
+            rendererElement.textContent = 'Renderer info restricted (Safari security)';
+        }
     } else {
-        rendererElement.textContent = 'Information not available';
+        const isIOS = isSafariIOS();
+        if (isIOS) {
+            rendererElement.textContent = 'Info restricted on Safari iOS';
+        } else {
+            rendererElement.textContent = 'Information not available';
+        }
     }
     
     versionElement.textContent = gl.getParameter(gl.VERSION);
@@ -505,14 +549,48 @@ function initWebGLDemo() {
         return;
     }
     
-    const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    // Try to get WebGL context with Safari iOS compatibility
+    let gl = canvas.getContext('webgl', {
+        antialias: true,
+        alpha: true,
+        premultipliedAlpha: false,
+        preserveDrawingBuffer: true,
+        powerPreference: "high-performance"
+    });
+    
+    // Fallback for older Safari versions
     if (!gl) {
-        console.log('WebGL not supported for main demo');
+        gl = canvas.getContext('experimental-webgl', {
+            antialias: true,
+            alpha: true,
+            premultipliedAlpha: false,
+            preserveDrawingBuffer: true
+        });
+    }
+    
+    // Final fallback
+    if (!gl) {
+        gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    }
+    
+    if (!gl) {
+        console.log('WebGL not supported for main demo - Safari iOS compatibility issue');
         canvas.style.background = '#330000';
         const ctx = canvas.getContext('2d');
-        ctx.fillStyle = '#ff4444';
-        ctx.font = '20px Arial';
-        ctx.fillText('WebGL not supported', 50, 200);
+        if (ctx) {
+            ctx.fillStyle = '#ff4444';
+            ctx.font = '16px Arial';
+            
+            const isIOS = isSafariIOS();
+            if (isIOS) {
+                ctx.fillText('WebGL limited on Safari iOS', 20, 160);
+                ctx.fillText('For best experience, use Chrome browser', 20, 180);
+                ctx.fillText('or update to latest Safari version', 20, 200);
+            } else {
+                ctx.fillText('WebGL not supported on this device', 20, 180);
+                ctx.fillText('Try using Chrome or updating your browser', 20, 200);
+            }
+        }
         return;
     }
     

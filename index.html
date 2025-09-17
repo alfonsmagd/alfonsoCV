@@ -26,17 +26,19 @@
         <nav>
             <div class="nav-container">
                 <div class="logo">
-                    <h1>Alfonso Mateos Aparicio</h1>
+                    <div class="logo-text">
+                        <h1>Alfonso Mateos Aparicio</h1>
+                        <span class="logo-subtitle">Software Engineer</span>
+                    </div>
                 </div>
                 <ul class="nav-menu">
-                    <li><a href="#Start">Start</a></li>
-                    <li><a href="#who-am-i">Who I am</a></li>
-                    <li><a href="#skills-features">Skills</a></li>
-                    <li><a href="#personal-projects">Personal Projects</a></li>
-                    <li><a href="#trabajos-profesionales">Professional Work</a></li>
-                    <li><a href="#tips">Tips & Advice</a></li>
-                    <li><a href="#webgl-test">WebGL Test</a></li>
-                    <li><a href="#contacto">Contacto</a></li>
+                    <li><a href="#inicio" class="nav-link">Home</a></li>
+                    <li><a href="#who-am-i" class="nav-link">About</a></li>
+                    <li><a href="#skills-features" class="nav-link">Skills</a></li>
+                    <li><a href="#personal-projects" class="nav-link">Projects</a></li>
+                    <li><a href="#trabajos-profesionales" class="nav-link">Experience</a></li>
+                    <li><a href="#webgl-test" class="nav-link">WebGL Demo</a></li>
+                    <li><a href="#contacto" class="nav-link">Contact</a></li>
                 </ul>
             </div>
         </nav>
@@ -68,14 +70,48 @@
         <!-- Who I am Section -->
         <section id="who-am-i" class="section">
             <div class="container">
-                <h2 class="section-title">Who I am, and How I am?</h2>
-                <p class="section-subtitle">Get to know more about my background, skills, and personality - Interact with my 3D avatar!</p>
+                <h2 class="section-title">Who Am I?</h2>
+                <p class="section-subtitle">Software Engineer passionate about innovation - Meet my interactive 3D avatar!</p>
                 
                 <!-- 3D Model Section -->
                 <div class="model-3d-container">
                     <div class="webgl-container">
                         <canvas id="webglCanvas" class="webgl-canvas"></canvas>
                         <div class="webgl-controls">
+                            <!-- Lighting Controls -->
+                            <div class="control-section">
+                                <h4>� Lighting</h4>
+                                <div class="control-group">
+                                    <label>Light Direction X:</label>
+                                    <input type="range" id="lightDirX" min="-1" max="1" step="0.1" value="0.5" class="slider">
+                                    <span id="lightDirXValue">0.5</span>
+                                </div>
+                                <div class="control-group">
+                                    <label>Light Direction Y:</label>
+                                    <input type="range" id="lightDirY" min="-1" max="1" step="0.1" value="0.7" class="slider">
+                                    <span id="lightDirYValue">0.7</span>
+                                </div>
+                                <div class="control-group">
+                                    <label>Light Direction Z:</label>
+                                    <input type="range" id="lightDirZ" min="-1" max="1" step="0.1" value="0.5" class="slider">
+                                    <span id="lightDirZValue">0.5</span>
+                                </div>
+                                <div class="control-group">
+                                    <label>Light Color:</label>
+                                    <input type="color" id="lightColor" value="#ffffff" class="color-picker">
+                                </div>
+                                <div class="control-group">
+                                    <label>Light Intensity:</label>
+                                    <input type="range" id="lightIntensity" min="0" max="2" step="0.1" value="1" class="slider">
+                                    <span id="lightIntensityValue">1</span>
+                                </div>
+                                <div class="control-group">
+                                    <label>Ambient Light:</label>
+                                    <input type="range" id="ambientLight" min="0" max="1" step="0.1" value="0.3" class="slider">
+                                    <span id="ambientLightValue">0.3</span>
+                                </div>
+                            </div>
+
                             <!-- Rotation Controls -->
                             <div class="control-section">
                                 <h4>🔄 Rotation</h4>
@@ -122,7 +158,7 @@
 
                             <!-- Position Controls -->
                             <div class="control-section">
-                                <h4>📍 Position</h4>
+                                <h4>Position</h4>
                                 <div class="control-group">
                                     <label>Position X:</label>
                                     <input type="range" id="positionX" min="-5" max="5" step="0.1" value="0" class="slider">
@@ -151,40 +187,6 @@
                                     <label>Color Intensity:</label>
                                     <input type="range" id="colorIntensity" min="0" max="1" step="0.1" value="0.3" class="slider">
                                     <span id="colorIntensityValue">0.3</span>
-                                </div>
-                            </div>
-
-                            <!-- Lighting Controls -->
-                            <div class="control-section">
-                                <h4>💡 Lighting</h4>
-                                <div class="control-group">
-                                    <label>Light Direction X:</label>
-                                    <input type="range" id="lightDirX" min="-1" max="1" step="0.1" value="0.5" class="slider">
-                                    <span id="lightDirXValue">0.5</span>
-                                </div>
-                                <div class="control-group">
-                                    <label>Light Direction Y:</label>
-                                    <input type="range" id="lightDirY" min="-1" max="1" step="0.1" value="0.7" class="slider">
-                                    <span id="lightDirYValue">0.7</span>
-                                </div>
-                                <div class="control-group">
-                                    <label>Light Direction Z:</label>
-                                    <input type="range" id="lightDirZ" min="-1" max="1" step="0.1" value="0.5" class="slider">
-                                    <span id="lightDirZValue">0.5</span>
-                                </div>
-                                <div class="control-group">
-                                    <label>Light Color:</label>
-                                    <input type="color" id="lightColor" value="#ffffff" class="color-picker">
-                                </div>
-                                <div class="control-group">
-                                    <label>Light Intensity:</label>
-                                    <input type="range" id="lightIntensity" min="0" max="2" step="0.1" value="1" class="slider">
-                                    <span id="lightIntensityValue">1</span>
-                                </div>
-                                <div class="control-group">
-                                    <label>Ambient Light:</label>
-                                    <input type="range" id="ambientLight" min="0" max="1" step="0.1" value="0.3" class="slider">
-                                    <span id="ambientLightValue">0.3</span>
                                 </div>
                             </div>
 
@@ -249,7 +251,7 @@
                         </div>
 
                         <div class="about-section">
-                            <h3>� Education</h3>
+                            <h3>Education</h3>
                             <div class="education-grid">
                                 <div class="education-card">
                                     <div class="education-image">
@@ -905,26 +907,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Sección de Tips y Consejos -->
-        <section id="tips" class="section">
-            <div class="container">
-                <h2 class="section-title">Tips & Consejos</h2>
-                <p class="section-subtitle">Conocimientos y experiencias que me gustaría compartir</p>
-                
-                <div class="tips-grid">
-                    <!-- Example tip -->
-                    <div class="tip-card">
-                        <div class="tip-icon">💡</div>
-                        <h3>Título del Consejo</h3>
-                        <p>Descripción del consejo o tip que quieres compartir con otros desarrolladores.</p>
-                        <a href="#" class="read-more">Leer más</a>
-                    </div>
-                    
-                    <!-- Más tips se añadirán aquí -->
                 </div>
             </div>
         </section>

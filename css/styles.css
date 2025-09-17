@@ -80,45 +80,88 @@ header {
     margin: 0 auto;
 }
 
-.logo h1 {
+.logo-text h1 {
     color: #00ffff;
     font-size: 1.8rem;
     font-weight: bold;
     text-shadow: 0 0 10px rgba(0,255,255,0.3);
+    margin: 0;
+}
+
+.logo-subtitle {
+    color: #b0b0b0;
+    font-size: 0.9rem;
+    font-style: italic;
+    display: block;
+    margin: 0;
 }
 
 .nav-menu {
     display: flex;
     list-style: none;
-    gap: 2rem;
+    gap: 1.5rem;
 }
 
-.nav-menu a {
+.nav-link {
     text-decoration: none;
     color: #e0e0e0;
     font-weight: 500;
+    font-size: 0.95rem;
     transition: all 0.3s ease;
     position: relative;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
 }
 
-.nav-menu a:hover {
+.nav-link:hover {
     color: #00ffff;
+    background: rgba(0,255,255,0.1);
     text-shadow: 0 0 5px rgba(0,255,255,0.5);
+    transform: translateY(-2px);
 }
 
-.nav-menu a::after {
+.nav-link::after {
     content: '';
     position: absolute;
     width: 0;
     height: 2px;
-    bottom: -5px;
-    left: 0;
+    bottom: 0.2rem;
+    left: 50%;
+    transform: translateX(-50%);
     background: linear-gradient(90deg, #00ffff, #0080ff);
     transition: width 0.3s ease;
+    border-radius: 1px;
 }
 
-.nav-menu a:hover::after {
-    width: 100%;
+.nav-link:hover::after {
+    width: 80%;
+}
+
+/* Mobile navigation improvements */
+@media (max-width: 768px) {
+    .nav-container {
+        padding: 0.8rem 1rem;
+    }
+    
+    .nav-menu {
+        gap: 0.8rem;
+    }
+    
+    .nav-link {
+        font-size: 0.85rem;
+        padding: 0.3rem 0.6rem;
+    }
+    
+    .logo-text h1 {
+        font-size: 1.4rem;
+    }
+    
+    .logo-subtitle {
+        font-size: 0.8rem;
+    }
 }
 
 /* Secciones principales */
