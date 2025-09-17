@@ -1936,6 +1936,8 @@ class ExperienceTimeline {
     constructor() {
         this.yearItems = document.querySelectorAll('.year-item');
         this.experienceCards = document.querySelectorAll('.experience-card');
+        this.timelineScroll = document.querySelector('.timeline-scroll');
+        this.timelineYears = document.querySelector('.timeline-years');
         
         if (this.yearItems.length > 0) {
             this.init();
@@ -1953,8 +1955,41 @@ class ExperienceTimeline {
             });
         });
         
-        // Set default to show all (2024 active)
+        // Add scroll functionality to timeline
+        if (this.timelineScroll) {
+            this.timelineScroll.addEventListener('scroll', () => {
+                this.handleTimelineScroll();
+            });
+        }
+        
+        // Set default to show all
         this.showAllCards();
+    }
+    
+    handleTimelineScroll() {
+        if (!this.timelineScroll || !this.timelineYears) return;
+        
+        const scrollLeft = this.timelineScroll.scrollLeft;
+        const maxScroll = this.timelineScroll.scrollWidth - this.timelineScroll.clientWidth;
+        
+        // Solo actuar si hay scroll disponible
+        if (maxScroll <= 0) return;
+        
+        const scrollPercentage = scrollLeft / maxScroll;
+        
+        // Calcular qué año debería estar activo (excluyendo "All")
+        const yearItems = Array.from(this.yearItems).filter(item => item.dataset.year !== 'all');
+        const yearIndex = Math.floor(scrollPercentage * (yearItems.length - 1));
+        
+        if (yearIndex >= 0 && yearIndex < yearItems.length) {
+            const targetYear = yearItems[yearIndex];
+            
+            // Solo cambiar si no está ya activo
+            if (!targetYear.classList.contains('active')) {
+                this.setActiveYear(targetYear);
+                this.filterByYear(targetYear.dataset.year);
+            }
+        }
     }
     
     filterByYear(selectedYear) {
@@ -1964,8 +1999,15 @@ class ExperienceTimeline {
             const cardYears = card.dataset.years ? card.dataset.years.split(',') : [];
             console.log(`Card years: ${cardYears}, Selected: ${selectedYear}`);
             
-            // Show cards that match the selected year or show all for 2025 (current)
-            if (selectedYear === '2025' || cardYears.includes(selectedYear)) {
+            let shouldShow = false;
+            
+            if (selectedYear === 'all') {
+                shouldShow = true; // Show all cards
+            } else {
+                shouldShow = cardYears.includes(selectedYear);
+            }
+            
+            if (shouldShow) {
                 // Show card with animation
                 card.style.display = 'block';
                 card.style.opacity = '0';
@@ -1990,17 +2032,18 @@ class ExperienceTimeline {
             }
         });
         
-        // Show a message if no cards are visible
-        setTimeout(() => {
-            const visibleCards = Array.from(this.experienceCards).filter(card => 
-                card.style.display !== 'none'
-            );
-            
-            if (visibleCards.length === 0) {
-                console.log(`No experience found for year ${selectedYear}`);
-                // You could show a "No experience for this year" message here
-            }
-        }, 350);
+        // Show a message if no cards are visible (only for specific years, not "all")
+        if (selectedYear !== 'all') {
+            setTimeout(() => {
+                const visibleCards = Array.from(this.experienceCards).filter(card => 
+                    card.style.display !== 'none'
+                );
+                
+                if (visibleCards.length === 0) {
+                    console.log(`No experience found for year ${selectedYear}`);
+                }
+            }, 350);
+        }
     }
     
     setActiveYear(activeYearElement) {
