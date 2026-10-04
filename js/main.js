@@ -161,28 +161,22 @@ async function initPortrait() {
         const neutralLighting = [-.4, .7, 1, 1, 1, 1, .57, .79, .80, .65];
         let lightCurrent = [...neutralLighting];
         let lightFrom = [...neutralLighting], lightTarget = [...neutralLighting];
-        let lightStart = -Infinity, lastLightChange = -Infinity, rotationTravel = 0;
-        const lightPalette = [[.55, .93, 1], [1, .80, .62], [.80, .73, 1], [1, 1, 1]];
+        let lightStart = -Infinity, lastLightChange = -Infinity;
+        let canvasVisible = true;
+        const lightPalette = [[.25, .95, 1], [1, .55, .25], [.75, .35, 1], [.35, .6, 1], [1, .4, .65]];
 
         function changeLighting(previousYaw, previousPitch, reset = false) {
-            rotationTravel += Math.abs(yaw - previousYaw) + Math.abs(pitch - previousPitch);
             const now = performance.now();
-            if (reset) {
+            if (reset || reducedMotion.matches) {
                 lightTarget = [...neutralLighting];
-                rotationTravel = 0;
-                lastLightChange = -Infinity;
             } else {
-                if (rotationTravel < .001) return;
-                // Change on the first movement, then at most five times per second.
-                // Interpolation keeps even fast dragging free of abrupt flashes.
-                if (lastLightChange !== -Infinity && (rotationTravel < .45 || now - lastLightChange < 200)) return;
+                if (now - lastLightChange < 550) return;
                 const keyColor = lightPalette[Math.floor(Math.random() * lightPalette.length)];
                 const fillColor = lightPalette[Math.floor(Math.random() * lightPalette.length)];
-                lightTarget = [Math.random() * 2.6 - 1.3, .15 + Math.random(), .5 + Math.random(),
-                    ...keyColor, ...fillColor, .60 + Math.random() * .25];
-                rotationTravel = 0;
-                lastLightChange = now;
+                lightTarget = [Math.random() * 4 - 2, .05 + Math.random() * 1.3, .35 + Math.random(),
+                    ...keyColor, ...fillColor, .85 + Math.random() * .45];
             }
+            lastLightChange = now;
             lightFrom = [...lightCurrent];
             lightStart = now;
         }
@@ -190,7 +184,8 @@ async function initPortrait() {
         let pointer = null, previousX = 0, previousY = 0;
         function render(now = performance.now()) {
             frame = 0;
-            if (!ready || contextLost || document.hidden) return;
+            if (!ready || contextLost || document.hidden || !canvasVisible) return;
+            if (!reducedMotion.matches && now - lastLightChange >= 550) changeLighting();
             const ratio = Math.min(window.devicePixelRatio || 1, 2);
             const width = Math.max(1, Math.round(canvas.clientWidth * ratio));
             const height = Math.max(1, Math.round(canvas.clientHeight * ratio));
@@ -209,7 +204,7 @@ async function initPortrait() {
                 0,0,-1.002,-1, 0,0,-.2002,0
             ]));
             gl.uniform2f(rotationLocation, pitch, yaw);
-            const blend = reducedMotion.matches ? 1 : Math.max(0, Math.min(1, (now - lightStart) / 450));
+            const blend = reducedMotion.matches ? 1 : Math.max(0, Math.min(1, (now - lightStart) / 320));
             const eased = blend * blend * (3 - 2 * blend);
             lightCurrent = lightTarget.map((value, i) => lightFrom[i] + (value - lightFrom[i]) * eased);
             gl.uniform3fv(lightDirectionLocation, lightCurrent.slice(0, 3));
@@ -218,8 +213,8 @@ async function initPortrait() {
             gl.uniform1f(lightIntensityLocation, lightCurrent[9]);
             // OBJLoader expands every triangle: drawArrays avoids 16-bit index overflow.
             gl.drawArrays(gl.TRIANGLES, 0, model.vertexCount);
-            // Stop rendering after the lighting transition settles.
-            if (blend < 1) requestRender();
+            // Keep the lighting moving while the portrait is visible.
+            if (!reducedMotion.matches) requestRender();
         }
         function requestRender() {
             if (ready && !frame && !document.hidden) frame = requestAnimationFrame(render);
@@ -262,6 +257,14 @@ async function initPortrait() {
         });
         new ResizeObserver(requestRender).observe(canvas);
         document.addEventListener('visibilitychange', requestRender);
+        new IntersectionObserver(entries => {
+            canvasVisible = entries[0].isIntersecting;
+            if (canvasVisible) requestRender();
+        }).observe(canvas);
+        reducedMotion.addEventListener('change', () => {
+            changeLighting(0, 0, true);
+            requestRender();
+        });
         ready = true;
         status.hidden = true;
         render();
