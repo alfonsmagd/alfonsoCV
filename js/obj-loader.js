@@ -10,6 +10,7 @@ class OBJLoader {
     async loadOBJ(url) {
         try {
             const response = await fetch(url);
+            if (!response.ok) throw new Error(`OBJ request failed: ${response.status}`);
             const text = await response.text();
             console.log('OBJ file loaded successfully');
             return this.parseOBJ(text);

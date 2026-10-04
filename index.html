@@ -1,582 +1,82 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Alfonso's professional portfolio showcasing innovative projects                            <h3>Technical Skills</h3> WebGL demos, and development expertise. Interactive CV with particle systems and 3D graphics.">
-    <meta name="keywords" content="Alfonso, developer, portfolio, WebGL, JavaScript, 3D graphics, web development">
-    <meta name="author" content="Alfonso">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Alfonso CV - Developer Portfolio">
-    <meta property="og:description" content="Interactive portfolio with WebGL demos, particle systems, and innovative web projects">
-    <meta property="og:url" content="https://your-username.github.io">
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:title" content="Alfonso CV - Developer Portfolio">
-    <meta property="twitter:description" content="Interactive portfolio with WebGL demos and innovative projects">
-    
-    <title>Alfonso CV - Portfolio</title>
-    <link rel="stylesheet" href="css/styles.css">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101112">
+<meta name="description" content="Alfonso Mateos Aparicio — Render Programmer at Ubisoft–Snowdrop, working in World Domain since January 2026. C++, computer graphics and real-time simulation.">
+<meta property="og:title" content="Alfonso Mateos — Render Programmer"><meta property="og:description" content="Render Programmer at Ubisoft–Snowdrop. World Domain, January 2026–present. Explore my graphics and simulation experience."><meta property="og:type" content="website">
+<title>Alfonso Mateos — Render Programmer</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="css/styles.css">
+<script src="js/obj-loader.js" defer></script><script src="js/main.js" defer></script>
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="nav-container">
-                <div class="logo">
-                    <div class="logo-text">
-                        <h1>Alfonso Mateos Aparicio</h1>
-                        <span class="logo-subtitle">Software Engineer C++ (Graphics/Render)</span>
-                    </div>
-                </div>
-                <ul class="nav-menu">
-                    <li><a href="#inicio" class="nav-link">Home</a></li>
-                    <li><a href="#who-am-i" class="nav-link">About</a></li>
-                    <li><a href="#skills-features" class="nav-link">Skills</a></li>
-                    <li><a href="#personal-projects" class="nav-link">Projects</a></li>
-                    <li><a href="#trabajos-profesionales" class="nav-link">Experience</a></li>
-                    <li><a href="#webgl-test" class="nav-link">WebGL Demo</a></li>
-                    <li><a href="#contacto" class="nav-link">Contact</a></li>
-                </ul>
-            </div>
-        </nav>
-    </header>
-
-    <main>
-        <!-- Sección de Inicio -->
-        <section id="inicio" class="hero">
-            <canvas id="particleCanvas"></canvas>
-            <div class="container">
-                <div class="hero-content">
-                    <div class="hero-header">
-                        <img src="assets/images/alfonsom.jpg" alt="Alfonso" class="hero-image">
-                        <h1>Hello! I'm Alfonso</h1>
-                    </div>
-                    <p class="hero-subtitle">Developer and Creator of Innovative Projects</p>
-                    <p class="hero-description">
-                        Welcome to my portfolio where I share my projects, professional experience 
-                        and knowledge acquired throughout my career.
-                    </p>
-                    <div class="hero-buttons">
-                        <a href="#personal-projects" class="btn btn-primary">View Projects</a>
-                        <a href="#contact" class="btn btn-secondary">Contact</a>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Who I am Section -->
-        <section id="who-am-i" class="section">
-            <div class="container">
-                <h2 class="section-title">Who Am I?</h2>
-                <p class="section-subtitle">Software Engineer passionate about innovation - Meet my interactive 3D avatar!</p>
-                
-                <!-- 3D Model Section -->
-                <div class="model-3d-container">
-                    <div class="webgl-container">
-                        <canvas id="webglCanvas" class="webgl-canvas"></canvas>
-                        <div class="webgl-controls">
-                            <!-- Lighting Controls -->
-                            <div class="control-section">
-                                <h4>Lighting</h4>
-                                <div class="control-group">
-                                    <label>Light Direction X:</label>
-                                    <input type="range" id="lightDirX" min="-1" max="1" step="0.1" value="0.5" class="slider">
-                                    <span id="lightDirXValue">0.5</span>
-                                </div>
-                                <div class="control-group">
-                                    <label>Light Direction Y:</label>
-                                    <input type="range" id="lightDirY" min="-1" max="1" step="0.1" value="0.7" class="slider">
-                                    <span id="lightDirYValue">0.7</span>
-                                </div>
-                                <div class="control-group">
-                                    <label>Light Direction Z:</label>
-                                    <input type="range" id="lightDirZ" min="-1" max="1" step="0.1" value="0.5" class="slider">
-                                    <span id="lightDirZValue">0.5</span>
-                                </div>
-                                <div class="control-group">
-                                    <label>Light Color:</label>
-                                    <input type="color" id="lightColor" value="#ffffff" class="color-picker">
-                                </div>
-                                <div class="control-group">
-                                    <label>Light Intensity:</label>
-                                    <input type="range" id="lightIntensity" min="0" max="2" step="0.1" value="1" class="slider">
-                                    <span id="lightIntensityValue">1</span>
-                                </div>
-                                <div class="control-group">
-                                    <label>Ambient Light:</label>
-                                    <input type="range" id="ambientLight" min="0" max="1" step="0.1" value="0.3" class="slider">
-                                    <span id="ambientLightValue">0.3</span>
-                                </div>
-                            </div>
-
-                            <!-- Rotation Controls -->
-                            <div class="control-section">
-                                <h4>🔄 Rotation</h4>
-                                <div class="control-group">
-                                    <label>Rotation X:</label>
-                                    <input type="range" id="rotationX" min="0" max="360" value="0" class="slider">
-                                    <span id="rotationXValue">0°</span>
-                                </div>
-                                <div class="control-group">
-                                    <label>Rotation Y:</label>
-                                    <input type="range" id="rotationY" min="0" max="360" value="0" class="slider">
-                                    <span id="rotationYValue">0°</span>
-                                </div>
-                                <div class="control-group">
-                                    <label>Rotation Z:</label>
-                                    <input type="range" id="rotationZ" min="0" max="360" value="0" class="slider">
-                                    <span id="rotationZValue">0°</span>
-                                </div>
-                                <div class="control-group">
-                                    <label>Auto Rotation:</label>
-                                    <input type="checkbox" id="autoRotate" checked class="checkbox">
-                                </div>
-                            </div>
-
-                            <!-- Scale Controls -->
-                            <div class="control-section">
-                                <h4>📏 Scale</h4>
-                                <div class="control-group">
-                                    <label>Scale X:</label>
-                                    <input type="range" id="scaleX" min="0.1" max="2" step="0.1" value="0.3" class="slider">
-                                    <span id="scaleXValue">0.3</span>
-                                </div>
-                                <div class="control-group">
-                                    <label>Scale Y:</label>
-                                    <input type="range" id="scaleY" min="0.1" max="2" step="0.1" value="0.3" class="slider">
-                                    <span id="scaleYValue">0.3</span>
-                                </div>
-                                <div class="control-group">
-                                    <label>Scale Z:</label>
-                                    <input type="range" id="scaleZ" min="0.1" max="2" step="0.1" value="0.3" class="slider">
-                                    <span id="scaleZValue">0.3</span>
-                                </div>
-                            </div>
-
-                            <!-- Position Controls -->
-                            <div class="control-section">
-                                <h4>Position</h4>
-                                <div class="control-group">
-                                    <label>Position X:</label>
-                                    <input type="range" id="positionX" min="-5" max="5" step="0.1" value="0" class="slider">
-                                    <span id="positionXValue">0</span>
-                                </div>
-                                <div class="control-group">
-                                    <label>Position Y:</label>
-                                    <input type="range" id="positionY" min="-5" max="5" step="0.1" value="0" class="slider">
-                                    <span id="positionYValue">0</span>
-                                </div>
-                                <div class="control-group">
-                                    <label>Distance:</label>
-                                    <input type="range" id="positionZ" min="-10" max="-1" step="0.1" value="-2" class="slider">
-                                    <span id="positionZValue">-2</span>
-                                </div>
-                            </div>
-
-                            <!-- Color Controls -->
-                            <div class="control-section">
-                                <h4>🎨 Color</h4>
-                                <div class="control-group">
-                                    <label>Model Color:</label>
-                                    <input type="color" id="colorPicker" value="#ff0000" class="color-picker">
-                                </div>
-                                <div class="control-group">
-                                    <label>Color Intensity:</label>
-                                    <input type="range" id="colorIntensity" min="0" max="1" step="0.1" value="0.3" class="slider">
-                                    <span id="colorIntensityValue">0.3</span>
-                                </div>
-                            </div>
-
-                            <!-- Action Buttons -->
-                            <div class="control-section">
-                                <button id="resetDemo" class="btn btn-primary">🔄 Reset All</button>
-                                <button id="savePreset" class="btn btn-secondary">💾 Save</button>
-                                <button id="loadPreset" class="btn btn-secondary">📂 Load</button>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="webgl-info">
-                        <div class="info-card">
-                            <h3>About Me</h3>
-                            <ul>
-                                <li>Animal Lovers</li>
-                                <li>Enjoys doing outdoor activities</li>
-                                <li>Imaginative Thinker</li>
-                                <li>Live in Madrid Spain, but sometimes I spend some time in the Mexico</li>
-                            </ul>
-                        </div>
-                        <div class="info-card">
-                            <h3>Play With Me</h3>
-                            <ul>
-                                <li>Give me Blue Color</li>
-                                <li>Rotate in Z</li>
-                                <li>Light Light Light</li>
-                            </ul>
-                            <div id="personal-messages" class="personal-messages">
-                                <!-- Los mensajes personales aparecerán aquí -->
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- About Content -->
-                <div class="about-container">
-                    <div class="about-content">
-                        <div class="about-section">
-                            <h3>Personal Information</h3>
-                            <div class="personal-info">
-                                <h4>Alfonso Mateos Aparicio García de Dionisio</h4>
-                                <p class="location">Madrid, Spain • Age: 30</p>
-                                <p class="contact-info">
-                                    <span>+34-676-686-227</span> • 
-                                    <span>Alfonso_magd@hotmail.com</span>
-                                </p>
-                            </div>
-                        </div>
-
-                        <div class="about-section">
-                            <h3>Professional Profile</h3>
-                            <div class="profile-description">
-                                <p>Experienced C/C++ Engineer with a strong background in computer graphics and game development using Unreal Engine 4/5. Skilled in implementing C++ solutions for game mechanics and physics, and optimizing code through metaprogramming. Proven ability to enhance rendering algorithms and reduce computational costs using GPU programming.</p>
-                                
-                                <div class="highlight-project">
-                                    <h4>Creator of IFNITY RENDERING</h4>
-                                    <p>Designed a hardware-agnostic rendering interface capable of rendering with OpenGL, Vulkan 1.3, and Direct3D 12. Using C++ 20</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="about-section">
-                            <h3>Education</h3>
-                            <div class="education-grid">
-                                <div class="education-card">
-                                    <div class="education-image">
-                                        <img src="assets/images/uclm.jpg" alt="University of Castilla-La Mancha">
-                                    </div>
-                                    <div class="education-content">
-                                        <h4>Industrial Engineering</h4>
-                                        <h5>Electronic & Automation Engineering</h5>
-                                        <p><strong>University of Castilla-La Mancha (UCLM)</strong></p>
-                                        <p class="education-period">2012 - 2016</p>
-                                        <p class="education-description">Specialized in electronic systems and industrial automation, providing a solid foundation in control systems, embedded programming, and industrial processes.</p>
-                                        <a href="https://www.uclm.es/departamentos/dieeac/estudios/albacete/gieia" target="_blank" class="education-link">View Program</a>
-                                    </div>
-                                </div>
-                                <div class="education-card">
-                                    <div class="education-image">
-                                        <img src="assets/images/uclm.jpg" alt="University of Castilla-La Mancha">
-                                    </div>
-                                    <div class="education-content">
-                                        <h4>Master's Degree</h4>
-                                        <h5>Embedded Computer Systems for Aircraft</h5>
-                                        <p><strong>University of Castilla-La Mancha (UCLM)</strong></p>
-                                        <p class="education-period">2017 - 2018</p>
-                                        <p class="education-description">Advanced study in embedded systems for aircraft applications, real-time programming, and hardware-software integration for aerospace and industrial applications.</p>
-                                        <a href="https://blog.uclm.es/rafaelcasado/docencia/msie" target="_blank" class="education-link">View Program</a>
-                                    </div>
-                                </div>
-                                <div class="education-card">
-                                    <div class="education-image">
-                                        <img src="assets/images/urjc.jpg" alt="Rey Juan Carlos University">
-                                    </div>
-                                    <div class="education-content">
-                                        <h4>Master's Degree</h4>
-                                        <h5>Computer Graphics, Video Games & Virtual Reality</h5>
-                                        <p><strong>Rey Juan Carlos University (URJC) - Madrid</strong></p>
-                                        <p class="education-period">2023 - 2025 (Completed)</p>
-                                        <p class="education-description">Specialized in advanced graphics programming, game engine development, and virtual reality technologies for simulation and entertainment applications. Successfully completed with focus on real-time rendering and interactive systems.</p>
-                                        <a href="https://mastergraficos.com" target="_blank" class="education-link">View Program</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="about-section">
-                            <h3>🌟 Personal Philosophy</h3>
-                            <div class="philosophy-quote">
-                                <blockquote>
-                                    "Engineering is not just about solving problems—it's about creating possibilities. 
-                                    I strive to bridge the gap between theoretical knowledge and practical innovation, 
-                                    always seeking ways to make complex systems more efficient and accessible."
-                                </blockquote>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Skills & Features Section -->
-        <section id="skills-features" class="section bg-alt">
-            <div class="container">
-                <h2 class="section-title">Professional Profile</h2>
-                <p class="section-subtitle">🚀 Simulation Engineer with 10+ years of industrial experience crafting cutting-edge graphics solutions and real-time rendering systems that push the boundaries of visual computing</p>
-                
-                <div class="skills-container">
-                    <!-- Graphics APIs Section -->
-                    <div class="skills-category">
-                        <h3>🎮 Graphics APIs</h3>
-                        <div class="skills-grid">
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">OpenGL 4.6</span>
-                                    <span class="skill-level">Level 8/10</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 80%;" data-skill="opengl"></div>
-                                </div>
-                                <p class="skill-description">Advanced OpenGL programming with modern rendering techniques</p>
-                            </div>
-                            
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">Direct3D 12</span>
-                                    <span class="skill-level">Level 6/10</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 60%;" data-skill="directx"></div>
-                                </div>
-                                <p class="skill-description">Modern DirectX 12 with low-level graphics programming</p>
-                            </div>
-                            
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">Vulkan</span>
-                                    <span class="skill-level">Level 5/10</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 50%;" data-skill="vulkan"></div>
-                                </div>
-                                <p class="skill-description">Next-generation graphics API for high-performance rendering</p>
-                            </div>
-
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">DXR (DirectX Raytracing)</span>
-                                    <span class="skill-level">Level 5/10</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 50%;" data-skill="dxr"></div>
-                                </div>
-                                <p class="skill-description">Real-time ray tracing for photorealistic lighting and reflections</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Programming Languages Section -->
-                    <div class="skills-category">
-                        <h3>💻 Programming Languages</h3>
-                        <div class="skills-grid">
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">C++</span>
-                                    <span class="skill-level">10+ Years Experience</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 95%;" data-skill="cpp"></div>
-                                </div>
-                                <p class="skill-description">Modern C++11/14/17/20, STL, templates, memory management</p>
-                            </div>
-                            
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">C#</span>
-                                    <span class="skill-level">Level 6/10</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 60%;" data-skill="csharp"></div>
-                                </div>
-                                <p class="skill-description">.NET Framework, Unity scripting, application development</p>
-                            </div>
-
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">Python</span>
-                                    <span class="skill-level">Level 7/10</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 70%;" data-skill="python"></div>
-                                </div>
-                                <p class="skill-description">Scripting, automation, pipeline tools, data processing</p>
-                            </div>
-
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">CMake</span>
-                                    <span class="skill-level">Level 6/10</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 60%;" data-skill="cmake"></div>
-                                </div>
-                                <p class="skill-description">Cross-platform build systems, dependency management</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Game Engines Section -->
-                    <div class="skills-category">
-                        <h3>🎯 Game Engines & Frameworks</h3>
-                        <div class="skills-grid">
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">Unreal Engine 4/5</span>
-                                    <span class="skill-level">Level 6/10</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 60%;" data-skill="unreal"></div>
-                                </div>
-                                <p class="skill-description">Material Editor, Blueprint system & C++ development</p>
-                            </div>
-                            
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">Unity</span>
-                                    <span class="skill-level">Level 3/10</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 30%;" data-skill="unity"></div>
-                                </div>
-                                <p class="skill-description">Basic Unity development and scripting</p>
-                            </div>
-
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">OGRE 3D</span>
-                                    <span class="skill-level">Level 5/10</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 50%;" data-skill="ogre"></div>
-                                </div>
-                                <p class="skill-description">Object-oriented graphics rendering engine development</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- IDEs & Tools Section -->
-                    <div class="skills-category">
-                        <h3>🛠️ IDEs & Development Tools</h3>
-                        <div class="skills-grid">
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">Visual Studio 2022</span>
-                                    <span class="skill-level">Expert Level</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 90%;" data-skill="vs2022"></div>
-                                </div>
-                                <p class="skill-description">Advanced debugging, profiling, project management</p>
-                            </div>
-                            
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">Qt Creator</span>
-                                    <span class="skill-level">Level 7/10</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 70%;" data-skill="qtcreator"></div>
-                                </div>
-                                <p class="skill-description">Cross-platform GUI development, UI/UX design</p>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Rendering Techniques Section -->
-                    <div class="skills-category">
-                        <h3>🌟 Advanced Rendering Techniques</h3>
-                        <div class="skills-grid">
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">Image-Based Lighting (IBL)</span>
-                                    <span class="skill-level">Advanced</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 75%;" data-skill="ibl"></div>
-                                </div>
-                                <p class="skill-description">Environment mapping, HDRI, realistic material lighting</p>
-                            </div>
-                            
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">Cascade Shadow Maps</span>
-                                    <span class="skill-level">Advanced</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 80%;" data-skill="csm"></div>
-                                </div>
-                                <p class="skill-description">Multi-resolution shadow mapping for large-scale scenes</p>
-                            </div>
-
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">Irradiance Volumes</span>
-                                    <span class="skill-level">Intermediate</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 65%;" data-skill="irradiance"></div>
-                                </div>
-                                <p class="skill-description">3D light probes for dynamic global illumination</p>
-                            </div>
-
-                            <div class="skill-item">
-                                <div class="skill-header">
-                                    <span class="skill-name">Global Illumination</span>
-                                    <span class="skill-level">Advanced</span>
-                                </div>
-                                <div class="skill-bar">
-                                    <div class="skill-progress" style="width: 70%;" data-skill="gi"></div>
-                                </div>
-                                <p class="skill-description">Real-time and offline GI solutions, light bouncing</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Skill Modal -->
-        <div id="skill-modal" class="skill-modal">
-            <div class="skill-modal-overlay"></div>
-            <div class="skill-modal-content">
-                <button class="skill-modal-close">&times;</button>
-                <div class="skill-modal-header">
-                    <h2 id="modal-skill-name">Skill Name</h2>
-                    <div class="skill-modal-level">
-                        <span id="modal-skill-level">Level</span>
-                        <div class="skill-modal-bar">
-                            <div id="modal-skill-progress" class="skill-modal-progress"></div>
-                        </div>
-                    </div>
-                </div>
-                <div class="skill-modal-body">
-                    <div id="modal-skill-description" class="skill-description-detailed"></div>
-                    <div id="modal-skill-experience" class="skill-experience"></div>
-                    <div id="modal-skill-projects" class="skill-projects"></div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Personal Projects Section -->
-        <section id="personal-projects" class="section">
-            <div class="container">
-                <h2 class="section-title">Personal Projects</h2>
-                <p class="section-subtitle">Explore my creative and experimental projects</p>
-                
-                <div class="projects-grid">
-                    <!-- IFNITY ENGINE Project -->
-                    <div class="project-card">
-                        <div class="project-image">
-                            <img src="assets/images/ifnity_linkeding.png" alt="IFNITY ENGINE" />
-                        </div>
-                        <div class="project-content">
-                            <h3>IFNITY ENGINE ( July 2024 - Present )</h3>
-                            <p>Advanced hardware-agnostic rendering interface showcasing RHI (Render Hardware Interface) architecture based on NVIDIA Rendering Hardware Interface. Features cutting-edge rendering techniques with performance benchmarking across multiple graphics APIs. <strong>Achieved maximum qualification in Master's Thesis (TFM) at Universidad Rey Juan Carlos in Graphics Programming.</strong></p>
-                            <div class="project-details">
-                                <h4>Advanced Features:</h4>
-                                <ul>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="sidebar">
+<a class="monogram" href="#inicio" aria-label="Alfonso Mateos, home">am<span>.</span></a>
+<nav aria-label="Main navigation">
+<a class="nav-link active" href="#inicio" aria-current="location"><span class="nav-number">01</span>Home</a>
+<a class="nav-link" href="#who-am-i"><span class="nav-number">02</span>About</a>
+<a class="nav-link" href="#personal-projects"><span class="nav-number">03</span>Work</a>
+<a class="nav-link" href="#trabajos-profesionales"><span class="nav-number">04</span>Experience</a>
+<a class="nav-link" href="#contacto"><span class="nav-number">05</span>Contact</a>
+</nav>
+<a class="sidebar-bottom" href="https://github.com/alfonsmagd" target="_blank" rel="noopener noreferrer" aria-label="Alfonso on GitHub (opens in a new tab)">GH <span aria-hidden="true">↗</span></a>
+</header>
+<main id="main">
+<section id="inicio" class="hero" aria-labelledby="hero-title">
+<div class="hero-top"><span>RENDER PROGRAMMER / UBISOFT · SNOWDROP</span><span class="location"><i aria-hidden="true"></i>MADRID, ES</span></div>
+<div class="hero-grid">
+<div class="hero-copy"><p class="eyebrow">HELLO, I'M</p><h1 id="hero-title">Alfonso<br>Mateos<span class="accent">.</span></h1><p class="hero-role">Render Programmer at Ubisoft–Snowdrop.</p><p class="hero-description">Working in World Domain since January 2026.<br class="desktop-break"> C++, real-time graphics and simulation.</p><a class="text-link" href="#personal-projects">Explore my work <span aria-hidden="true">↘</span></a></div>
+<figure class="portrait"><div class="portrait-image"><img src="assets/images/alfonso-portrait.png" width="336" height="262" alt="Portrait of Alfonso Mateos Aparicio" fetchpriority="high"></div><figcaption><span>THE PERSON BEHIND THE CODE</span><span aria-hidden="true">+</span></figcaption></figure>
+</div>
+<div class="hero-bottom"><span>C++20 <b>/</b> VULKAN <b>/</b> DIRECTX <b>/</b> OPENGL</span><a href="#who-am-i">SCROLL TO DISCOVER <span aria-hidden="true">↓</span></a></div>
+</section>
+<section id="who-am-i" class="section" aria-labelledby="about-title">
+<div class="section-heading"><p class="eyebrow">01 / ABOUT</p><h2 id="about-title">A little about me<span class="accent">.</span></h2></div>
+<div class="about-grid"><div class="about-copy">
+  <p class="lead">I build the systems<br>behind the pixels.</p>
+  <p>I'm Alfonso Mateos Aparicio, a <strong>Render Programmer at Ubisoft–Snowdrop</strong>, working in <strong>World Domain since January 2026</strong>. I bring <strong>over 10 years of professional experience in globally recognised technology sectors</strong>, with a C/C++ engineering background spanning computer graphics, game development and real-time simulation.</p>
+  <p>I created <a href="https://github.com/alfonsmagd/IFNITY-ENGINE" target="_blank" rel="noopener noreferrer">IFNITY</a>, a hardware-agnostic rendering interface for OpenGL, Vulkan and Direct3D 12, and <a href="https://github.com/alfonsmagd/LightDX12" target="_blank" rel="noopener noreferrer">LightDX12 (LDX12)</a>, a C++20 graphics library for rapidly building and prototyping with modern DirectX 12 features.</p>
+  <p>LDX12 brings together <strong>bindless resource access, multidraw, raster and compute</strong>. I'm currently working to integrate <strong>ray tracing into its architecture</strong> and migrating Flycast, a Dreamcast emulator, to LDX12.</p>
+  <p>I've ported games such as <strong>GTA III to DirectX 12</strong>, and I actively contribute to open-source graphics projects, including <strong>Khronos/Slang and NVIDIA Donut</strong>.</p>
+  <p>My experience also includes Unreal Engine 4/5, C++ game mechanics and physics, code optimisation through metaprogramming, and GPU programming to improve rendering algorithms and reduce computational costs.</p>
+  <p class="personal-note">Away from the screen: animals, the outdoors, and time between Spain and Mexico.</p>
+</div>
+<figure id="webgl-test" class="avatar-viewer"><div class="viewer-top"><span>ME, IN 3D</span><span class="accent" aria-hidden="true">↔</span></div><canvas id="webglCanvas" tabindex="0" aria-label="Interactive 3D portrait of Alfonso. Drag horizontally or use the arrow keys to rotate." aria-describedby="avatar-hint">Interactive 3D portrait of Alfonso.</canvas><p id="avatar-status" class="avatar-status" role="status">Loading portrait…</p><figcaption id="avatar-hint">Drag to rotate & change the light <span aria-hidden="true">·</span> Arrow keys also work</figcaption></figure></div>
+<div id="skills-features" class="skills-grid"><div><h3>Languages & tools</h3><p>C / C++20 · C# · Python<br>CMake · Visual Studio · Qt</p></div><div><h3>Graphics & engines</h3><p>Vulkan · Direct3D 9/11/12 · OpenGL 4.6<br>Snowdrop · Unreal Engine 4/5 · Unity · OGRE 3D</p></div><div><h3>Rendering techniques</h3><p>Global illumination · DXR · IBL<br>Cascade shadow maps · Irradiance volumes</p></div></div>
+</section>
+<section id="personal-projects" class="section" aria-labelledby="work-title">
+<div class="section-heading heading-row"><div><p class="eyebrow">02 / SELECTED WORK</p><h2 id="work-title">Built with curiosity<span class="accent">.</span></h2></div><a class="small-link" href="https://github.com/alfonsmagd" target="_blank" rel="noopener noreferrer">All repositories ↗</a></div>
+<article id="lightdx12" class="project featured-project lightdx12-project">
+  <a class="project-image ldx12-image" href="https://github.com/alfonsmagd/LightDX12" target="_blank" rel="noopener noreferrer" aria-label="Explore LightDX12 on GitHub">
+    <img src="assets/images/ldx12-banner.png" width="2172" height="724" loading="lazy" alt="LightDX12 library logo">
+  </a>
+  <div class="project-copy">
+    <p class="eyebrow">GRAPHICS API & LIBRARY <span>/ 01</span></p>
+    <h3>LightDX12</h3>
+    <p>A lightweight C++20 API and library for rapid DirectX 12 prototyping, with bindless resource access and multidraw support for raster and compute workflows.</p>
+    <a class="download-milestone" href="https://www.nuget.org/packages/Ldx12" target="_blank" rel="noopener noreferrer"><strong>500+</strong> downloads on NuGet <span aria-hidden="true">↗</span></a>
+    <details class="project-technical"><summary>Technical details <span aria-hidden="true">+</span></summary><div class="role-detail"><ul>
+      <li>Bindless access to graphics resources.</li>
+      <li>Multidraw for batched rendering.</li>
+      <li>Raster and compute workflows for graphics experiments and prototypes.</li>
+      <li>A compact API that reduces repetitive Direct3D 12 setup.</li><li>Ray tracing integration into the architecture — in progress.</li>
+    </ul></div></details>
+    <p class="tags">C++20 <span>DirectX 12</span> Bindless <span>Multidraw</span> Raster <span>Compute</span></p>
+    <a class="text-link" href="https://github.com/alfonsmagd/LightDX12" target="_blank" rel="noopener noreferrer">Explore project <span aria-hidden="true">↗</span></a>
+  </div>
+</article>
+<article id="flycast" class="project featured-project following-project">
+  <div class="flycast-visual"><img src="assets/images/flycast.png" width="512" height="512" loading="lazy" alt="Flycast emulator logo"><span>LDX12</span></div>
+  <div class="project-copy">
+    <p class="eyebrow">DREAMCAST EMULATION <span>/ 02</span></p>
+    <h3>Flycast · LDX12 migration</h3>
+    <p class="flycast-status">IN PROGRESS</p>
+    <p>I'm currently migrating Flycast, a Dreamcast emulator, to LDX12.</p>
+    <p class="tags">Dreamcast <span>LDX12</span> DirectX 12 <span>Emulation</span></p>
+  </div>
+</article>
+<article class="project featured-project following-project"><a class="project-image" href="https://github.com/alfonsmagd/IFNITY-ENGINE" target="_blank" rel="noopener noreferrer" aria-label="Explore IFNITY Engine on GitHub"><img src="assets/images/ifnity_linkeding.png" width="960" height="540" loading="lazy" alt="IFNITY Engine logo"></a><div class="project-copy"><p class="eyebrow">RENDERING ENGINE <span>/ 03</span></p><h3>IFNITY Engine</h3><p class="project-date">July 2024 — Present</p><p>A hardware-agnostic rendering interface with an RHI architecture based on NVIDIA Rendering Hardware Interface. One architecture, three graphics APIs.</p><p class="project-detail">Bindless rendering, MultiDrawIndirect and cross-API performance benchmarks. Awarded the highest grade for my master's thesis at URJC.</p><details class="project-technical"><summary>Technical details <span aria-hidden="true">+</span></summary><div class="role-detail"><ul>
                                     <li>Vulkan 1.3 implementation with modern techniques</li>
                                     <li>DirectX 12 with Shader Model 6.6</li>
                                     <li>OpenGL 4.6 compatibility layer</li>
@@ -584,139 +84,35 @@
                                     <li>Bindless Rendering for optimal performance</li>
                                     <li>Benchmarking system for scene performance comparison</li>
                                     <li>NVIDIA RHI-based architecture</li>
-                                </ul>
-                            </div>
-                            <div class="project-tags">
-                                <span class="tag">C++20</span>
-                                <span class="tag">Vulkan 1.3</span>
-                                <span class="tag">DirectX 12</span>
-                                <span class="tag">OpenGL 4.6</span>
-                                <span class="tag">MultiDrawIndirect</span>
-                                <span class="tag">Bindless Rendering</span>
-                                <span class="tag">NVIDIA RHI</span>
-                                <span class="tag">Benchmarking</span>
-                                <span class="tag">Academic Excellence</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="https://github.com/alfonsmagd/IFNITY-ENGINE" target="_blank" class="btn btn-small">GitHub</a>
-                                <a href="https://github.com/alfonsmagd/IFNITY-ENGINE" target="_blank" class="btn btn-small btn-outline">View Code</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- LibRw DX11 Port Project -->
-                    <div class="project-card">
-                        <div class="project-image">
-                            <img src="assets/images/re3.png" alt="LibRw DX11 Port" />
-                        </div>
-                        <div class="project-content">
-                            <h3>LibRw DX11 Integration ( July 2025 - Present )</h3>
-                            <p>Porting the LibRw library, based on the open-source render engine from GTA III and Vice City, to DirectX 11. This project brings modern graphics API support to the classic RenderWare engine architecture.</p>
-                            <div class="project-details">
-                                <h4>Key Features:</h4>
-                                <ul>
-                                    <li>DirectX 11 backend integration</li>
+                                </ul></div></details><p class="tags">C++20 <span>Vulkan 1.3</span> Direct3D 12 <span>OpenGL 4.6</span></p><a class="text-link" href="https://github.com/alfonsmagd/IFNITY-ENGINE" target="_blank" rel="noopener noreferrer">Explore project <span aria-hidden="true">↗</span></a></div></article>
+<article class="project featured-project secondary-project"><a class="project-image project-mark" href="https://github.com/alfonsmagd/librw" target="_blank" rel="noopener noreferrer" aria-label="Explore my LibRw repository on GitHub"><img src="assets/images/re3.png" width="800" height="450" loading="lazy" alt="re3 project logo"></a><div class="project-copy"><p class="eyebrow">GRAPHICS BACKEND <span>/ 04</span></p><h3>GTA III · Port DX12</h3><p class="project-date">July 2025 — Present</p><p>I ported GTA III to DirectX 12, building on my graphics backend work with LibRw, the open-source RenderWare library. Earlier work included porting LibRw to DirectX 9 and running GTA III with DirectX 11.</p><details class="project-technical"><summary>Technical details <span aria-hidden="true">+</span></summary><div class="role-detail"><ul>
+                                    <li>Ported GTA III to DirectX 12</li><li>Ported the LibRw library to DirectX 9</li><li>Successfully ran GTA III with a DirectX 11 rendering backend</li>
                                     <li>RenderWare engine compatibility</li>
                                     <li>GTA III/Vice City render support</li>
                                     <li>Modern graphics pipeline</li>
                                     <li>Performance optimizations</li>
-                                </ul>
-                            </div>
-                            <div class="project-tags">
-                                <span class="tag">C++</span>
-                                <span class="tag">DirectX 11</span>
-                                <span class="tag">RenderWare</span>
-                                <span class="tag">GTA Engine</span>
-                                <span class="tag">Graphics Programming</span>
-                                <span class="tag">Open Source</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="https://github.com/alfonsmagd/librw/tree/d3d11_integration_backend" target="_blank" class="btn btn-small">GitHub</a>
-                                <a href="https://github.com/alfonsmagd/librw/tree/d3d11_integration_backend" target="_blank" class="btn btn-small btn-outline">View Branch</a>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- MSLAB Vulkan Engine Research Project -->
-                    <div class="project-card">
-                        <div class="project-image">
-                            <img src="assets/model3D/avatar_final_refined_color.png" alt="MSLAB Vulkan Engine" />
-                        </div>
-                        <div class="project-content">
-                            <h3>MSLAB Vulkan Engine ( September 2025 - Present )</h3>
-                            <p>Research collaboration with MSLAB graphics research group developing a modern Vulkan-based render engine. Focus on RTTI implementation for editor layer using cutting-edge C++20 features and modern graphics architecture.</p>
-                            <div class="project-details">
-                                <h4>Key Features:</h4>
-                                <ul>
-                                    <li>Vulkan-based rendering architecture</li>
-                                    <li>RTTI editor layer implementation</li>
-                                    <li>C++20 modern features utilization</li>
-                                    <li>Research-oriented development</li>
-                                    <li>Advanced graphics programming</li>
-                                </ul>
-                            </div>
-                            <div class="project-tags">
-                                <span class="tag">C++20</span>
-                                <span class="tag">Vulkan</span>
-                                <span class="tag">RTTI</span>
-                                <span class="tag">Research</span>
-                                <span class="tag">Editor Systems</span>
-                                <span class="tag">Graphics Architecture</span>
-                            </div>
-                            <div class="project-links">
-                                <a href="https://mslab.es/#home" target="_blank" class="btn btn-small">MSLAB Website</a>
-                                <a href="https://mslab.es/#home" target="_blank" class="btn btn-small btn-outline">Research Group</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Sección de Trabajos Profesionales -->
-        <section id="trabajos-profesionales" class="section bg-alt">
-            <div class="container">
-                <h2 class="section-title">Professional Experience</h2>
-                <p class="section-subtitle">Defense & Simulation Engineering Projects - Military Training Systems</p>
-                <p class="scroll-hint">👆 Haz scroll horizontal o clic en los años para filtrar experiencias</p>
-                
-                <!-- Timeline de fechas con scroll horizontal -->
-                <div class="timeline-scroll">
-                    <div class="timeline-years">
-                        <div class="year-item active" data-year="all">All</div>
-                        <div class="year-item" data-year="2025">2025</div>
-                        <div class="year-item" data-year="2024">2024</div>
-                        <div class="year-item" data-year="2023">2023</div>
-                        <div class="year-item" data-year="2022">2022</div>
-                        <div class="year-item" data-year="2021">2021</div>
-                        <div class="year-item" data-year="2020">2020</div>
-                        <div class="year-item" data-year="2019">2019</div>
-                        <div class="year-item" data-year="2018">2018</div>
-                        <div class="year-item" data-year="2017">2017</div>
-                        <div class="year-item" data-year="2016">2016</div>
-                    </div>
-                </div>
-
-                <!-- Grid de experiencias profesionales -->
-                <div class="experience-grid">
-                    <!-- Tecnobit Experience -->
-                    <div class="experience-card" data-years="2023,2024,2025">
-                        <div class="experience-header">
-                            <h3>Senior Simulation Engineer</h3>
-                            <div class="company-info">
-                                <strong>Tecnobit - Grupo Oesia</strong>
-                                <span class="period">2023 - Present</span>
-                            </div>
-                        </div>
-                        <div class="experience-image">
-                            <img src="assets/images/tecnobit_datalink.png" alt="Tecnobit Tactical Communications Training Systems">
-                        </div>
-                        <div class="experience-content">
-                            <div class="project-section">
+                                </ul></div></details><p class="tags">C++ <span>DirectX 12</span> DirectX 11 <span>DirectX 9</span> RenderWare <span>GTA III</span></p><a class="text-link" href="https://github.com/alfonsmagd/librw/tree/d3d11_integration_backend" target="_blank" rel="noopener noreferrer">Earlier DirectX 11 backend <span aria-hidden="true">↗</span></a><a class="small-link repository-link" href="https://github.com/alfonsmagd/librw" target="_blank" rel="noopener noreferrer">LibRw repository ↗</a></div></article>
+</section>
+<section id="trabajos-profesionales" class="section" aria-labelledby="experience-title"><div class="section-heading"><p class="eyebrow">03 / EXPERIENCE</p><h2 id="experience-title">Rendering, simulation & systems<span class="accent">.</span></h2></div>
+<div class="experience-list">
+<article class="experience current-role">
+  <div class="experience-date"><p class="period">January 2026 — Present</p><img class="ubisoft-logo" src="assets/images/ubisoft.png" width="250" height="229" loading="lazy" alt="Ubisoft"></div>
+  <div>
+    <p class="company">UBISOFT · SNOWDROP</p>
+    <h3>Render Programmer</h3>
+    <p class="role-location">Bucharest, Romania</p>
+    <p>Working in <strong>World Domain</strong> on Snowdrop at Ubisoft since January 2026.</p>
+    <p class="current-domain">Snowdrop <span aria-hidden="true">/</span> World Domain</p>
+    <div class="current-role-tools"><p class="eyebrow">TECHNOLOGIES & PLATFORMS</p><ul class="role-technologies"><li class="role-technology">C++20</li><li class="role-technology">Perforce</li><li class="role-technology">DirectX</li><li class="role-technology">PS5</li><li class="role-technology">Xbox</li><li class="role-technology">Switch</li><li class="role-technology">PC</li></ul></div><img class="snowdrop-logo" src="assets/images/snowdrop.png" width="800" height="607" loading="lazy" alt="Snowdrop emblem">
+  </div>
+</article>
+<article class="experience">
+  <div class="experience-date"><p class="period">2023 — December 2025</p><img class="tecnobit-logo" src="assets/images/tecnobit.png" width="1024" height="392" loading="lazy" alt="Tecnobit · Grupo Oesía"></div>
+  <div><p class="company">TECNOBIT - GRUPO OESIA</p><h3>Senior Simulation Engineer</h3>
+<div class="role-detail full-role-detail">
+                            <div class="professional-project">
                                 <h4>Unreal Engine - SPECTRE Project Backend Development</h4>
-                                <div class="project-image">
-                                    <img src="assets/images/SPECTRE_UNREAL.png" alt="SPECTRE Unreal Engine Project">
-                                </div>
+
                                 <p>Backend development for the SPECTRE project using Unreal Engine C++ for advanced simulation capabilities and real-time rendering systems.</p>
                                 <ul>
                                     <li><strong>Unreal Engine C++:</strong> Core backend systems development for simulation environment</li>
@@ -724,15 +120,15 @@
                                     <li><strong>Engine Integration:</strong> Custom modules and plugins for specialized simulation requirements</li>
                                     <li><strong>DirectX 12:</strong> Advanced graphics optimization and low-level rendering pipeline integration</li>
                                 </ul>
-                                <div class="project-tech">
-                                    <span class="tech-tag">Unreal Engine</span>
-                                    <span class="tech-tag">C++ Backend</span>
-                                    <span class="tech-tag">DirectX 12</span>
-                                    <span class="tech-tag">Real-time Rendering</span>
+                                <div class="role-technologies">
+                                    <span class="role-technology">Unreal Engine</span>
+                                    <span class="role-technology">C++ Backend</span>
+                                    <span class="role-technology">DirectX 12</span>
+                                    <span class="role-technology">Real-time Rendering</span>
                                 </div>
                             </div>
 
-                            <div class="project-section">
+                            <div class="professional-project">
                                 <h4>C++ & Qt - TDL Tactical Data Link Implementation</h4>
                                 <p>Development of high-performance tactical communication systems using C++ and Qt framework with NATO-standard protocols.</p>
                                 <ul>
@@ -740,16 +136,16 @@
                                     <li><strong>Qt Applications:</strong> Cross-platform with custom widgets and signal-slot system</li>
                                     <li><strong>Real-time:</strong> Sub-microsecond timing for tactical data processing</li>
                                 </ul>
-                                <div class="project-tech">
-                                    <span class="tech-tag">C++17/20</span>
-                                    <span class="tech-tag">Qt Framework</span>
-                                    <span class="tech-tag">TDL Protocols</span>
-                                    <span class="tech-tag">Multithreading</span>
-                                    <span class="tech-tag">Network Programming</span>
+                                <div class="role-technologies">
+                                    <span class="role-technology">C++17/20</span>
+                                    <span class="role-technology">Qt Framework</span>
+                                    <span class="role-technology">TDL Protocols</span>
+                                    <span class="role-technology">Multithreading</span>
+                                    <span class="role-technology">Network Programming</span>
                                 </div>
                             </div>
 
-                            <div class="project-section">
+                            <div class="professional-project">
                                 <h4>Training Systems Development - C# .NET & WPF</h4>
                                 <p>Development of training system features such as database storage, TCP/UDP communication, and advanced WPF user interfaces.</p>
                                 <ul>
@@ -758,15 +154,15 @@
                                     <li><strong>Performance:</strong> Asynchronous programming for simulation engines</li>
                                     <li><strong>Integration:</strong> Windows Server and Active Directory</li>
                                 </ul>
-                                <div class="project-tech">
-                                    <span class="tech-tag">C# .NET</span>
-                                    <span class="tech-tag">WPF</span>
-                                    <span class="tech-tag">MVVM</span>
-                                    <span class="tech-tag">Entity Framework</span>
+                                <div class="role-technologies">
+                                    <span class="role-technology">C# .NET</span>
+                                    <span class="role-technology">WPF</span>
+                                    <span class="role-technology">MVVM</span>
+                                    <span class="role-technology">Entity Framework</span>
                                 </div>
                             </div>
 
-                            <div class="project-section">
+                            <div class="professional-project">
                                 <h4>Python - Student Application & Automation</h4>
                                 <p>Developed a student application for selecting units inside the simulation, handling TCP/UDP interfaces, and linking exercise and activity information.</p>
                                 <ul>
@@ -774,68 +170,50 @@
                                     <li><strong>Automation:</strong> Integration of activities and exercise data</li>
                                     <li><strong>UI:</strong> Built with PySide6 for a lightweight and functional interface</li>
                                 </ul>
-                                <div class="project-tech">
-                                    <span class="tech-tag">Python 3.9+</span>
-                                    <span class="tech-tag">PySide6</span>
-                                    <span class="tech-tag">Asyncio</span>
-                                    <span class="tech-tag">Sockets</span>
-                                    <span class="tech-tag">Multithreading</span>
+                                <div class="role-technologies">
+                                    <span class="role-technology">Python 3.9+</span>
+                                    <span class="role-technology">PySide6</span>
+                                    <span class="role-technology">Asyncio</span>
+                                    <span class="role-technology">Sockets</span>
+                                    <span class="role-technology">Multithreading</span>
                                 </div>
                             </div>
 
-                            <div class="experience-links">
-                                <a href="https://grupooesia.com/areas/simulacion" target="_blank" class="btn btn-small">Learn more about Simulation Solutions</a>
+                            <div class="evidence-links">
+                                <a href="https://grupooesia.com/areas/simulacion" target="_blank" rel="noopener noreferrer" class="small-link">Learn more about Simulation Solutions</a>
                             </div>
                         </div>
-                    </div>
-
-                    <!-- Airbus Experience -->
-                    <div class="experience-card" data-years="2021,2022,2023">
-                        <div class="experience-header">
-                            <h3>OpenGL Graphics Programmer</h3>
-                            <div class="company-info">
-                                <strong>Airbus Defense & Space</strong>
-                                <span class="period">Mid 2021 - Late 2023</span>
-                            </div>
-                        </div>
-                        <div class="experience-image">
-                            <img src="assets/images/a3r_refueling.png" alt="Airbus A330 MRTT Automatic Air Refueling System">
-                        </div>
-                        <div class="experience-content">
-                            <div class="project-section">
+<div class="experience-media"><p class="eyebrow">PROJECT GALLERY</p><div class="role-gallery"><figure><a href="assets/images/tecnobit_datalink.png" target="_blank" rel="noopener noreferrer" aria-label="Open image: Tactical communications · Tecnobit"><img loading="lazy" src="assets/images/tecnobit_datalink.png" alt="Tecnobit Tactical Communications Training Systems"></a><figcaption>Tactical communications · Tecnobit <span aria-hidden="true">↗</span></figcaption></figure><figure><a href="assets/images/SPECTRE_UNREAL.png" target="_blank" rel="noopener noreferrer" aria-label="Open image: SPECTRE · Unreal Engine"><img loading="lazy" src="assets/images/SPECTRE_UNREAL.png" alt="SPECTRE Unreal Engine Project"></a><figcaption>SPECTRE · Unreal Engine <span aria-hidden="true">↗</span></figcaption></figure></div></div></div>
+</article>
+<article class="experience">
+  <div class="experience-date"><p class="period">Mid 2021 — Late 2023</p><div class="airbus-logo-frame"><img class="airbus-logo" src="assets/images/airbus.png" width="5000" height="3125" loading="lazy" alt="Airbus"></div></div>
+  <div><p class="company">AIRBUS DEFENSE & SPACE</p><h3>OpenGL Graphics Programmer</h3>
+<div class="role-detail full-role-detail">
+                            <div class="professional-project">
                                 <h4>Automatic Air Refueling (A3R) System - Real-Time OpenGL Visualization</h4>
                                 <p>My previous role before Tecnobit was at Airbus, where I worked as an OpenGL programmer on a safety-critical real-time system for automatic air refueling in aircraft. My role involved using OpenGL to implement a 2D visualization layer that displayed crucial refueling data on the screen, such as alignment indicators and proximity metrics.</p>
-                                
-                                <div class="project-tech">
-                                    <span class="tech-tag">OpenGL</span>
-                                    <span class="tech-tag">C/C++</span>
-                                    <span class="tech-tag">Real-Time Systems</span>
-                                    <span class="tech-tag">DO-178C</span>
-                                    <span class="tech-tag">Safety-Critical</span>
-                                    <span class="tech-tag">Aerospace</span>
+
+                                <div class="role-technologies">
+                                    <span class="role-technology">OpenGL</span>
+                                    <span class="role-technology">C/C++</span>
+                                    <span class="role-technology">Real-Time Systems</span>
+                                    <span class="role-technology">DO-178C</span>
+                                    <span class="role-technology">Safety-Critical</span>
+                                    <span class="role-technology">Aerospace</span>
                                 </div>
                             </div>
-                            
-                            <div class="experience-links">
-                                <a href="https://www.youtube.com/watch?v=Jdui1qAtnNM" target="_blank" class="btn btn-small">Watch A330 MRTT Demo</a>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Tecnobit Computer Vision Experience (2020-2021) -->
-                    <div class="experience-card" data-years="2020,2021">
-                        <div class="experience-header">
-                            <h3>Computer Vision Engineer</h3>
-                            <div class="company-info">
-                                <strong>Tecnobit - DPT Optrónica</strong>
-                                <span class="period">2020 - 2021</span>
+                            <div class="evidence-links">
+                                <a href="https://www.youtube.com/watch?v=Jdui1qAtnNM" target="_blank" rel="noopener noreferrer" class="small-link">Watch A330 MRTT Demo</a>
                             </div>
                         </div>
-                        <div class="experience-image">
-                            <img src="assets/images/IRST_CAMERA.PNG" alt="Eurofighter IRST Computer Vision Systems">
-                        </div>
-                        <div class="experience-content">
-                            <div class="project-section">
+<div class="experience-media"><p class="eyebrow">PROJECT GALLERY</p><div class="role-gallery"><figure><a href="assets/images/a3r_refueling.png" target="_blank" rel="noopener noreferrer" aria-label="Open image: Airbus A330 MRTT · Automatic air refuelling"><img loading="lazy" src="assets/images/a3r_refueling.png" alt="Airbus A330 MRTT Automatic Air Refueling System"></a><figcaption>Airbus A330 MRTT · Automatic air refuelling <span aria-hidden="true">↗</span></figcaption></figure></div></div></div>
+</article>
+<article class="experience">
+  <div class="experience-date"><p class="period">2020 — 2021</p><img class="tecnobit-logo" src="assets/images/tecnobit.png" width="1024" height="392" loading="lazy" alt="Tecnobit · Grupo Oesía"></div>
+  <div><p class="company">TECNOBIT - DPT OPTRÓNICA</p><h3>Computer Vision Engineer</h3>
+<div class="role-detail full-role-detail">
+                            <div class="professional-project">
                                 <h4>Eurofighter IRST Computer Vision Algorithm Enhancement</h4>
                                 <p>Advanced computer vision and image processing algorithms for the IRST (Infrared Search and Track) system of the Eurofighter aircraft, focusing on target recognition, noise filtering, and real-time graphics optimization.</p>
                                 <ul>
@@ -843,42 +221,33 @@
                                     <li><strong>Noise Filtering & Signal Processing:</strong> Kalman filters, Gaussian blur, median filtering, and morphological operations for image enhancement</li>
                                     <li><strong>Edge Detection & Feature Extraction:</strong> Sobel, Canny edge detection, SIFT, and ORB feature matching for target tracking</li>
                                     <li><strong>Image Enhancement:</strong> Histogram equalization, contrast adjustment, gamma correction, and adaptive thresholding</li>
-                                    <li><strong>Tracking Algorithms:</strong> Multi-object tracking, optical flow estimation, and trajectory prediction models TESTING</li>
+                                    <li><strong>Tracking Algorithms:</strong> Testing of multi-object tracking, optical flow estimation, and trajectory prediction models</li>
                                 </ul>
-                                <div class="project-tech">
-                                    <span class="tech-tag">Computer Vision</span>
-                                    <span class="tech-tag">OpenCV</span>
-                                    <span class="tech-tag">MATLAB/Simulink</span>
-                                    <span class="tech-tag">Image Processing</span>
-                                    <span class="tech-tag">Target Recognition</span>
-                                    <span class="tech-tag">Noise Filtering</span>
-                                    <span class="tech-tag">Edge Detection</span>
-                                    <span class="tech-tag">FPGA</span>
-                                    <span class="tech-tag">IRST Systems</span>
-                                    <span class="tech-tag">Eurofighter</span>
+                                <div class="role-technologies">
+                                    <span class="role-technology">Computer Vision</span>
+                                    <span class="role-technology">OpenCV</span>
+                                    <span class="role-technology">MATLAB/Simulink</span>
+                                    <span class="role-technology">Image Processing</span>
+                                    <span class="role-technology">Target Recognition</span>
+                                    <span class="role-technology">Noise Filtering</span>
+                                    <span class="role-technology">Edge Detection</span>
+                                    <span class="role-technology">FPGA</span>
+                                    <span class="role-technology">IRST Systems</span>
+                                    <span class="role-technology">Eurofighter</span>
                                 </div>
                             </div>
-                            
-                            <div class="experience-links">
-                                <a href="https://grupooesia.com/areas/optronica" target="_blank" class="btn btn-small">Learn more about Optronics</a>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- ToryTrans Experience (2017-2020) -->
-                    <div class="experience-card" data-years="2017,2018,2019,2020">
-                        <div class="experience-header">
-                            <h3>Embedded Systems R&D Engineer</h3>
-                            <div class="company-info">
-                                <strong>ToryTrans - Medical Technology</strong>
-                                <span class="period">2017 - 2020</span>
+                            <div class="evidence-links">
+                                <a href="https://grupooesia.com/areas/optronica" target="_blank" rel="noopener noreferrer" class="small-link">Learn more about Optronics</a>
                             </div>
                         </div>
-                        <div class="experience-image">
-                            <img src="assets/images/klinix.jpg" alt="ToryTrans Klinix Sleep Apnea Device">
-                        </div>
-                        <div class="experience-content">
-                            <div class="project-section">
+<div class="experience-media"><p class="eyebrow">PROJECT GALLERY</p><div class="role-gallery"><figure><a href="assets/images/IRST_CAMERA.PNG" target="_blank" rel="noopener noreferrer" aria-label="Open image: Eurofighter · IRST system"><img loading="lazy" src="assets/images/IRST_CAMERA.PNG" alt="Eurofighter IRST Computer Vision Systems"></a><figcaption>Eurofighter · IRST system <span aria-hidden="true">↗</span></figcaption></figure></div></div></div>
+</article>
+<article class="experience">
+  <p class="period">2017 — 2020</p>
+  <div><p class="company">TORYTRANS - MEDICAL TECHNOLOGY</p><h3>Embedded Systems R&D Engineer</h3>
+<div class="role-detail full-role-detail">
+                            <div class="professional-project">
                                 <h4>Sleep Apnea Treatment Device - Embedded Development</h4>
                                 <p>Developed an embedded device for the treatment of sleep apnea, featuring real-time respiratory diagnosis and therapy using advanced DSP algorithms and RTOS.</p>
                                 <ul>
@@ -889,78 +258,31 @@
                                     <li><strong>Medical Technology:</strong> Enhanced diagnostic precision and patient monitoring capabilities</li>
                                     <li><strong>Hardware Integration:</strong> Microcontroller peripheral management and sensor interfacing</li>
                                 </ul>
-                                <div class="project-tech">
-                                    <span class="tech-tag">Embedded C/C++</span>
-                                    <span class="tech-tag">Microchip MCU</span>
-                                    <span class="tech-tag">RTOS</span>
-                                    <span class="tech-tag">DSP Algorithms</span>
-                                    <span class="tech-tag">Qt Framework</span>
-                                    <span class="tech-tag">Medical Devices</span>
-                                    <span class="tech-tag">Real-time Systems</span>
-                                    <span class="tech-tag">Data Visualization</span>
+                                <div class="role-technologies">
+                                    <span class="role-technology">Embedded C/C++</span>
+                                    <span class="role-technology">Microchip MCU</span>
+                                    <span class="role-technology">RTOS</span>
+                                    <span class="role-technology">DSP Algorithms</span>
+                                    <span class="role-technology">Qt Framework</span>
+                                    <span class="role-technology">Medical Devices</span>
+                                    <span class="role-technology">Real-time Systems</span>
+                                    <span class="role-technology">Data Visualization</span>
                                 </div>
                             </div>
-                            
-                            <div class="experience-links">
-                                <a href="https://cincodias.elpais.com/cincodias/2019/09/03/companias/1567515152_998455.html" target="_blank" class="btn btn-small">El País Article</a>
-                                <a href="https://www.torytrans.com" target="_blank" class="btn btn-small">ToryTrans Website</a>
+
+                            <div class="evidence-links">
+                                <a href="https://cincodias.elpais.com/cincodias/2019/09/03/companias/1567515152_998455.html" target="_blank" rel="noopener noreferrer" class="small-link">El País Article</a>
+                                <a href="https://www.torytrans.com" target="_blank" rel="noopener noreferrer" class="small-link">ToryTrans Website</a>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Sección de Contacto -->
-        <section id="contacto" class="section bg-alt">
-            <div class="container">
-                <h2 class="section-title">Contact</h2>
-                <p class="section-subtitle">¿Do you have any questions or proposals? Let's talk!</p>
-                
-                <div class="contact-content">
-                    <div class="contact-info">
-                        <div class="contact-item">
-                            <h4>Email</h4>
-                            <p>alfonsomagd123@gmail.com Or alfonso_magd@hotmail.com</p>
-                        </div>
-                        <div class="contact-item">
-                            <h4>GitHub</h4>
-                            <p><a href="https://github.com/alfonsmagd">github.com/alfonsmagd</a></p>
-                        </div>
-                        <div class="contact-item">
-                            <h4>LinkedIn</h4>
-                            <p><a href=https://www.linkedin.com/in/alfonso-mateos-aparicio-b13a22111>Linkedin</a></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Simple WebGL Test Section -->
-        <section id="webgl-test" class="section bg-alt">
-            <div class="container">
-                <h2 class="section-title">WebGL Test</h2>
-                <p class="section-subtitle">Basic Verification in WebGL</p>
-                
-                <div class="webgl-test-container">
-                    <canvas id="webglTestCanvas" width="400" height="300" class="webgl-test-canvas"></canvas>
-                    <div class="webgl-test-info">
-                        <p><strong>WebGL Status:</strong> <span id="webglStatus">Verifying...</span></p>
-                        <p><strong>Renderer:</strong> <span id="webglRenderer">-</span></p>
-                        <p><strong>Version:</strong> <span id="webglVersion">-</span></p>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer>
-        <div class="container">
-            <p>&copy; 2025 Alfonso. Todos los derechos reservados.</p>
-        </div>
-    </footer>
-
-    <script src="js/obj-loader.js"></script>
-    <script src="js/main.js"></script>
-</body>
-</html>
+<div class="experience-media"><p class="eyebrow">PROJECT GALLERY</p><div class="role-gallery"><figure><a href="assets/images/klinix.jpg" target="_blank" rel="noopener noreferrer" aria-label="Open image: Klinix · Sleep apnoea treatment device"><img loading="lazy" src="assets/images/klinix.jpg" alt="ToryTrans Klinix Sleep Apnea Device"></a><figcaption>Klinix · Sleep apnoea treatment device <span aria-hidden="true">↗</span></figcaption></figure></div></div></div>
+</article>
+</div>
+<div class="education"><p class="eyebrow">EDUCATION</p><div class="education-grid">
+<article><p class="period">2023 — 2025</p><h3>Computer Graphics,<br> Video Games & VR</h3><p>Master's degree · URJC, Madrid</p><p class="education-description">Specialized in advanced graphics programming, game engine development, and virtual reality technologies for simulation and entertainment applications. Successfully completed with focus on real-time rendering and interactive systems.</p><a class="small-link" href="https://mastergraficos.com" target="_blank" rel="noopener noreferrer">View programme ↗</a></article>
+<article><p class="period">2017 — 2018</p><h3>Embedded Computer<br> Systems for Aircraft</h3><p>Master's degree · UCLM</p><p class="education-description">Advanced study in embedded systems for aircraft applications, real-time programming, and hardware-software integration for aerospace and industrial applications.</p><a class="small-link" href="https://blog.uclm.es/rafaelcasado/docencia/msie" target="_blank" rel="noopener noreferrer">View programme ↗</a></article>
+<article><p class="period">2012 — 2016</p><h3>Electronic &<br> Automation Engineering</h3><p>Industrial Engineering · UCLM</p><p class="education-description">Specialized in electronic systems and industrial automation, providing a solid foundation in control systems, embedded programming, and industrial processes.</p><a class="small-link" href="https://www.uclm.es/departamentos/dieeac/estudios/albacete/gieia" target="_blank" rel="noopener noreferrer">View programme ↗</a></article>
+</div></div></section>
+<section id="contacto" class="section contact" aria-labelledby="contact-title"><p class="eyebrow">04 / GET IN TOUCH</p><h2 id="contact-title">Let's make<br>something real<span class="accent">.</span></h2><a class="contact-email" href="mailto:alfonsomagd123@gmail.com">alfonsomagd123@gmail.com <span aria-hidden="true">↗</span></a><div class="contact-bottom"><p>Based in Madrid, Spain.</p><div><a href="https://github.com/alfonsmagd" target="_blank" rel="noopener noreferrer">GitHub ↗</a><a href="https://www.linkedin.com/in/alfonso-mateos-aparicio-b13a22111" target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><a href="mailto:alfonso_magd@hotmail.com">Alternative email ↗</a></div></div></section>
+<footer><span>© <span id="year">2026</span> Alfonso Mateos Aparicio</span><a href="#inicio">Back to top ↑</a></footer>
+</main></body></html>
